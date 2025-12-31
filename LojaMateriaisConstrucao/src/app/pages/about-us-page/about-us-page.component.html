@@ -1,0 +1,156 @@
+ <div class="bg-white text-gray-800 font-sans antialiased min-h-screen flex flex-col mt-9">    
+    <main>
+        <!-- Hero Section Sofisticada -->
+        <div class="relative h-150 flex items-center justify-center text-center px-4 overflow-hidden">
+            <!-- Imagem Background -->
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2062&auto=format&fit=crop" 
+                class="w-full h-full object-cover">
+                <!-- Overlay Gradiente -->
+                <div class="absolute inset-0 bg-linear-to-b from-gray-900/80 via-gray-900/60 to-gray-900"></div>
+            </div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto animate-fade-in pt-20">
+                <span class="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-brand-300 text-xs font-bold tracking-widest uppercase mb-6">
+                    Desde 2013
+                </span>
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-8 tracking-tight leading-tight">
+                    Construindo sonhos, <br>
+                    <span class="text-transparent bg-clip-text bg-linear-to-r from-brand-400 to-orange-200">entregando qualidade.</span>
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
+                    Há mais de uma década sendo a parceira estratégica para reformas e construções em todo o Brasil. Unimos tecnologia e expertise humana.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Nossa História -->
+        <div class="container mx-auto px-6 py-24">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                
+                <!-- Coluna de Texto -->
+                <div class="lg:w-1/2 animate-slide-up">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="h-px w-12 bg-brand-600"></div>
+                        <span class="text-brand-600 font-bold uppercase tracking-wider text-sm">Nossa Trajetória</span>
+                    </div>
+                    
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 leading-tight">
+                        De uma pequena loja local a <br>líder digital de mercado.
+                    </h2>
+                    
+                    <div class="space-y-6 text-gray-600 text-lg leading-relaxed">
+                        <p>
+                            A <strong class="text-gray-900">ConstrutoraPro</strong> nasceu em 2013 com um objetivo audacioso: simplificar a complexidade de construir. O que começou como um pequeno depósito familiar cresceu impulsionado pela nossa obsessão por qualidade técnica e atendimento consultivo.
+                        </p>
+                        <p>
+                            Hoje, combinamos a expertise técnica de engenheiros civis com a agilidade de um e-commerce de ponta. Não entregamos apenas cimento e tijolos; entregamos a certeza de que sua obra terá os melhores insumos, do alicerce ao acabamento fino.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-10 flex gap-4">
+                        <img src="https://ui-avatars.com/api/?name=Roberto+M&background=f3f4f6&color=1f2937" class="w-12 h-12 rounded-full border-2 border-white shadow-sm" title="Roberto - CEO">
+                        <div class="flex flex-col justify-center">
+                            <span class="text-sm font-bold text-gray-900">Roberto Mendes</span>
+                            <span class="text-xs text-gray-500">Fundador & CEO</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Coluna de Imagens (Grid Criativo) -->
+                <div class="lg:w-1/2 relative">
+                    <!-- Elemento decorativo -->
+                    <div class="absolute -top-10 -right-10 w-64 h-64 bg-brand-50 rounded-full blur-3xl opacity-50 z-0"></div>
+                    
+                    <div class="grid grid-cols-2 gap-4 relative z-10">
+                        <div class="space-y-4 mt-8">
+                            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=500&q=80" class="rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 object-cover h-64 w-full">
+                            <div class="bg-gray-900 p-6 rounded-2xl text-white shadow-xl">
+                                <i class="ph-fill ph-quotes text-4xl text-brand-500 mb-2"></i>
+                                <p class="text-sm font-medium italic">"Inovação é o cimento que une nossa história ao futuro da construção."</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-brand-600 p-6 rounded-2xl text-white shadow-xl flex flex-col items-center justify-center text-center h-40">
+                                <span class="text-4xl font-bold">10+</span>
+                                <span class="text-xs uppercase tracking-widest mt-1 opacity-90">Anos de Mercado</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=80" class="rounded-2xl shadow-xl hover:scale-[1.02] transition-transform duration-500 object-cover h-64 w-full">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Estatísticas (Full Width) -->
+        <div class="bg-gray-900 py-20 relative overflow-hidden">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ea580c 1px, transparent 1px); background-size: 32px 32px;"></div>
+            
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                    @for (stat of stats(); track stat.label) {
+                        <div class="text-center group">
+                            <div class="text-4xl md:text-5xl font-extrabold text-white mb-2 group-hover:text-brand-500 transition-colors duration-300">
+                                {{ stat.value }}
+                            </div>
+                            <div class="text-sm md:text-base font-medium text-gray-400 uppercase tracking-wider group-hover:text-gray-300 transition-colors">
+                                {{ stat.label }}
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nossos Pilares (Cards) -->
+        <div class="bg-gray-50 py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Nossos Pilares Fundamentais</h2>
+                    <p class="text-gray-600">
+                        Mais do que vender produtos, construímos relacionamentos baseados em princípios inegociáveis.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    @for (value of values(); track value.title) {
+                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-brand-100 hover:-translate-y-2 transition-all duration-300 group">
+                            <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 transition-colors duration-300"
+                            [class]="value.colorClass">
+                            <i [class]="'ph-fill ' + value.icon"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-gray-900 mb-3 group-hover:text-brand-600 transition-colors">
+                            {{ value.title }}
+                        </h3>
+                        <p class="text-gray-500 leading-relaxed">
+                            {{ value.description }}
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <!-- CTA Final -->
+    <div class="container mx-auto px-6 pb-24">
+        <div class="bg-brand-600 rounded-3xl p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl">
+            <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para começar sua obra?</h2>
+                <p class="text-brand-100 text-lg mb-8">
+                    Junte-se a milhares de clientes satisfeitos e experimente o padrão ConstrutoraPro de qualidade.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-brand-600 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl shadow-lg transition-all transform hover:-translate-y-1">
+                        Ver Catálogo
+                    </button>
+                    <button class="bg-brand-700 hover:bg-brand-800 text-white font-bold py-4 px-8 rounded-xl shadow-lg border border-brand-500 transition-all transform hover:-translate-y-1">
+                        Falar com Consultor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</div>

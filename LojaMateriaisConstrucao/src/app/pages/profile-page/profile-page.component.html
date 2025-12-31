@@ -1,0 +1,182 @@
+<main class="font-sans antialiased text-gray-800 bg-gray-50 min-h-screen pt-28 pb-12 px-4 animate-fade-in">
+    <div class="container mx-auto">
+        
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Sidebar de Navegação -->
+            <aside class="w-full lg:w-1/4">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden sticky top-24">
+                    <div class="p-6 text-center border-b border-gray-100 bg-linear-to-b from-gray-50 to-white">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-gray-200 border-4 border-white shadow-md overflow-hidden mb-3">
+                            <img [src]="user.avatar" class="w-full h-full object-cover">
+                        </div>
+                        <h2 class="font-bold text-lg text-gray-900">{{ user.name }}</h2>
+                        <p class="text-xs text-gray-500">Membro desde {{ user.memberSince }}</p>
+                    </div>
+                    
+                    <nav class="p-2 space-y-1">
+                        <button (click)="setActiveSection('personal')" 
+                        [class.active]="activeSection === 'personal'"
+                        class="sidebar-link w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-all">
+                        <i class="ph-bold ph-user text-lg"></i> Dados Pessoais
+                    </button>
+                    
+                    <button (click)="setActiveSection('orders')" 
+                    [class.active]="activeSection === 'orders'"
+                    class="sidebar-link w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-all">
+                    <i class="ph-bold ph-package text-lg"></i> Meus Pedidos
+                </button>
+                
+                <button (click)="setActiveSection('addresses')" 
+                [class.active]="activeSection === 'addresses'"
+                class="sidebar-link w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-all">
+                <i class="ph-bold ph-map-pin text-lg"></i> Endereços
+            </button>
+            
+            <button (click)="setActiveSection('wallet')" 
+            [class.active]="activeSection === 'wallet'"
+            class="sidebar-link w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-all">
+            <i class="ph-bold ph-credit-card text-lg"></i> Carteira
+        </button>
+        
+        <div class="h-px bg-gray-100 my-2"></div>
+        
+        <button (click)="logout()" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg transition-all">
+            <i class="ph-bold ph-sign-out text-lg"></i> Sair da Conta
+        </button>
+    </nav>
+</div>
+</aside>
+
+<!-- Área de Conteúdo -->
+<div class="w-full lg:w-3/4">
+    
+    <!-- SEÇÃO: Dados Pessoais -->
+    @if (activeSection === 'personal') {
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 lg:p-8 animate-fade-in">
+            <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <i class="ph-duotone ph-user-circle text-orange-500 text-2xl"></i> Informações Pessoais
+            </h2>
+            
+            <form (submit)="savePersonalData($event)" class="space-y-6 max-w-2xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-500 uppercase">Nome Completo</label>
+                        <input type="text" [(ngModel)]="user.name" name="name" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-800 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-500 uppercase">CPF</label>
+                        <input type="text" [value]="user.cpf" disabled class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-400 cursor-not-allowed">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-500 uppercase">E-mail</label>
+                        <input type="email" [(ngModel)]="user.email" name="email" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-800 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-500 uppercase">Telefone / WhatsApp</label>
+                        <input type="tel" [(ngModel)]="user.phone" name="phone" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-800 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors">
+                    </div>
+                </div>
+                
+                <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
+                    <button type="button" class="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-600 font-bold text-sm hover:bg-gray-50 transition-colors">Cancelar</button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-orange-600 text-white font-bold text-sm hover:bg-orange-700 shadow-lg shadow-orange-500/20 transition-all active:scale-95">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    }
+    
+    <!-- SEÇÃO: Meus Pedidos -->
+    @if (activeSection === 'orders') {
+        <div class="space-y-6 animate-fade-in">
+            @for (order of orders; track order.id) {
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 flex flex-wrap justify-between items-center gap-4 bg-gray-50/50">
+                        <div>
+                            <span class="text-xs text-gray-500 font-bold uppercase">Pedido #{{ order.id }}</span>
+                            <p class="text-sm text-gray-400">{{ order.date }}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span [class]="'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ' + order.statusBg + ' ' + order.statusText">
+                                <span [class]="'w-2 h-2 rounded-full ' + order.statusColor + (order.status === 'Em Trânsito' ? ' animate-pulse' : '')"></span> 
+                                {{ order.status }}
+                            </span>
+                            <button class="text-orange-600 text-sm font-bold hover:underline">Ver Detalhes</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-4 mb-4">
+                            @for (img of order.images; track img) {
+                                <div class="w-16 h-16 bg-gray-100 rounded-lg border border-gray-200 overflow-hidden">
+                                    <img [src]="img" class="w-full h-full object-cover">
+                                </div>
+                            }
+                            @if (order.itemsCount > order.images.length) {
+                                <div class="w-16 h-16 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center text-xs font-bold text-gray-500">
+                                    +{{ order.itemsCount - order.images.length }}
+                                </div>
+                            }
+                        </div>
+                        <div class="flex justify-between items-center pt-2">
+                            <p class="text-sm text-gray-500">Total do pedido: <span class="font-bold text-gray-900">R$ {{ order.total | number:'1.2-2' }}</span></p>
+                            <button class="px-4 py-2 border border-orange-200 text-orange-600 font-bold text-sm rounded-lg hover:bg-orange-50 transition-colors">
+                                {{ order.actionLabel }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    
+    <!-- SEÇÃO: Endereços -->
+    @if (activeSection === 'addresses') {
+        <div class="animate-fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @for (addr of addresses; track addr.id) {
+                    <div class="bg-white rounded-2xl p-6 border-2 shadow-sm relative group" [class.border-orange-500]="addr.isMain" [class.border-white]="!addr.isMain">
+                        @if (addr.isMain) {
+                            <div class="absolute top-4 right-4 bg-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded">PRINCIPAL</div>
+                        }
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-orange-50 text-orange-600 p-2 rounded-lg"><i class="ph-fill ph-house text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">{{ addr.label }}</h4>
+                                <p class="text-sm text-gray-500 leading-snug mt-1">
+                                    {{ addr.street }}<br>
+                                    {{ addr.city }}<br>
+                                    CEP: {{ addr.zip }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 mt-4 pt-4 border-t border-gray-100">
+                            <button class="text-xs font-bold text-gray-500 hover:text-orange-600">Editar</button>
+                            <button class="text-xs font-bold text-red-400 hover:text-red-600">Excluir</button>
+                        </div>
+                    </div>
+                }
+                
+                <!-- Card Adicionar Novo -->
+                <button class="bg-gray-50 rounded-2xl p-6 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-2 text-gray-400 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all h-full min-h-50">
+                    <i class="ph-bold ph-plus-circle text-3xl"></i>
+                    <span class="font-bold text-sm">Adicionar Novo Endereço</span>
+                </button>
+            </div>
+        </div>
+    }
+    
+    <!-- SEÇÃO: Carteira -->
+    @if (activeSection === 'wallet') {
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 lg:p-8 animate-fade-in text-center py-20">
+            <div class="bg-gray-50 p-6 rounded-full inline-block mb-4">
+                <i class="ph-duotone ph-wallet text-6xl text-gray-300"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800">Em Breve</h3>
+            <p class="text-gray-500 mt-2">Estamos trabalhando para trazer sua carteira digital.</p>
+        </div>
+    }
+    
+</div>
+</div>
+</div>
+</main>

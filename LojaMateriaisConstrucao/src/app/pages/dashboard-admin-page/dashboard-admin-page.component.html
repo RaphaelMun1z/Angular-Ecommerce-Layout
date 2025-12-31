@@ -1,0 +1,251 @@
+<div class="flex h-screen bg-gray-50 font-sans text-gray-800 overflow-hidden">
+    
+    <!-- Sidebar (Desktop) -->
+    <aside class="hidden md:flex flex-col w-64 bg-white border-r border-gray-100">
+        <div class="h-20 flex items-center px-8 border-b border-gray-50">
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="text-brand-600 p-1 rounded-lg group-hover:bg-brand-50 transition-colors">
+                    <i class="ph-bold ph-hammer text-2xl"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-gray-900">Construtora<span class="text-brand-600">Pro</span></span>
+            </a>
+        </div>
+        
+        <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Principal</p>
+            
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl bg-brand-50 text-brand-700 transition-colors">
+                <i class="ph-fill ph-squares-four text-lg"></i>
+                Dashboard
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
+                <i class="ph-bold ph-shopping-bag text-lg text-gray-400 group-hover:text-gray-600"></i>
+                Pedidos
+                <span class="ml-auto bg-brand-100 text-brand-700 text-[10px] font-bold px-2 py-0.5 rounded-full">12</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
+                <i class="ph-bold ph-users text-lg text-gray-400 group-hover:text-gray-600"></i>
+                Clientes
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
+                <i class="ph-bold ph-package text-lg text-gray-400 group-hover:text-gray-600"></i>
+                Produtos
+            </a>
+            
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mt-8 mb-2">Gestão</p>
+            
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
+                <i class="ph-bold ph-chart-line-up text-lg text-gray-400 group-hover:text-gray-600"></i>
+                Relatórios
+            </a>
+        </nav>
+        
+        <div class="p-4 border-t border-gray-50">
+            <button class="flex items-center gap-3 px-4 py-3 w-full text-sm font-medium text-red-500 rounded-xl hover:bg-red-50 transition-colors">
+                <i class="ph-bold ph-sign-out text-lg"></i>
+                Sair
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+        
+        <!-- Top Header -->
+        <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-6 lg:px-8 z-10 shrink-0">
+            <div class="flex items-center gap-4 md:hidden">
+                <button (click)="toggleSidebar()" class="text-gray-500 hover:text-gray-700">
+                    <i class="ph-bold ph-list text-2xl"></i>
+                </button>
+                <span class="text-lg font-bold text-gray-900">Dashboard</span>
+            </div>
+            
+            <!-- Search -->
+            <div class="hidden md:block w-96 relative">
+                <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" placeholder="Buscar pedidos, clientes..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-brand-100 focus:bg-white transition-all outline-none text-gray-600 placeholder:text-gray-400">
+            </div>
+            
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <button class="relative p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors">
+                    <i class="ph-bold ph-bell text-xl"></i>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </button>
+                <div class="h-8 w-px bg-gray-100"></div>
+                <div class="flex items-center gap-3 pl-2">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-bold text-gray-900">Admin User</p>
+                        <p class="text-xs text-gray-500">Gerente Geral</p>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=0f172a&color=fff" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
+                </div>
+            </div>
+        </header>
+        
+        <!-- Scrollable Content -->
+        <main class="flex-1 overflow-y-auto p-6 lg:p-8 animate-fade-in scroll-smooth">
+            
+            <!-- Controls Header (Filtro de Data Adicionado) -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Visão Geral</h1>
+                    <p class="text-sm text-gray-500">Acompanhe os principais indicadores da sua loja.</p>
+                </div>
+                
+                <!-- Seletor de Período -->
+                <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-lg p-1 shadow-sm">
+                    <button (click)="setPeriod('Hoje')" [class]="getPeriodClass('Hoje')">Hoje</button>
+                    <button (click)="setPeriod('7 Dias')" [class]="getPeriodClass('7 Dias')">7 Dias</button>
+                    <button (click)="setPeriod('Este Mês')" [class]="getPeriodClass('Este Mês')">Este Mês</button>
+                </div>
+            </div>
+            
+            <!-- Stats Grid (Atualizado com comparação explícita) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                @for (stat of stats(); track stat.title) {
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div [class]="'p-3 rounded-xl ' + stat.colorClass">
+                                <i [class]="'ph-fill text-xl ' + stat.icon"></i>
+                            </div>
+                            <!-- Badge de Porcentagem -->
+                            <div class="text-right">
+                                <span [class]="'inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full ' + (stat.isPositive ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700')">
+                                    <i [class]="stat.isPositive ? 'ph-bold ph-trend-up' : 'ph-bold ph-trend-down'"></i>
+                                    {{ stat.change }}
+                                </span>
+                            </div>
+                        </div>
+                        <h3 class="text-gray-500 text-sm font-medium">{{ stat.title }}</h3>
+                        <div class="flex items-end gap-2 mt-1">
+                            <p class="text-2xl font-bold text-gray-900">{{ stat.value }}</p>
+                        </div>
+                        <!-- Texto de Comparação Explícito -->
+                        <p class="text-xs text-gray-400 mt-2 font-medium">
+                            {{ stat.comparisonText }}
+                        </p>
+                    </div>
+                }
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                <!-- Chart -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-gray-900">Performance de Vendas</h3>
+                        <button class="text-gray-400 hover:text-gray-600"><i class="ph-bold ph-dots-three text-xl"></i></button>
+                    </div>
+                    <div class="h-64 flex items-end justify-between gap-3 sm:gap-6 px-2">
+                        @for (bar of chartData(); track bar.label) {
+                            <div class="w-full flex flex-col items-center gap-2 group cursor-pointer">
+                                <!-- Tooltip fake on hover -->
+                                <div class="w-full bg-brand-50 rounded-t-md relative h-full flex items-end overflow-hidden group-hover:bg-brand-100 transition-colors">
+                                    <div [style.height]="bar.height" class="w-full bg-brand-500 rounded-t-md transition-all duration-1000 ease-out group-hover:bg-brand-600 relative"></div>
+                                </div>
+                                <span class="text-xs text-gray-400 font-medium group-hover:text-brand-600 transition-colors">{{ bar.label }}</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden flex flex-col justify-between">
+                    <!-- Elementos Decorativos -->
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-brand-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
+                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-blue-500 rounded-full blur-[60px] opacity-20 pointer-events-none"></div>
+                    
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-bold mb-2">Central de Comando</h3>
+                        <p class="text-gray-400 text-sm mb-6">Acesso rápido às operações frequentes.</p>
+                        
+                        <div class="space-y-3">
+                            <button class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-left px-4 py-3.5 rounded-xl flex items-center gap-3 transition-colors text-sm font-medium group">
+                                <div class="bg-brand-600 text-white p-1.5 rounded-lg group-hover:scale-110 transition-transform"><i class="ph-bold ph-plus"></i></div>
+                                Adicionar Produto
+                            </button>
+                            <button class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-left px-4 py-3.5 rounded-xl flex items-center gap-3 transition-colors text-sm font-medium group">
+                                <div class="bg-blue-600 text-white p-1.5 rounded-lg group-hover:scale-110 transition-transform"><i class="ph-bold ph-user-plus"></i></div>
+                                Novo Cliente
+                            </button>
+                            <button class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-left px-4 py-3.5 rounded-xl flex items-center gap-3 transition-colors text-sm font-medium group">
+                                <div class="bg-gray-700 text-white p-1.5 rounded-lg group-hover:scale-110 transition-transform"><i class="ph-bold ph-file-csv"></i></div>
+                                Exportar Dados
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Orders Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
+                    <div>
+                        <h3 class="font-bold text-gray-900">Pedidos Recentes</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Últimas transações registradas</p>
+                    </div>
+                    <button class="text-brand-600 text-sm font-bold hover:bg-brand-50 px-3 py-1.5 rounded-lg transition-colors">Ver Todos</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-[11px] text-gray-400 uppercase tracking-wider border-b border-gray-50 font-bold bg-white">
+                                <th class="px-6 py-4">Cliente</th>
+                                <th class="px-6 py-4">Data</th>
+                                <th class="px-6 py-4">Total</th>
+                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-4 text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            @for (order of recentOrders(); track order.id) {
+                                <tr class="hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-none group bg-white">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <img [src]="order.avatar" class="w-9 h-9 rounded-full bg-gray-100 object-cover">
+                                            <div>
+                                                <p class="font-bold text-gray-900 text-sm">{{ order.customer }}</p>
+                                                <p class="text-xs text-gray-500">{{ order.email }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-500 font-medium text-xs">{{ order.date }}</td>
+                                    <td class="px-6 py-4 font-bold text-gray-900">R$ {{ order.amount | number:'1.2-2' }}</td>
+                                    <td class="px-6 py-4">
+                                        <span [class]="getStatusClass(order.status) + ' px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wide font-bold border'">
+                                            {{ order.status }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-gray-400 hover:text-brand-600 hover:bg-brand-50 p-1.5 rounded-lg transition-all">
+                                            <i class="ph-bold ph-caret-right text-lg"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+    
+    <!-- Mobile Sidebar Overlay -->
+    @if (isSidebarOpen()) {
+        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden animate-fade-in" (click)="toggleSidebar()"></div>
+        <aside class="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-50 transform transition-transform md:hidden flex flex-col">
+            <div class="h-20 flex items-center justify-between px-6 border-b border-gray-50">
+                <span class="text-xl font-bold tracking-tight text-gray-900">Construtora<span class="text-brand-600">Pro</span></span>
+                <button (click)="toggleSidebar()" class="text-gray-500 hover:text-gray-900"><i class="ph-bold ph-x text-xl"></i></button>
+            </div>
+            <nav class="flex-1 p-6 space-y-2">
+                <a href="#" class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl bg-brand-50 text-brand-700">Dashboard</a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50">Pedidos</a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50">Clientes</a>
+            </nav>
+        </aside>
+    }
+    
+</div>

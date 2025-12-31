@@ -1,0 +1,145 @@
+<main class="font-sans antialiased text-gray-800 bg-gray-50 min-h-screen pt-12 pb-12 px-4 animate-fade-in">
+    <div class="container mx-auto mt-20">
+        
+        <!-- Breadcrumbs & Header -->
+        <div class="mb-8">
+            <a href="#" class="flex items-center gap-2 text-gray-500 hover:text-orange-600 font-semibold transition-colors mb-4 w-fit">
+                <i class="ph-bold ph-arrow-left"></i> Voltar para Meus Pedidos
+            </a>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                        Pedido #{{ orderId }}
+                        <span class="bg-blue-100 text-blue-700 text-sm px-3 py-1 rounded-full border border-blue-200">Em Trânsito</span>
+                    </h1>
+                    <p class="text-gray-500 mt-1">Realizado em {{ orderDate }}</p>
+                </div>
+                <div class="flex gap-3">
+                    <button class="flex items-center gap-2 px-4 py-2 border border-gray-200 bg-white rounded-lg text-gray-600 font-bold text-sm hover:bg-gray-50 transition-colors">
+                        <i class="ph-bold ph-file-pdf"></i> Nota Fiscal
+                    </button>
+                    <button class="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg font-bold text-sm hover:bg-orange-700 shadow-lg shadow-orange-500/20 transition-all">
+                        <i class="ph-bold ph-whatsapp-logo"></i> Preciso de Ajuda
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Timeline de Rastreamento -->
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8 overflow-hidden">
+            <h3 class="font-bold text-gray-900 mb-8">Acompanhamento da Entrega</h3>
+            
+            <div class="relative px-4">
+                <!-- Linhas de Fundo -->
+                <div class="timeline-line"></div>
+                <!-- Barra de Progresso Dinâmica -->
+                <div class="timeline-progress" [style.width.%]="progressPercentage"></div>
+                
+                <div class="relative flex justify-between z-10">
+                    @for (step of timelineSteps; track step.label) {
+                        <div class="flex flex-col items-center gap-2 text-center w-24">
+                            <!-- Lógica de Estilo por Status -->
+                            @if (step.status === 'completed') {
+                                <div class="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center border-4 border-white shadow-sm">
+                                    <i class="ph-bold ph-check"></i>
+                                </div>
+                                <p class="text-xs font-bold text-orange-700">{{ step.label }}</p>
+                            } @else if (step.status === 'current') {
+                                <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center border-4 border-blue-100 shadow-md animate-pulse">
+                                    <i [class]="'ph-bold ' + step.icon"></i>
+                                </div>
+                                <p class="text-xs font-bold text-blue-700">{{ step.label }}</p>
+                            } @else {
+                                <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center border-4 border-white">
+                                    <i [class]="'ph-bold ' + step.icon"></i>
+                                </div>
+                                <p class="text-xs font-bold text-gray-400">{{ step.label }}</p>
+                            }
+                            
+                            @if (step.dateOrInfo) {
+                                <p class="text-[10px] text-gray-400">{{ step.dateOrInfo }}</p>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Lista de Produtos -->
+            <div class="w-full lg:w-2/3 space-y-6">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 bg-gray-50/50">
+                        <h3 class="font-bold text-gray-900">Itens do Pedido</h3>
+                    </div>
+                    <div class="divide-y divide-gray-100">
+                        @for (item of items; track item.name) {
+                            <div class="p-6 flex items-center gap-4">
+                                <div class="w-16 h-16 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden shrink-0">
+                                    <!-- Ajuste aqui: item.images[0] em vez de item.image -->
+                                    <img [src]="item.images[0]" [alt]="item.name" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-0.5">{{ item.category }}</p>
+                                    <h4 class="font-bold text-gray-800 text-sm truncate">{{ item.name }}</h4>
+                                    <p class="text-xs text-gray-500 mt-1">Qtd: {{ item.quantity }}</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="font-bold text-gray-900">R$ {{ item.price | number:'1.2-2' }}</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar: Resumo e Endereço -->
+            <div class="w-full lg:w-1/3 space-y-6">
+                
+                <!-- Resumo Financeiro -->
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4">Resumo Financeiro</h3>
+                    <div class="space-y-2 text-sm text-gray-600 border-b border-gray-100 pb-4 mb-4">
+                        <div class="flex justify-between"><span>Subtotal</span><span>R$ {{ subtotal | number:'1.2-2' }}</span></div>
+                        <div class="flex justify-between"><span>Frete</span><span class="text-green-600 font-bold">Grátis</span></div>
+                        <div class="flex justify-between"><span>Desconto</span><span class="text-green-600">- R$ {{ discount | number:'1.2-2' }}</span></div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-gray-900">Total Pago</span>
+                        <span class="text-xl font-extrabold text-orange-600">R$ {{ total | number:'1.2-2' }}</span>
+                    </div>
+                </div>
+                
+                <!-- Informações de Entrega -->
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-gray-100 p-2 rounded-lg text-gray-600"><i class="ph-bold ph-map-pin"></i></div>
+                        <h3 class="font-bold text-gray-900">Endereço de Entrega</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        <span class="font-bold text-gray-800 block">Carlos Silva</span>
+                        Rua das Flores, 123 - Centro<br>
+                        São Paulo - SP<br>
+                        CEP: 01000-000
+                    </p>
+                </div>
+                
+                <!-- Forma de Pagamento -->
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-gray-100 p-2 rounded-lg text-gray-600"><i class="ph-bold ph-credit-card"></i></div>
+                        <h3 class="font-bold text-gray-900">Pagamento</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        Cartão de Crédito<br>
+                        Mastercard terminado em <strong>8892</strong><br>
+                        Parcelado em 3x
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</main>

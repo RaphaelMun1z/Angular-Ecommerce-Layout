@@ -19,3 +19,10 @@ export interface PopupState {
 }
 
 export type PaymentMethod = 'credit' | 'pix' | 'boleto';
+
+export interface TimelineStep {
+    label: string;
+    dateOrInfo: string;
+    status: 'completed' | 'current' | 'pending';
+    icon: string;
+}
