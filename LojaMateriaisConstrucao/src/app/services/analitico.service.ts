@@ -27,6 +27,10 @@ export class AnaliticoService {
     }
     
     // Relatórios (Download Blob)
+    
+    /**
+    * Baixa o relatório de vendas em formato CSV para o período informado.
+    */
     baixarRelatorioVendas(inicio?: string, fim?: string): Observable<Blob> {
         let params = new HttpParams();
         if (inicio) params = params.set('inicio', inicio);
@@ -34,6 +38,15 @@ export class AnaliticoService {
         
         return this.http.get(`${this.apiUrl}/relatorios/vendas`, { 
             params, 
+            responseType: 'blob' 
+        });
+    }
+    
+    /**
+    * Baixa o relatório de posição de estoque atual em formato CSV.
+    */
+    baixarRelatorioEstoque(): Observable<Blob> {
+        return this.http.get(`${this.apiUrl}/relatorios/estoque`, { 
             responseType: 'blob' 
         });
     }

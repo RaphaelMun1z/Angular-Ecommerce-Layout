@@ -1,130 +1,101 @@
-<div class="space-y-8 pb-12">
+<div class="space-y-10 animate-fade-in pb-12 max-w-[1200px] mx-auto">
     
-    <!-- Header da Página -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-            <a routerLink="/dashboard-admin" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-white rounded-lg transition-colors">
-                <i class="ph-bold ph-arrow-left text-xl"></i>
+    <!-- Cabeçalho Minimalista -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Central de Relatórios</h1>
+            <p class="text-sm text-gray-500 mt-1">Gere documentos analíticos para tomada de decisão</p>
+        </div>
+        
+        <div class="flex items-center gap-2">
+            <a routerLink="/dashboard-admin" class="p-2 text-gray-400 hover:text-gray-900 transition-colors cursor-pointer">
+                <i class="ph-bold ph-x text-2xl"></i>
             </a>
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900">Central de Relatórios</h1>
-                <p class="text-sm text-gray-500">Selecione o tipo de dado e o período para gerar documentos PDF.</p>
-            </div>
         </div>
-    </div>
+    </header>
     
-    <!-- Filtros de Categoria (Opcional, para organização visual) -->
-    <div class="flex gap-2 overflow-x-auto pb-2">
-        <button (click)="activeCategory.set('Todos')" 
-        [class]="activeCategory() === 'Todos' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'"
-        class="px-4 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap">
-        Todos
-    </button>
-    <button (click)="activeCategory.set('Vendas')" 
-    [class]="activeCategory() === 'Vendas' ? 'bg-green-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'"
-    class="px-4 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap">
-    Vendas
-</button>
-<button (click)="activeCategory.set('Estoque')" 
-[class]="activeCategory() === 'Estoque' ? 'bg-brand-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'"
-class="px-4 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap">
-Estoque
-</button>
-<button (click)="activeCategory.set('Clientes')" 
-[class]="activeCategory() === 'Clientes' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'"
-class="px-4 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap">
-Clientes
-</button>
-<button (click)="activeCategory.set('Financeiro')" 
-[class]="activeCategory() === 'Financeiro' ? 'bg-purple-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'"
-class="px-4 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap">
-Financeiro
-</button>
-</div>
+    <!-- Abas de Filtro Discretas -->
+    <nav class="flex items-center gap-1 border-b border-gray-100 px-2 overflow-x-auto scrollbar-hide">
+        @for (cat of ['Todos', 'Vendas', 'Estoque', 'Clientes', 'Financeiro']; track cat) {
+            <button (click)="setCategory(cat)" 
+                    [ngClass]="activeCategory() === cat ? 'text-brand-600 border-brand-600' : 'text-gray-400 border-transparent hover:text-gray-700'"
+                    class="px-5 py-3 text-xs font-bold uppercase tracking-widest border-b-2 transition-all cursor-pointer whitespace-nowrap">
+                {{ cat }}
+            </button>
+        }
+    </nav>
 
-<!-- Grid de Relatórios -->
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    @for (report of filteredReports(); track report.id) {
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all flex flex-col h-full group">
-            
-            <!-- Cabeçalho do Card -->
-            <div class="flex justify-between items-start mb-4">
-                <div [class]="'p-3 rounded-xl ' + report.colorClass">
-                    <i [class]="'text-2xl ph-fill ' + report.icon"></i>
-                </div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 border border-gray-100 px-2 py-1 rounded-md">
-                    {{ report.category }}
-                </span>
-            </div>
-            
-            <!-- Conteúdo -->
-            <div class="mb-6 flex-1">
-                <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">
-                    {{ report.title }}
-                </h3>
-                <p class="text-sm text-gray-500 leading-relaxed">
-                    {{ report.description }}
-                </p>
-            </div>
-            
-            <!-- Controles de Geração -->
-            <div class="pt-4 border-t border-gray-50 space-y-3 mt-auto">
+    <!-- Grid de Relatórios -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
+        @for (report of filteredReports(); track report.id) {
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all flex flex-col group">
                 
-                <!-- Seletor de Período Simples -->
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Período de Análise</label>
-                    <select [(ngModel)]="report.selectedPeriod" 
-                    class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-100 focus:border-brand-500 outline-none cursor-pointer transition-all">
-                    <option value="today">Hoje</option>
-                    <option value="week">Últimos 7 dias</option>
-                    <option value="month">Este Mês</option>
-                    <option value="quarter">Último Trimestre</option>
-                    <option value="year">Este Ano</option>
-                </select>
+                <!-- Ícone e Tag -->
+                <div class="flex justify-between items-start mb-6">
+                    <div [class]="'p-3 rounded-xl ' + report.colorClass">
+                        <i [class]="'text-2xl ph-fill ' + report.icon"></i>
+                    </div>
+                    <span class="text-[9px] font-black uppercase tracking-[0.15em] text-gray-300 group-hover:text-gray-400 transition-colors">
+                        {{ report.category }}
+                    </span>
+                </div>
+                
+                <!-- Descrição -->
+                <div class="flex-1 mb-8">
+                    <h3 class="text-base font-bold text-gray-900 mb-2">{{ report.title }}</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">{{ report.description }}</p>
+                </div>
+                
+                <!-- Footer do Card -->
+                <div class="space-y-4 pt-4 border-t border-gray-50">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Período</label>
+                        <select [(ngModel)]="report.selectedPeriod" 
+                                class="bg-gray-50 border-none rounded-lg px-3 py-2 text-xs font-medium text-gray-700 outline-none cursor-pointer hover:bg-gray-100 transition-colors">
+                            <option value="today">Hoje</option>
+                            <option value="week">Últimos 7 dias</option>
+                            <option value="month">Este Mês</option>
+                            <option value="quarter">Este Trimestre</option>
+                            <option value="year">Este Ano</option>
+                        </select>
+                    </div>
+                    
+                    <button (click)="generateReport(report)" 
+                            [disabled]="loadingReportId() === report.id"
+                            class="w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                            [ngClass]="loadingReportId() === report.id 
+                                ? 'bg-gray-100 text-gray-400' 
+                                : 'bg-gray-900 text-white hover:bg-brand-600 shadow-sm'">
+                        
+                        @if (loadingReportId() === report.id) {
+                            <i class="ph-bold ph-spinner animate-spin text-lg"></i>
+                            GERANDO...
+                        } @else {
+                            <i class="ph-bold ph-download-simple text-lg"></i>
+                            BAIXAR RELATÓRIO
+                        }
+                    </button>
+                </div>
             </div>
-            
-            <!-- Botão de Ação -->
-            <button (click)="generateReport(report)" 
-            [disabled]="loadingReportId() === report.id"
-            class="w-full py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all"
-            [class]="loadingReportId() === report.id 
-            ? 'bg-gray-100 text-gray-400 cursor-wait' 
-            : 'bg-gray-900 text-white hover:bg-brand-600 hover:shadow-lg hover:shadow-brand-500/20'">
-            @if (loadingReportId() === report.id) {
-                <i class="ph-bold ph-spinner animate-spin text-lg"></i> Gerando...
-            } @else {
-                <i class="ph-bold ph-file-pdf text-lg"></i> Baixar PDF
-            }
-        </button>
+        } @empty {
+            <div class="col-span-full py-20 text-center border-2 border-dashed border-gray-100 rounded-3xl">
+                <i class="ph-duotone ph-files text-4xl text-gray-200 mb-3"></i>
+                <p class="text-sm text-gray-400 italic">Nenhum relatório disponível nesta categoria.</p>
+            </div>
+        }
     </div>
-</div>
-}
-</div>
 
-<!-- Estado Vazio (Caso filtro não encontre nada) -->
-@if (filteredReports().length === 0) {
-    <div class="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200">
-        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400">
-            <i class="ph-duotone ph-files text-3xl"></i>
+    <!-- Info Footer -->
+    <footer class="px-4 py-6 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-start gap-4 mx-2">
+        <div class="bg-blue-100 text-blue-600 p-2 rounded-lg shrink-0">
+            <i class="ph-fill ph-info text-lg"></i>
         </div>
-        <h3 class="font-bold text-gray-900">Nenhum relatório encontrado</h3>
-        <p class="text-sm text-gray-500 mt-1">Tente selecionar outra categoria de filtro.</p>
-    </div>
-}
-
-</div>
-
-<!-- Toast Notification -->
-<div class="fixed bottom-6 right-6 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all duration-300 z-50 border border-gray-700"
-[class.translate-y-32]="!showToast()"
-[class.opacity-0]="!showToast()"
-[class.translate-y-0]="showToast()"
-[class.opacity-100]="showToast()">
-<div class="bg-green-500/20 p-1.5 rounded-full">
-    <i class="ph-fill ph-check-circle text-green-400 text-lg"></i>
-</div>
-<div class="flex flex-col">
-    <span class="font-bold text-sm">Download Iniciado!</span>
-    <span class="text-xs text-gray-400">O arquivo PDF está sendo gerado.</span>
-</div>
+        <div class="space-y-1">
+            <h4 class="text-xs font-bold text-blue-900 uppercase tracking-tight">Sobre a exportação</h4>
+            <p class="text-xs text-blue-700/80 leading-relaxed">
+                Os arquivos são gerados em formato CSV compatível com Excel e Google Sheets. 
+                Relatórios complexos podem levar alguns segundos para serem processados pelo servidor.
+            </p>
+        </div>
+    </footer>
 </div>
