@@ -3,26 +3,15 @@
     <!-- Sidebar (Desktop) -->
     <aside class="hidden md:flex flex-col w-64 bg-white border-r border-gray-100 shrink-0">
         <div class="h-20 flex items-center px-6 border-b border-gray-50">
-            <a
-                routerLink="/dashboard-admin"
-                class="flex items-center gap-3 group min-w-0">
-
+            <a routerLink="/dashboard-admin" class="flex items-center gap-3 group min-w-0">
                 <!-- Logo -->
-                <div
-                    class="flex items-center justify-center rounded-lg
-                        group-hover:bg-brand-50 transition-colors">
-                    <img
-                        [src]="config.logoUrl"
-                        [alt]="fullName"
-                        class="h-8 w-auto object-contain
-                            transition-transform group-hover:scale-105" />
+                <div class="flex items-center justify-center rounded-lg group-hover:bg-brand-50 transition-colors">
+                    <img [src]="config.logoUrl" [alt]="fullName" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" />
                 </div>
 
                 <!-- Brand name -->
-                <span
-                    class="text-lg font-extrabold tracking-tight truncate"
-                    [ngClass]="color === 'dark' ? 'text-gray-900' : 'text-white'">
-                    {{ config.namePrefix }}<span class="text-brand-500">{{ config.nameSuffix }}</span>
+                <span class="text-lg font-extrabold tracking-tight truncate text-gray-900">
+                    {{ config.namePrefix }}<span class="text-brand-600">{{ config.nameSuffix }}</span>
                 </span>
             </a>
         </div>
@@ -31,107 +20,109 @@
             <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Principal</p>
             
             <a routerLink="/dashboard-admin" 
-            routerLinkActive="bg-brand-50 text-brand-700" 
-            [routerLinkActiveOptions]="{exact: true}"
-            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">
-            <i class="ph-fill ph-squares-four text-lg"></i>
-            Dashboard
-        </a>
-        
-        <a routerLink="/dashboard-admin/pedidos" 
-        routerLinkActive="bg-brand-50 text-brand-700" 
-        class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
-        <i class="ph-bold ph-shopping-bag text-lg text-gray-400 group-hover:text-gray-600"></i>
-        Pedidos
-    </a>
-    
-    <a routerLink="/dashboard-admin/registrar-cliente" 
-    routerLinkActive="bg-brand-50 text-brand-700"
-    class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
-    <i class="ph-bold ph-users text-lg text-gray-400 group-hover:text-gray-600"></i>
-    Novo Cliente
-</a>
+               routerLinkActive="bg-brand-50 text-brand-700" 
+               [routerLinkActiveOptions]="{exact: true}"
+               class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors group">
+                <i class="ph-fill ph-squares-four text-lg" [ngClass]="{'text-brand-600': true}"></i>
+                Dashboard
+            </a>
+            
+            <a routerLink="/dashboard-admin/pedidos" 
+               routerLinkActive="bg-brand-50 text-brand-700 font-bold" 
+               class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
+                <i class="ph-bold ph-shopping-bag text-lg text-gray-400 group-hover:text-brand-600 transition-colors"></i>
+                Pedidos
+            </a>
+            
+            <a routerLink="/dashboard-admin/registrar-cliente" 
+               routerLinkActive="bg-brand-50 text-brand-700 font-bold"
+               class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
+                <i class="ph-bold ph-users text-lg text-gray-400 group-hover:text-brand-600 transition-colors"></i>
+                Novo Cliente
+            </a>
 
-<a routerLink="/dashboard-admin/registrar-produto" 
-routerLinkActive="bg-brand-50 text-brand-700"
-class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
-<i class="ph-bold ph-package text-lg text-gray-400 group-hover:text-gray-600"></i>
-Novo Produto
-</a>
+            <a routerLink="/dashboard-admin/registrar-product" 
+               routerLinkActive="bg-brand-50 text-brand-700 font-bold"
+               class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
+                <i class="ph-bold ph-package text-lg text-gray-400 group-hover:text-brand-600 transition-colors"></i>
+                Novo Produto
+            </a>
 
-<p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mt-8 mb-2">Gestão</p>
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mt-8 mb-2">Gestão</p>
 
-<a routerLink="/dashboard-admin/relatorios-administrativos" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
-    <i class="ph-bold ph-chart-line-up text-lg text-gray-400 group-hover:text-gray-600"></i>
-    Relatórios
-</a>
-</nav>
-
-<div class="p-4 border-t border-gray-50">
-    <button class="flex items-center gap-3 px-4 py-3 w-full text-sm font-medium text-red-500 rounded-xl hover:bg-red-50 transition-colors">
-        <i class="ph-bold ph-sign-out text-lg"></i>
-        Sair
-    </button>
-</div>
-</aside>
-
-<!-- Main Content (Router Outlet) -->
-<div class="flex-1 flex flex-col h-screen overflow-hidden">
-    
-    <!-- Top Header -->
-    <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-6 lg:px-8 z-10 shrink-0">
-        <div class="flex items-center gap-4 md:hidden">
-            <button (click)="toggleSidebar()" class="text-gray-500 hover:text-gray-700">
-                <i class="ph-bold ph-list text-2xl"></i>
-            </button>
-            <span class="text-lg font-bold text-gray-900">Dashboard</span>
-        </div>
-        
-        <!-- Search (Desktop) -->
-        <div class="hidden md:block w-96 relative">
-            <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-            <input type="text" placeholder="Buscar no sistema..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-brand-100 focus:bg-white transition-all outline-none text-gray-600 placeholder:text-gray-400">
-        </div>
-        
-        <!-- Actions -->
-        <div class="flex items-center gap-4">
-            <button class="relative p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors">
-                <i class="ph-bold ph-bell text-xl"></i>
-                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-            </button>
-            <div class="h-8 w-px bg-gray-100"></div>
-            <div class="flex items-center gap-3 pl-2">
-                <div class="text-right hidden sm:block">
-                    <p class="text-sm font-bold text-gray-900">Admin User</p>
-                    <p class="text-xs text-gray-500">Gerente Geral</p>
-                </div>
-                <img src="https://ui-avatars.com/api/?name=Admin+User&background=0f172a&color=fff" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
-            </div>
-        </div>
-    </header>
-    
-    <!-- AQUI CARREGAM AS PÁGINAS INTERNAS -->
-    <main class="flex-1 overflow-y-auto p-6 lg:p-8 animate-fade-in scroll-smooth">
-        <router-outlet></router-outlet>
-    </main>
-</div>
-
-<!-- Mobile Sidebar Overlay -->
-@if (isSidebarOpen()) {
-    <div class="fixed inset-0 bg-black/50 z-40 md:hidden animate-fade-in" (click)="toggleSidebar()"></div>
-    <aside class="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-50 transform transition-transform md:hidden flex flex-col">
-        <div class="h-20 flex items-center justify-between px-6 border-b border-gray-50">
-            <span class="text-xl font-bold tracking-tight text-gray-900">Construtora<span class="text-brand-600">Pro</span></span>
-            <button (click)="toggleSidebar()" class="text-gray-500 hover:text-gray-900">
-                <i class="ph-bold ph-x text-xl"></i>
-            </button>
-        </div>
-        <nav class="flex-1 p-6 space-y-2">
-            <a routerLink="/dashboard-admin" class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50">Dashboard</a>
-            <a routerLink="/dashboard-admin/pedidos" class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50">Pedidos</a>
-            <a routerLink="/dashboard-admin/registrar-produto" class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50">Novo Produto</a>
+            <a routerLink="/dashboard-admin/relatorios-administrativos" 
+               routerLinkActive="bg-brand-50 text-brand-700 font-bold"
+               class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-colors group">
+                <i class="ph-bold ph-chart-line-up text-lg text-gray-400 group-hover:text-brand-600 transition-colors"></i>
+                Relatórios
+            </a>
         </nav>
+
+        <!-- Botão Sair -->
+        <div class="p-4 border-t border-gray-50">
+            <button (click)="logout()" class="flex items-center gap-3 px-4 py-3 w-full text-sm font-bold text-red-500 rounded-xl hover:bg-red-50 transition-colors cursor-pointer">
+                <i class="ph-bold ph-sign-out text-lg"></i>
+                Sair do Sistema
+            </button>
+        </div>
     </aside>
-}
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+        
+        <!-- Top Header -->
+        <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-6 lg:px-8 z-10 shrink-0">
+            <div class="flex items-center gap-4">
+                <button (click)="toggleSidebar()" class="text-gray-500 hover:text-gray-700 md:hidden cursor-pointer">
+                    <i class="ph-bold ph-list text-2xl"></i>
+                </button>
+                <div class="hidden md:block">
+                    <h2 class="text-lg font-bold text-gray-900">Painel Administrativo</h2>
+                    <p class="text-xs text-gray-400">Gerenciamento central de operações</p>
+                </div>
+            </div>
+            
+            <!-- Perfil Admin -->
+            <div class="flex items-center gap-4">
+                <button class="relative p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors">
+                    <i class="ph-bold ph-bell text-xl"></i>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </button>
+                <div class="h-8 w-px bg-gray-100"></div>
+                <div class="flex items-center gap-3 pl-2">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-bold text-gray-900 truncate max-w-[120px]">{{ adminUser()?.email?.split('@')?.at(0) || 'Administrador' }}</p>
+                        <p class="text-[10px] font-bold text-brand-600 uppercase tracking-tighter">Acesso Master</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full border-2 border-white shadow-sm overflow-hidden bg-gray-100">
+                        <img [src]="'https://ui-avatars.com/api/?name=' + adminUser()?.email + '&background=0f172a&color=fff'" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Router Outlet: Onde as sub-páginas serão renderizadas -->
+        <main class="flex-1 overflow-y-auto p-6 lg:p-8 animate-fade-in scroll-smooth bg-gray-50/30">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    @if (isSidebarOpen()) {
+        <div class="fixed inset-0 bg-black/50 z-40 md:hidden animate-fade-in" (click)="toggleSidebar()"></div>
+        <aside class="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-50 transform transition-transform md:hidden flex flex-col">
+            <div class="h-20 flex items-center justify-between px-6 border-b border-gray-50">
+                <span class="text-xl font-bold tracking-tight text-gray-900">Construtora<span class="text-brand-600">Pro</span></span>
+                <button (click)="toggleSidebar()" class="text-gray-500 hover:text-gray-900 p-2 cursor-pointer">
+                    <i class="ph-bold ph-x text-xl"></i>
+                </button>
+            </div>
+            <nav class="flex-1 p-6 space-y-2">
+                <a routerLink="/dashboard-admin" (click)="toggleSidebar()" class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50">Dashboard</a>
+                <a routerLink="/dashboard-admin/pedidos" (click)="toggleSidebar()" class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50">Pedidos</a>
+                <a routerLink="/dashboard-admin/registrar-product" (click)="toggleSidebar()" class="flex items-center gap-3 px-4 py-3.5 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50">Novo Produto</a>
+            </nav>
+        </aside>
+    }
 
 </div>

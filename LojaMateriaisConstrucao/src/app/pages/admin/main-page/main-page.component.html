@@ -3,216 +3,170 @@
     <div>
         <h1 class="text-2xl font-bold text-gray-900">Visão Geral</h1>
         <p class="text-sm text-gray-500">
-            Acompanhe os principais indicadores da sua loja.
+            Acompanhe os indicadores reais da sua operação vindos do sistema.
         </p>
     </div>
 
     <!-- Period Filter -->
-    <div
-        class="flex items-center gap-1 bg-white border border-gray-200 rounded-xl p-1 shadow-sm
-               overflow-x-auto scrollbar-hide"
-        role="tablist"
-        aria-label="Filtro de período">
+    <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-xl p-1 shadow-sm overflow-x-auto"
+        role="tablist" aria-label="Filtro de período">
 
         @for (period of periods; track period) {
             <button
                 role="tab"
-                [attr.aria-selected]="activePeriod === period"
+                [attr.aria-selected]="activePeriod() === period"
                 (click)="setPeriod(period)"
-                class="relative px-4 py-2 text-sm font-semibold rounded-lg whitespace-nowrap
-                       transition-all duration-200
-                       focus:outline-none focus-visible:ring-2
-                       focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+                class="relative px-4 py-2 text-sm font-semibold rounded-lg whitespace-nowrap transition-all duration-200 focus:outline-none cursor-pointer"
                 [ngClass]="{
-                    'bg-brand-500 text-white shadow-sm': activePeriod === period,
-                    'text-gray-600 hover:text-gray-900 hover:bg-gray-100': activePeriod !== period
+                    'bg-brand-600 text-white shadow-md': activePeriod() === period,
+                    'text-gray-600 hover:text-gray-900 hover:bg-gray-50': activePeriod() !== period
                 }">
-
                 {{ period }}
-
-                @if (activePeriod === period) {
-                    <span
-                        class="absolute inset-x-2 -bottom-1 h-0.5
-                               bg-brand-400 rounded-full blur-sm">
-                    </span>
-                }
             </button>
         }
     </div>
 </div>
 
-<!-- Stats Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    @for (stat of stats(); track stat.title) {
-        <div
-            class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100
-                   hover:shadow-md transition-shadow">
+@if (isLoading()) {
+    <div class="py-20 text-center flex flex-col items-center justify-center text-gray-500 bg-white rounded-3xl border border-gray-100 shadow-sm mb-8">
+        <i class="ph-duotone ph-spinner animate-spin text-4xl text-brand-600 mb-4"></i>
+        <p class="font-medium">Sincronizando dados com o servidor...</p>
+    </div>
+} @else {
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        @for (stat of stats(); track stat.title) {
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+                <div class="flex justify-between items-start mb-4">
+                    <div [class]="'p-3 rounded-xl transition-transform group-hover:scale-110 ' + stat.colorClass">
+                        <i [class]="'ph-fill text-xl ' + stat.icon"></i>
+                    </div>
 
-            <div class="flex justify-between items-start mb-4">
-                <div [class]="'p-3 rounded-xl ' + stat.colorClass">
-                    <i [class]="'ph-fill text-xl ' + stat.icon"></i>
+                    <span [class]="'inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full ' +
+                        (stat.positive ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700')">
+                        <i [class]="stat.positive ? 'ph-bold ph-trend-up' : 'ph-bold ph-trend-down'"></i>
+                        {{ stat.change }}
+                    </span>
                 </div>
 
-                <span
-                    [class]="'inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full ' +
-                    (stat.isPositive ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700')">
-                    <i
-                        [class]="stat.isPositive ? 'ph-bold ph-trend-up' : 'ph-bold ph-trend-down'">
-                    </i>
-                    {{ stat.change }}
-                </span>
+                <h3 class="text-gray-500 text-sm font-medium">{{ stat.title }}</h3>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ stat.value }}</p>
+                <p class="text-xs text-gray-400 mt-2 font-medium">{{ stat.period }}</p>
+            </div>
+        }
+    </div>
+
+    <!-- Main Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+
+        <!-- Recent Orders Table -->
+        <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/20">
+                <div>
+                    <h3 class="font-bold text-gray-900">Pedidos Recentes</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Sincronizado agora</p>
+                </div>
+
+                <button routerLink="/dashboard-admin/pedidos"
+                    class="text-brand-600 text-sm font-bold hover:bg-brand-50 px-4 py-2 rounded-xl transition-all cursor-pointer">
+                    Ver Todos
+                </button>
             </div>
 
-            <h3 class="text-gray-500 text-sm font-medium">
-                {{ stat.title }}
-            </h3>
-
-            <p class="text-2xl font-bold text-gray-900 mt-1">
-                {{ stat.value }}
-            </p>
-
-            <p class="text-xs text-gray-400 mt-2 font-medium">
-                {{ stat.comparisonText }}
-            </p>
-        </div>
-    }
-</div>
-
-<!-- Main Section -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-
-    <!-- Recent Orders -->
-    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
-            <div>
-                <h3 class="font-bold text-gray-900">Pedidos Recentes</h3>
-                <p class="text-xs text-gray-500 mt-0.5">
-                    Últimas transações registradas
-                </p>
-            </div>
-
-            <button
-                class="text-brand-600 text-sm font-bold hover:bg-brand-50
-                       px-3 py-1.5 rounded-lg transition-colors">
-                Ver Todos
-            </button>
-        </div>
-
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr
-                        class="text-[11px] text-gray-400 uppercase tracking-wider
-                               border-b border-gray-50 font-bold bg-white">
-                        <th class="px-6 py-4">Cliente</th>
-                        <th class="px-6 py-4">Data</th>
-                        <th class="px-6 py-4">Total</th>
-                        <th class="px-6 py-4">Status</th>
-                        <th class="px-6 py-4 text-right">Ação</th>
-                    </tr>
-                </thead>
-
-                <tbody class="text-sm">
-                    @for (order of recentOrders(); track order.id) {
-                        <tr
-                            class="hover:bg-gray-50 transition-colors
-                                   border-b border-gray-50 last:border-none bg-white">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <img
-                                        [src]="order.avatar"
-                                        class="w-9 h-9 rounded-full bg-gray-100 object-cover" />
-                                    <div>
-                                        <p class="font-bold text-gray-900 text-sm">
-                                            {{ order.customer }}
-                                        </p>
-                                        <p class="text-xs text-gray-500">
-                                            {{ order.email }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td class="px-6 py-4 text-gray-500 font-medium text-xs">
-                                {{ order.date }}
-                            </td>
-
-                            <td class="px-6 py-4 font-bold text-gray-900">
-                                R$ {{ order.amount | number:'1.2-2' }}
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <span
-                                    [class]="getStatusClass(order.status) +
-                                    ' px-2.5 py-1 rounded-full text-[10px]
-                                      uppercase tracking-wide font-bold border'">
-                                    {{ order.status }}
-                                </span>
-                            </td>
-
-                            <td class="px-6 py-4 text-right">
-                                <button
-                                    class="text-gray-400 hover:text-brand-600
-                                           hover:bg-brand-50 p-1.5 rounded-lg transition-all">
-                                    <i class="ph-bold ph-caret-right text-lg"></i>
-                                </button>
-                            </td>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-[11px] text-gray-400 uppercase tracking-wider border-b border-gray-50 font-bold bg-white">
+                            <th class="px-6 py-4">ID Pedido</th>
+                            <th class="px-6 py-4">Data</th>
+                            <th class="px-6 py-4">Total</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4 text-right">Ação</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody class="text-sm">
+                        @for (order of recentOrders(); track order.id) {
+                            <tr class="hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-none bg-white group">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-full bg-gray-100 border border-gray-100 overflow-hidden flex items-center justify-center">
+                                            <i class="ph ph-package text-gray-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-gray-900 text-sm">#{{ order.id.substring(0,8) | uppercase }}</p>
+                                            <p class="text-[10px] text-gray-400 font-mono">{{ order.clienteId }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="px-6 py-4 text-gray-500 font-medium text-xs">{{ order.dataPedido | date:'dd/MM HH:mm' }}</td>
+                                <td class="px-6 py-4 font-bold text-gray-900">{{ order.valorTotal | currency:'BRL' }}</td>
+
+                                <td class="px-6 py-4">
+                                    <span [class]="getStatusClass(order.status)">
+                                        {{ order.status.replace('_', ' ') }}
+                                    </span>
+                                </td>
+
+                                <td class="px-6 py-4 text-right">
+                                    <button [routerLink]="['/dashboard-admin/pedidos', order.id]" class="text-gray-400 hover:text-brand-600 hover:bg-brand-50 p-2 rounded-xl transition-all cursor-pointer">
+                                        <i class="ph-bold ph-caret-right text-lg"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        } @empty {
+                            <tr>
+                                <td colspan="5" class="py-10 text-center text-gray-400 italic">Nenhum pedido registrado no sistema.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <!-- Quick Actions -->
-    <div
-        class="bg-gray-900 text-white p-6 rounded-2xl shadow-lg
-               relative overflow-hidden flex flex-col justify-between">
+        <!-- Quick Actions / Command Center -->
+        <div class="bg-gray-900 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden flex flex-col">
+            <div class="absolute top-0 right-0 w-48 h-48 bg-brand-500 rounded-full blur-[90px] opacity-20 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-40 h-40 bg-blue-500 rounded-full blur-[70px] opacity-20 pointer-events-none"></div>
 
-        <div
-            class="absolute top-0 right-0 w-40 h-40 bg-brand-500
-                   rounded-full blur-[80px] opacity-20 pointer-events-none">
-        </div>
+            <div class="relative z-10 flex-1">
+                <h3 class="text-xl font-bold mb-2">Central de Comando</h3>
+                <p class="text-gray-400 text-sm mb-8 leading-relaxed">Acesso rápido às ferramentas essenciais de gestão.</p>
 
-        <div
-            class="absolute bottom-0 left-0 w-32 h-32 bg-blue-500
-                   rounded-full blur-[60px] opacity-20 pointer-events-none">
-        </div>
+                <div class="space-y-4">
+                    <button routerLink="/dashboard-admin/registrar-product"
+                            class="w-full bg-white/5 hover:bg-white/10 border border-white/10 p-4 rounded-2xl flex items-center gap-4 transition-all group cursor-pointer">
+                        <div class="bg-brand-600 p-2 rounded-xl group-hover:scale-110 transition-transform">
+                            <i class="ph-bold ph-plus text-lg"></i>
+                        </div>
+                        <span class="font-bold text-sm">Novo Produto</span>
+                    </button>
 
-        <div class="relative z-10">
-            <h3 class="text-xl font-bold mb-2">Central de Comando</h3>
-            <p class="text-gray-400 text-sm mb-6">
-                Acesso rápido às operações frequentes.
-            </p>
+                    <button routerLink="/dashboard-admin/registrar-cliente"
+                            class="w-full bg-white/5 hover:bg-white/10 border border-white/10 p-4 rounded-2xl flex items-center gap-4 transition-all group cursor-pointer">
+                        <div class="bg-blue-600 p-2 rounded-xl group-hover:scale-110 transition-transform">
+                            <i class="ph-bold ph-user-plus text-lg"></i>
+                        </div>
+                        <span class="font-bold text-sm">Novo Cliente</span>
+                    </button>
 
-            <div class="space-y-3">
-                <button class="w-full bg-white/5 hover:bg-white/10 border border-white/10
-                               px-4 py-3.5 rounded-xl flex items-center gap-3
-                               transition-colors text-sm font-medium">
-                    <div class="bg-brand-600 p-1.5 rounded-lg">
-                        <i class="ph-bold ph-plus"></i>
-                    </div>
-                    Adicionar Produto
-                </button>
+                    <button class="w-full bg-white/5 hover:bg-white/10 border border-white/10 p-4 rounded-2xl flex items-center gap-4 transition-all group cursor-pointer">
+                        <div class="bg-gray-700 p-2 rounded-xl group-hover:scale-110 transition-transform">
+                            <i class="ph-bold ph-file-csv text-lg"></i>
+                        </div>
+                        <span class="font-bold text-sm">Exportar Dados</span>
+                    </button>
+                </div>
+            </div>
 
-                <button class="w-full bg-white/5 hover:bg-white/10 border border-white/10
-                               px-4 py-3.5 rounded-xl flex items-center gap-3
-                               transition-colors text-sm font-medium">
-                    <div class="bg-blue-600 p-1.5 rounded-lg">
-                        <i class="ph-bold ph-user-plus"></i>
-                    </div>
-                    Novo Cliente
-                </button>
-
-                <button class="w-full bg-white/5 hover:bg-white/10 border border-white/10
-                               px-4 py-3.5 rounded-xl flex items-center gap-3
-                               transition-colors text-sm font-medium">
-                    <div class="bg-gray-700 p-1.5 rounded-lg">
-                        <i class="ph-bold ph-file-csv"></i>
-                    </div>
-                    Exportar Dados
-                </button>
+            <div class="mt-8 pt-8 border-t border-white/5 relative z-10">
+                <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Status do Sistema</p>
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="text-xs text-green-500 font-bold">Todos os serviços ativos</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
