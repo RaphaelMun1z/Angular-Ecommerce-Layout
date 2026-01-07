@@ -3,16 +3,18 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { provideNgxMask } from 'ngx-mask';
 import { AuthService } from '../../../core/auth/auth.service';
 import { Produto } from '../../../models/catalogo.models';
 import { CarrinhoService } from '../../../services/carrinho.service';
 import { CatalogoService } from '../../../services/catalogo.service';
 import { FileUploadService } from '../../../services/fileUpload.service';
+import { FavoritoService } from '../../../services/favorito.service';
+import { ShippingCalculatorComponent } from "../../../shared/components/forms/shipping-calculator/shipping-calculator.component";
 
 @Component({
     selector: 'app-product-page',
-    imports: [CommonModule, FormsModule, RouterLink, NgxMaskDirective],
+    imports: [CommonModule, FormsModule, RouterLink, ShippingCalculatorComponent],
     providers: [provideNgxMask()],
     templateUrl: './product-page.component.html',
     styleUrl: './product-page.component.css'
@@ -26,6 +28,7 @@ export class ProductPageComponent implements OnInit {
     private carrinhoService = inject(CarrinhoService);
     private authService = inject(AuthService);
     private fileUploadService = inject(FileUploadService);
+    public favoritoService = inject(FavoritoService); // Injetado como public para usar no HTML
     
     // Estado do Produto
     product = signal<Produto | null>(null);
@@ -92,18 +95,11 @@ export class ProductPageComponent implements OnInit {
             next: (data) => {
                 this.product.set(data);
                 
-                // --- CORREÇÃO DO ERRO ---
                 if (data.imagens && data.imagens.length > 0) {
-                    const resolvedImages = data.imagens.map((img: any) => {
-                        // O backend agora retorna objetos { id, url, ... }, não strings.
-                        // Extraímos a URL do objeto.
-                        const urlStr = img.url || img; 
-                        
-                        // Verifica se é URL completa ou se precisa ser resolvida
-                        return urlStr.startsWith('http') 
-                        ? urlStr 
-                        : this.fileUploadService.getPreviewUrl(urlStr);
-                    });
+                    // O backend retorna objetos { id, url, ... }
+                    const resolvedImages = data.imagens
+                    // @ts-ignore (Caso a tipagem no front ainda esteja como string[], ajustamos aqui)
+                    .map((img: any) => img.url || img);
                     
                     this.productImages.set(resolvedImages);
                     this.currentImage.set(resolvedImages[0]);
@@ -122,6 +118,14 @@ export class ProductPageComponent implements OnInit {
                 this.router.navigate(['/']);
             }
         });
+    }
+    
+    // --- Ação de Favoritar ---
+    toggleFavorite() {
+        const p = this.product();
+        if (p) {
+            this.favoritoService.toggle(p.id);
+        }
     }
     
     setActiveTab(tab: 'overview' | 'specs' | 'reviews') {
@@ -166,7 +170,7 @@ export class ProductPageComponent implements OnInit {
         
         if (!this.authService.isAuthenticated()) {
             this.toastr.info('Faça login para comprar.');
-            this.router.navigate(['/auth/login']);
+            this.router.navigate(['/login']);
             return;
         }
         
