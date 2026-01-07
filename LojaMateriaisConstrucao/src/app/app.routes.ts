@@ -45,7 +45,6 @@ export const routes: Routes = [
             { path: 'faq', component: FaqPageComponent },
             { path: 'sobre-nos', component: AboutUsPageComponent },
             { path: 'politica-de-privacidade', component: PrivacyPolicyPageComponent },
-            
             { 
                 path: 'finalizar-compra', 
                 component: FinalizePurchasePageComponent,

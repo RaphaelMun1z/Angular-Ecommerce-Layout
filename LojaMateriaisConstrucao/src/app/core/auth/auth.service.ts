@@ -24,46 +24,56 @@ export class AuthService {
     
     public isAuthenticated = computed(() => !!this._accessToken());
     
-    // Verifica se é Admin
+    // Verifica se é Admin de forma reativa
     public isAdmin = computed(() => this.hasRole('ROLE_ADMIN'));
     
     constructor() {
         const token = this._accessToken();
         if (token) {
-            // 1. Restaura estado inicial pelo Token (Instantâneo)
+            // 1. Restaura estado básico pelo Token (Id, Email, Roles)
             this.decodeAndSetUser(token);
-            
-            // 2. Busca dados frescos do banco (Para pegar foto/nome atualizados)
+            // 2. Sincroniza dados detalhados (Nome, CPF, Telefone, Foto)
             this.refreshUserData();
         }
     }
     
     /**
-    * Busca os dados mais recentes do servidor usando o endpoint /me.
-    * Isso garante que os dados retornados pertencem ao token enviado no header.
+    * Sincroniza os dados do banco (Java) com o estado global (TS).
+    * Resolve o problema de propriedades 'undefined' e reconstrói a URL da imagem.
     */
     refreshUserData() {
-        // Não precisamos mais do ID do usuário aqui, pois o /me usa o token do interceptor
         this.http.get<any>(`${this.clienteUrl}/me`).subscribe({
             next: (dadosBanco) => {
-                // Atualiza o sinal com os dados reais vindos do UsuarioResponseDTO
-                // Mapeia os campos do Java (nome, fotoUrl) para o Frontend (name, avatar)
-                this.updateUser({
-                    name: dadosBanco.nome,      
+                // Identifica o campo de imagem (pode vir como 'avatar' ou 'fotoUrl' dependendo do DTO)
+                const rawAvatar = dadosBanco.avatar || dadosBanco.fotoUrl;
+                
+                // Constrói a URL completa se o banco retornar apenas o nome do ficheiro
+                const avatarUrl = rawAvatar && !rawAvatar.startsWith('http') 
+                ? `${environment.apiUrl}/arquivos/download/${rawAvatar}` 
+                : rawAvatar;
+                
+                // Mapeia as propriedades do Java para o modelo User do TypeScript
+                // Isso remove o 'undefined' do console log e popula o objeto corretamente
+                this._currentUser.set({
+                    id: dadosBanco.id,
                     email: dadosBanco.email,
-                    avatar: dadosBanco.fotoUrl,
-                    cpf: dadosBanco.cpf,
-                    phone: dadosBanco.telefone 
+                    name: dadosBanco.nome,      // Java 'nome' -> TS 'name'
+                    cpf: dadosBanco.cpf,        // Java 'cpf' -> TS 'cpf'
+                    phone: dadosBanco.telefone, // Java 'telefone' -> TS 'phone'
+                    avatar: avatarUrl,          // URL formatada pronta para o <img>
+                    roles: dadosBanco.roles || this._currentUser()?.roles || []
                 });
             },
-            // Ignora erros silenciosamente (ex: token expirou durante o refresh)
-            error: (err) => console.warn('Sincronização de perfil em background falhou.', err.status)
+            error: (err) => {
+                console.warn('Falha na sincronização de perfil em background.', err.status);
+                // Se o erro for de autenticação (Token inválido no servidor), limpa a sessão
+                if (err.status === 401 || err.status === 403) this.cleanSession();
+            }
         });
     }
     
     /**
-    * Atualiza o estado local (Signal) em memória.
-    * Útil após upload de foto ou edição de perfil sem precisar relogar.
+    * Atualiza partes do usuário em memória (ex: após upload de foto)
     */
     updateUser(updates: Partial<User>) {
         this._currentUser.update(current => {
@@ -72,47 +82,29 @@ export class AuthService {
         });
     }
     
-    // --- MÉTODOS DE VERIFICAÇÃO ---
-    
-    hasRole(roleOrPermission: string): boolean {
-        const user = this._currentUser();
-        // Garante que roles seja array
-        return Array.isArray(user?.roles) ? user.roles.includes(roleOrPermission) : false;
-    }
-    
-    hasAnyRole(roles: string[]): boolean {
-        const user = this._currentUser();
-        if (!user || !Array.isArray(user.roles)) return false;
-        return roles.some(role => user.roles!.includes(role));
-    }
-    
     // --- AÇÕES ---
     
     login(credentials: LoginRequest): Observable<boolean> {
         return this.http.post<TokenResponse>(`${this.apiUrl}/signin`, credentials).pipe(
             tap(response => this.handleAuthSuccess(response)),
             map(() => true),
-            catchError(error => {
-                console.error('Erro no login', error);
-                return of(false);
-            })
+            catchError(() => of(false))
         );
     }
     
     register(data: RegisterRequest): Observable<boolean> {
         return this.http.post(`${this.apiUrl}/signup`, data).pipe(
             map(() => true),
-            catchError(error => {
-                console.error('Erro no registo', error);
-                return of(false);
-            })
+            catchError(() => of(false))
         );
     }
     
     logout() {
+        // Limpa estado reativo
         this._accessToken.set(null);
         this._currentUser.set(null);
         
+        // Limpa storage físico
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('username');
@@ -124,7 +116,7 @@ export class AuthService {
         this.logout();
     }
     
-    // --- PRIVADOS ---
+    // --- MÉTODOS PRIVADOS ---
     
     private handleAuthSuccess(response: TokenResponse) {
         localStorage.setItem('access_token', response.accessToken);
@@ -132,30 +124,21 @@ export class AuthService {
         localStorage.setItem('username', response.username);
         
         this._accessToken.set(response.accessToken);
-        
-        // 1. Define estado inicial pelo Token
         this.decodeAndSetUser(response.accessToken);
-        
-        // 2. Busca dados completos imediatamente para garantir consistência
         this.refreshUserData();
     }
     
     private decodeAndSetUser(token: string) {
         try {
             const payload = this.parseJwt(token);
-            
-            const user: User = {
+            this._currentUser.set({
                 id: payload.id,
                 email: payload.sub,
-                roles: Array.isArray(payload.roles) ? payload.roles : [],
-                // Nome provisório extraído do email ou token, será atualizado pelo refreshUserData
-                name: payload.name || payload.sub.split('@')[0], 
-                avatar: undefined 
-            };
-            
-            this._currentUser.set(user);
+                roles: payload.roles || [],
+                name: payload.name || payload.sub.split('@')[0],
+                avatar: undefined // Começa indefinido até o refreshUserData injetar a URL
+            });
         } catch (e) {
-            console.error('Erro ao decodificar token', e);
             this.logout();
         }
     }
@@ -163,10 +146,22 @@ export class AuthService {
     private parseJwt(token: string) {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        
+        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
         return JSON.parse(jsonPayload);
+    }
+    
+    /**
+    * Verifica se o usuário tem uma role específica (atalho para isAdmin)
+    */
+    hasRole(role: string): boolean {
+        return this.currentUser()?.roles?.includes(role) ?? false;
+    }
+    
+    /**
+    * Método utilitário para verificar permissões
+    */
+    hasAnyRole(requiredRoles: string[]): boolean {
+        const userRoles = this.currentUser()?.roles || [];
+        return requiredRoles.some(role => userRoles.includes(role));
     }
 }

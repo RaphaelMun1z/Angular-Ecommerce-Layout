@@ -2,178 +2,176 @@
     
     <!-- LADO ESQUERDO: Imagem e Branding (Apenas Desktop) -->
     <div class="hidden lg:flex lg:w-1/2 relative bg-gray-900 text-white overflow-hidden">
-        <!-- Imagem de Fundo com Overlay -->
         <div class="absolute inset-0">
             <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2062&auto=format&fit=crop" 
-            class="w-full h-full object-cover opacity-40 mix-blend-overlay" alt="Construção Moderna">
+                 class="w-full h-full object-cover opacity-40 mix-blend-overlay" alt="Construção Moderna">
             <div class="absolute inset-0 bg-linear-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
         </div>
         
-        <!-- Conteúdo Sobreposto -->
         <div class="relative z-10 w-full flex flex-col justify-between p-16">
-            <!-- Logo -->
-            <div class="flex items-center gap-3">
-                <img [src]="config.logoUrl" [alt]="fullName" class="h-10 w-auto group-hover:scale-105 transition-transform object-contain">
-                <span class="text-2xl font-extrabold tracking-tight hidden sm:block" 
-                [ngClass]="color === 'dark' ? 'text-gray-900' : 'text-white'">
-                {{ config.namePrefix }}<span class="text-brand-500">{{ config.nameSuffix }}</span>
-            </span>
-        </div>
-        
-        <!-- Mensagem de Impacto -->
-        <div class="mb-12 animate-fade-in">
-            <h2 class="text-5xl font-extrabold mb-6 leading-tight tracking-tight">Construa o futuro <br>com excelência.</h2>
-            <p class="text-gray-300 text-lg max-w-md leading-relaxed">
-                Gerencie seus projetos, acompanhe obras em tempo real e conecte-se com os melhores profissionais do mercado em um só lugar.
-            </p>
+            <div class="flex items-center gap-3 cursor-pointer w-fit" routerLink="/">
+                <img [src]="config.logoUrl" [alt]="fullName" class="h-10 w-auto object-contain">
+                <span class="text-2xl font-extrabold tracking-tight hidden sm:block">
+                    {{ config.namePrefix }}<span class="text-brand-500">{{ config.nameSuffix }}</span>
+                </span>
+            </div>
             
-            <!-- Stats / Social Proof (Decorativo) -->
-            <div class="mt-8 flex gap-8 border-t border-gray-700/50 pt-8">
-                <div>
-                    <p class="text-2xl font-bold text-white">15k+</p>
-                    <p class="text-sm text-gray-400">Projetos Geridos</p>
-                </div>
-                <div>
-                    <p class="text-2xl font-bold text-white">98%</p>
-                    <p class="text-sm text-gray-400">Satisfação</p>
+            <div class="mb-12 animate-fade-in">
+                <h2 class="text-5xl font-extrabold mb-6 leading-tight tracking-tight">Construa o futuro <br>com excelência.</h2>
+                <p class="text-gray-300 text-lg max-w-md leading-relaxed">
+                    Cadastre-se e tenha acesso aos melhores materiais e ferramentas para sua obra, com entrega garantida e suporte especializado.
+                </p>
+                
+                <div class="mt-8 flex gap-8 border-t border-gray-700/50 pt-8">
+                    <div>
+                        <p class="text-2xl font-bold text-white">20k+</p>
+                        <p class="text-sm text-gray-400">Produtos</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-bold text-white">24h</p>
+                        <p class="text-sm text-gray-400">Suporte Ativo</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Footer Imagem -->
-        <div class="text-sm text-gray-500">
-            &copy; 2024 ConstrutoraPro Inc.
+            
+            <div class="text-sm text-gray-500 italic">
+                &copy; 2024 {{ fullName }}. Todos os direitos reservados.
+            </div>
         </div>
     </div>
-</div>
 
-<!-- LADO DIREITO: Formulário -->
-<div class="w-full lg:w-1/2 flex flex-col relative overflow-y-auto">
-    
-    <!-- Header Mobile (Logo visível apenas em telas pequenas) -->
-    <div class="lg:hidden p-6 flex justify-center border-b border-gray-100">
-        <div class="flex items-center gap-2">
-            <div class="bg-orange-600 text-white p-1.5 rounded-lg">
-                <i class="ph-bold ph-hammer text-xl"></i>
-            </div>
-            <span class="text-xl font-bold text-gray-900">Construtora<span class="text-orange-600">Pro</span></span>
-        </div>
-    </div>
-    
-    <div class="flex-1 flex items-center justify-center p-6 sm:p-12 lg:p-24 animate-fade-in">
-        <div class="w-full max-w-110 space-y-8">
-            
-            <div class="text-center lg:text-left space-y-2">
-                <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Crie sua conta</h1>
-                <p class="text-gray-500">Preencha seus dados abaixo para começar gratuitamente.</p>
-            </div>
-            
-            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-5">
-                
-                <!-- Nome -->
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-gray-700 uppercase tracking-wider ml-1">Nome Completo</label>
-                    <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                            <i class="ph-bold ph-user text-gray-400 group-focus-within:text-orange-600 transition-colors text-lg"></i>
-                        </div>
-                        <input type="text" formControlName="name" placeholder="Ex: Carlos Silva" 
-                        [class.border-red-500]="isFieldInvalid('name')"
-                        [class.focus:border-red-500]="isFieldInvalid('name')"
-                        [class.focus:ring-red-200]="isFieldInvalid('name')"
-                        class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 block pl-11 p-3.5 outline-none transition-all placeholder:text-gray-400">
-                    </div>
-                    @if (isFieldInvalid('name')) {
-                        <p class="text-xs text-red-500 ml-1 font-medium flex items-center gap-1"><i class="ph-bold ph-warning-circle"></i> Nome é obrigatório.</p>
-                    }
-                </div>
-                
-                <!-- Email -->
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-gray-700 uppercase tracking-wider ml-1">E-mail Corporativo</label>
-                    <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                            <i class="ph-bold ph-envelope text-gray-400 group-focus-within:text-orange-600 transition-colors text-lg"></i>
-                        </div>
-                        <input type="email" formControlName="email" placeholder="nome@empresa.com" 
-                        [class.border-red-500]="isFieldInvalid('email')"
-                        [class.focus:border-red-500]="isFieldInvalid('email')"
-                        [class.focus:ring-red-200]="isFieldInvalid('email')"
-                        class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 block pl-11 p-3.5 outline-none transition-all placeholder:text-gray-400">
-                    </div>
-                    @if (isFieldInvalid('email')) {
-                        <p class="text-xs text-red-500 ml-1 font-medium flex items-center gap-1"><i class="ph-bold ph-warning-circle"></i> Digite um e-mail válido.</p>
-                    }
-                </div>
-                
-                <!-- Senha Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-gray-700 uppercase tracking-wider ml-1">Senha</label>
-                        <div class="relative group">
-                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                <i class="ph-bold ph-lock text-gray-400 group-focus-within:text-orange-600 transition-colors text-lg"></i>
-                            </div>
-                            <input type="password" formControlName="password" placeholder="Mín. 8 chars" 
-                            [class.border-red-500]="isFieldInvalid('password')"
-                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 block pl-11 p-3.5 outline-none transition-all placeholder:text-gray-400">
-                        </div>
-                    </div>
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-gray-700 uppercase tracking-wider ml-1">Confirmar</label>
-                        <div class="relative group">
-                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                <i class="ph-bold ph-lock-key text-gray-400 group-focus-within:text-orange-600 transition-colors text-lg"></i>
-                            </div>
-                            <input type="password" formControlName="confirmPassword" placeholder="Repita a senha" 
-                            [class.border-red-500]="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched"
-                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 block pl-11 p-3.5 outline-none transition-all placeholder:text-gray-400">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Mensagens de Erro de Senha -->
-                @if (isFieldInvalid('password')) {
-                    <p class="text-xs text-red-500 ml-1 font-medium flex items-center gap-1"><i class="ph-bold ph-warning-circle"></i> Senha muito curta.</p>
-                }
-                @if (signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched) {
-                    <p class="text-xs text-red-500 ml-1 font-medium flex items-center gap-1"><i class="ph-bold ph-warning-circle"></i> As senhas não coincidem.</p>
-                }
-                
-                <!-- Termos -->
-                <div class="pt-2">
-                    <label class="flex items-start cursor-pointer group">
-                        <div class="relative flex items-center h-5 mt-0.5">
-                            <input type="checkbox" formControlName="terms" class="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded bg-white checked:bg-orange-600 checked:border-orange-600 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all cursor-pointer">
-                            <i class="ph-bold ph-check text-white absolute left-0.5 top-0.5 text-xs opacity-0 peer-checked:opacity-100 pointer-events-none"></i>
-                        </div>
-                        <span class="ml-3 text-sm text-gray-500 group-hover:text-gray-700 transition-colors">
-                            Li e concordo com os <a href="#" class="font-semibold text-orange-600 hover:text-orange-700 hover:underline">Termos de Uso</a> e <a href="#" class="font-semibold text-orange-600 hover:text-orange-700 hover:underline">Política de Privacidade</a>.
-                        </span>
-                    </label>
-                    @if (isFieldInvalid('terms')) {
-                        <p class="text-xs text-red-500 mt-2 ml-1 font-medium">Você precisa aceitar os termos para continuar.</p>
-                    }
-                </div>
-                
-                <button type="submit" 
-                [disabled]="isLoading()"
-                class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold text-base py-4 rounded-xl shadow-xl shadow-orange-500/20 hover:shadow-orange-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none mt-2">
-                @if (isLoading()) {
-                    <i class="ph-bold ph-spinner animate-spin text-xl"></i> Criando conta...
-                } @else {
-                    Criar Minha Conta <i class="ph-bold ph-arrow-right"></i>
-                }
-            </button>
-        </form>
+    <!-- LADO DIREITO: Formulário ou Mensagem Offline -->
+    <div class="w-full lg:w-1/2 flex flex-col relative overflow-y-auto">
         
-        <div class="text-center mt-8 pt-8 border-t border-gray-100">
-            <p class="text-sm text-gray-600">
-                Já possui uma conta? 
-                <a href="#" class="font-bold text-orange-600 hover:text-orange-700 hover:underline transition-colors">Fazer Login</a>
-            </p>
+        <!-- Header Mobile -->
+        <div class="lg:hidden p-6 flex justify-center border-b border-gray-100">
+            <div class="flex items-center gap-2">
+                <div class="bg-brand-600 text-white p-1.5 rounded-lg shadow-sm">
+                    <i class="ph-bold ph-hammer text-xl"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-900">{{ config.namePrefix }}<span class="text-brand-600">{{ config.nameSuffix }}</span></span>
+            </div>
+        </div>
+        
+        <div class="flex-1 flex items-center justify-center p-6 sm:p-12 lg:p-24 animate-fade-in">
+            
+            <!-- ESTADO: SISTEMA OFFLINE -->
+            @if (systemStatus.isSystemOffline()) {
+                <div class="w-full max-w-110 text-center space-y-6 animate-scale-in">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-amber-50 text-amber-500 mb-2 border border-amber-100 shadow-sm">
+                        <i class="ph-duotone ph-cloud-slash text-4xl"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h1 class="text-2xl font-black text-gray-900 tracking-tight">Serviço Indisponível</h1>
+                        <p class="text-gray-500 text-sm leading-relaxed px-4">
+                            Não foi possível estabelecer conexão com o servidor. Verifique sua rede ou tente novamente.
+                        </p>
+                    </div>
+                    <div class="pt-4">
+                        <button (click)="systemStatus.checkHealth()" 
+                                class="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95">
+                            <i class="ph-bold ph-arrows-clockwise"></i>
+                            Tentar Reconectar
+                        </button>
+                    </div>
+                </div>
+            }
+
+            <!-- ESTADO: FORMULÁRIO -->
+            @else {
+                <div class="w-full max-w-110 space-y-8">
+                    <div class="text-center lg:text-left space-y-2">
+                        <h1 class="text-3xl font-black text-gray-900 tracking-tight">Crie sua conta</h1>
+                        <p class="text-gray-500 text-sm">Entre para o time de profissionais que constroem com a gente.</p>
+                    </div>
+                    
+                    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-5">
+                        
+                        <!-- Nome Completo -->
+                        <div class="space-y-1.5">
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Nome Completo</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="ph-bold ph-user text-gray-400 group-focus-within:text-brand-600 transition-colors text-lg"></i>
+                                </div>
+                                <input type="text" formControlName="name" placeholder="Ex: Carlos Silva" 
+                                       [class.border-red-500]="isFieldInvalid('name')"
+                                       class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-2xl focus:ring-4 focus:ring-brand-100 focus:border-brand-500 block pl-12 p-3.5 outline-none transition-all placeholder:text-gray-300">
+                            </div>
+                        </div>
+
+                        <!-- Email e CPF Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">E-mail</label>
+                                <input type="email" formControlName="email" placeholder="nome@email.com" 
+                                       [class.border-red-500]="isFieldInvalid('email')"
+                                       class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-2xl focus:ring-4 focus:ring-brand-100 focus:border-brand-500 block px-4 py-3.5 outline-none transition-all">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">CPF</label>
+                                <input type="text" formControlName="cpf" mask="000.000.000-00" placeholder="000.000.000-00" 
+                                       [class.border-red-500]="isFieldInvalid('cpf')"
+                                       class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-2xl focus:ring-4 focus:ring-brand-100 focus:border-brand-500 block px-4 py-3.5 outline-none transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Senha Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Senha</label>
+                                <input type="password" formControlName="password" placeholder="Mín. 6 chars" 
+                                       [class.border-red-500]="isFieldInvalid('password')"
+                                       class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-2xl focus:ring-4 focus:ring-brand-100 focus:border-brand-500 block px-4 py-3.5 outline-none transition-all">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Confirmar</label>
+                                <input type="password" formControlName="confirmPassword" placeholder="Repita a senha" 
+                                       [class.border-red-500]="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched"
+                                       class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-2xl focus:ring-4 focus:ring-brand-100 focus:border-brand-500 block px-4 py-3.5 outline-none transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Erros de Validação -->
+                        @if (signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched) {
+                            <p class="text-[10px] text-red-500 font-bold uppercase tracking-tight ml-1 animate-fade-in">
+                                <i class="ph-bold ph-warning-circle"></i> As senhas não coincidem.
+                            </p>
+                        }
+
+                        <!-- Termos -->
+                        <div class="pt-2">
+                            <label class="flex items-start cursor-pointer group">
+                                <div class="relative flex items-center h-5 mt-1">
+                                    <input type="checkbox" formControlName="terms" class="peer appearance-none w-5 h-5 border-2 border-gray-200 rounded-lg bg-white checked:bg-brand-600 checked:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all cursor-pointer">
+                                    <i class="ph-bold ph-check text-white absolute left-1 top-1 text-[10px] opacity-0 peer-checked:opacity-100 pointer-events-none"></i>
+                                </div>
+                                <span class="ml-3 text-xs text-gray-500 group-hover:text-gray-700 transition-colors leading-relaxed">
+                                    Li e concordo com os <a class="font-bold text-brand-600 hover:underline cursor-pointer">Termos de Serviço</a> e a <a class="font-bold text-brand-600 hover:underline cursor-pointer">Política de Privacidade</a>.
+                                </span>
+                            </label>
+                        </div>
+                        
+                        <!-- Botão Submit -->
+                        <button type="submit" 
+                                [disabled]="isLoading() || signupForm.invalid"
+                                class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-base py-4 rounded-2xl shadow-xl shadow-brand-500/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none mt-2">
+                            @if (isLoading()) {
+                                <i class="ph-bold ph-spinner animate-spin text-xl"></i> Criando sua conta...
+                            } @else {
+                                Começar Agora <i class="ph-bold ph-arrow-right"></i>
+                            }
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-8 pt-8 border-t border-gray-50">
+                        <p class="text-sm text-gray-500 font-medium">
+                            Já faz parte da plataforma? 
+                            <a routerLink="/login" class="font-bold text-brand-600 hover:text-brand-700 transition-colors underline underline-offset-4">Fazer Login</a>
+                        </p>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-</div>
-</div>
 </div>

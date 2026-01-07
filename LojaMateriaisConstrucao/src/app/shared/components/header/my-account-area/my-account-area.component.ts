@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -10,53 +10,54 @@ import { RouterLink } from '@angular/router';
     styleUrl: './my-account-area.component.css'
 })
 export class MyAccountAreaComponent {
-    authService = inject(AuthService);
+    public authService = inject(AuthService);
+    
     isMenuOpen = signal(false);
+    
+    // Expomos os sinais do serviço diretamente para facilitar
+    user = this.authService.currentUser;
+    isAdmin = this.authService.isAdmin;
+    
+    /**
+    * userName Computado: Reage automaticamente quando o sinal do usuário no AuthService muda.
+    */
+    userName = computed(() => {
+        const u = this.user();
+        if (u?.name) return u.name.split(' ')[0];
+        return u?.email?.split('@')[0] || 'Minha Conta';
+    });
+    
+    /**
+    * userAvatar Computado: 
+    * Se o usuário tiver avatar (URL do backend), usa ela.
+    * Se não, gera o fallback do ui-avatars.
+    */
+    userAvatar = computed(() => {
+        const u = this.user();
+        if (u?.avatar) {
+            return u.avatar;
+        }
+        // Fallback dinâmico baseado no nome ou e-mail
+        const identifier = this.userName();
+        return `https://ui-avatars.com/api/?name=${identifier}&background=0f172a&color=fff&size=128`;
+    });
     
     toggleMenu() {
         this.isMenuOpen.update(v => !v);
     }
     
-    onMouseEnter() {
-        this.isMenuOpen.set(true);
-    }
-    
-    onMouseLeave() {
-        this.isMenuOpen.set(false);
-    }
+    onMouseEnter() { this.isMenuOpen.set(true); }
+    onMouseLeave() { this.isMenuOpen.set(false); }
     
     logout() {
         this.authService.logout();
+        this.isMenuOpen.set(false);
     }
     
     /**
-    * Retorna o nome do usuário (preferencialmente) ou o email formatado
+    * Tratamento de erro de carregamento de imagem (ex: 404 no servidor de arquivos)
     */
-    get userName(): string {
-        const user = this.authService.currentUser();
-        if (user && user.name) {
-            // Pega apenas o primeiro nome se for muito longo
-            return user.name.split(' ')[0];
-        }
-        return user?.email?.split('@')[0] || 'Minha Conta';
-    }
-    
-    /**
-    * Retorna a URL do avatar (se existir) ou gera um padrão
-    */
-    get userAvatar(): string {
-        const user = this.authService.currentUser();
-        
-        // Se já tivermos a URL completa salva no estado global (feito no MyPersonalData)
-        if (user?.avatar) {
-            return user.avatar;
-        }
-        
-        // Fallback padrão
-        return `https://ui-avatars.com/api/?name=${this.userName}&background=0f172a&color=fff&size=128`;
-    }
-    
     handleImageError(event: any) {
-        event.target.src = `https://ui-avatars.com/api/?name=${this.userName}&background=0f172a&color=fff&size=128`;
+        event.target.src = `https://ui-avatars.com/api/?name=${this.userName()}&background=0f172a&color=fff&size=128`;
     }
 }

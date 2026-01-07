@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 import { Categoria, ProdutoFiltro } from '../../../../models/catalogo.models';
 import { CatalogoService } from '../../../../services/catalogo.service';
+import { SystemStatusService } from '../../../../services/systemStatus.service';
 
 @Component({
     selector: 'app-filter-sidebar',
@@ -14,8 +15,10 @@ import { CatalogoService } from '../../../../services/catalogo.service';
 
 export class FilterSidebarComponent implements OnInit {
     private catalogoService = inject(CatalogoService);
+    public systemStatus = inject(SystemStatusService); // Injetando o serviço global de status
     
     categories = signal<Categoria[]>([]);
+    isLoading = signal(false); // Estado de carregamento interno
     
     sliderOptions: Options = {
         floor: 0,
@@ -49,9 +52,22 @@ export class FilterSidebarComponent implements OnInit {
     }
     
     loadCategories() {
+        if (this.systemStatus.isSystemOffline()) return;
+        
+        this.isLoading.set(true);
         this.catalogoService.listarCategoriasAtivas({ page: 0, size: 100 }).subscribe({
-            next: (page) => this.categories.set(page.content),
-            error: (err) => console.error('Erro ao carregar categorias', err)
+            next: (page) => {
+                this.categories.set(page.content);
+                this.isLoading.set(false);
+            },
+            error: (err) => {
+                console.error('Erro ao carregar categorias', err);
+                this.isLoading.set(false);
+                // Se falhar a carga inicial das categorias por erro de rede, podemos sinalizar offline
+                if (err.status === 0) {
+                    this.systemStatus.checkHealth();
+                }
+            }
         });
     }
     
@@ -92,9 +108,15 @@ export class FilterSidebarComponent implements OnInit {
             categoriaId: this.filters.categoriaId || undefined,
             precoMin: this.filters.precoMin,
             precoMax: this.filters.precoMax,
-            apenasAtivos: true
+            apenasAtivos: true,
+            termo: this.filters.termo
         };
         
         this.filterChange.emit(filtersToEmit);
+    }
+    
+    retry() {
+        this.systemStatus.checkHealth();
+        this.loadCategories();
     }
 }

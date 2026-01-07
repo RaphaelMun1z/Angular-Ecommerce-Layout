@@ -1,51 +1,43 @@
-<!-- Container relativo para posicionamento do dropdown -->
 <div class="relative z-50 h-full flex items-center" 
      (mouseenter)="onMouseEnter()" 
      (mouseleave)="onMouseLeave()">
     
-    <!-- Trigger (Área Clicável) -->
+    <!-- Trigger -->
     <div class="flex items-center gap-3 pl-2 border-l border-gray-200 cursor-pointer group/profile h-10" 
          (click)="toggleMenu()">
         
-        <!-- Texto (Escondido em mobile) -->
         <div class="text-right hidden sm:block">
             <p class="text-[10px] text-gray-500 font-medium uppercase tracking-wide">Bem-vindo,</p>
-            <p class="text-sm font-bold text-gray-800 group-hover/profile:text-brand-600 transition-colors max-w-35 truncate">
-                {{ userName }}
+            <p class="text-sm font-bold text-gray-800 group-hover/profile:text-brand-600 transition-colors max-w-[140px] truncate">
+                {{ userName() }}
             </p>
         </div>
         
-        <!-- Avatar -->
+        <!-- Avatar com Signal Computado -->
         <div class="w-10 h-10 rounded-full bg-gray-100 overflow-hidden border-2 border-white shadow-sm group-hover/profile:border-brand-200 transition-all ring-2 ring-transparent group-hover/profile:ring-brand-50">
-            <img [src]="userAvatar" 
-                 [alt]="userName"
+            <img [src]="userAvatar()" 
+                 [alt]="userName()"
                  class="w-full h-full object-cover"
                  (error)="handleImageError($event)">
         </div>
         
-        <!-- Ícone Seta -->
         <i class="ph-bold ph-caret-down text-gray-400 group-hover/profile:text-brand-600 transition-transform duration-300 text-xs hidden sm:block"
            [ngClass]="{'rotate-180': isMenuOpen()}"></i>
     </div>
 
     <!-- Dropdown Menu -->
     @if (isMenuOpen()) {
-        <!-- WRAPPER DE CORREÇÃO: top-full + pt-2 cria uma ponte invisível para o mouse não "cair" -->
         <div class="absolute right-0 top-full pt-2 w-64 animate-fade-in origin-top-right">
-            
-            <!-- O Menu Real (Visual) -->
             <div class="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden ring-1 ring-black/5">
                 
-                <!-- Cabeçalho do Dropdown -->
                 <div class="px-4 py-3 border-b border-gray-50 bg-gray-50/50">
                     <p class="text-xs text-gray-500 font-medium">Conta conectada</p>
-                    <p class="text-sm font-bold text-gray-900 truncate" [title]="authService.currentUser()?.email">
-                        {{ authService.currentUser()?.email }}
+                    <p class="text-sm font-bold text-gray-900 truncate" [title]="user()?.email">
+                        {{ user()?.email }}
                     </p>
                 </div>
 
                 <ul class="py-1">
-                    <!-- Opções de Cliente -->
                     <li>
                         <a routerLink="/perfil/dados" (click)="isMenuOpen.set(false)" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600 transition-colors group cursor-pointer">
                             <div class="bg-gray-100 text-gray-500 group-hover:text-brand-600 group-hover:bg-brand-50 p-1.5 rounded-lg transition-colors">
@@ -63,9 +55,7 @@
                         </a>
                     </li>
 
-                    <!-- Opção de Admin (Renderização Condicional) -->
-                    <!-- O Signal authService.isAdmin() reage automaticamente a mudanças no usuário -->
-                    @if (authService.isAdmin()) {
+                    @if (isAdmin()) {
                         <div class="my-1 border-t border-gray-100"></div>
                         <li>
                             <a routerLink="/dashboard-admin" (click)="isMenuOpen.set(false)" class="flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-brand-700 bg-brand-50/30 hover:bg-brand-50 transition-colors group cursor-pointer">
@@ -79,9 +69,8 @@
 
                     <div class="my-1 border-t border-gray-100"></div>
 
-                    <!-- Sair -->
                     <li>
-                        <button (click)="logout()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left group cursor-pointer">
+                        <button (click)="logout()" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left group cursor-pointer border-none bg-transparent outline-none">
                             <div class="bg-red-50 text-red-500 group-hover:bg-red-100 p-1.5 rounded-lg transition-colors">
                                 <i class="ph-bold ph-sign-out"></i>
                             </div>

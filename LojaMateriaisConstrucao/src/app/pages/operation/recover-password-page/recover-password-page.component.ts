@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SystemStatusService } from '../../../services/systemStatus.service';
+import { ToastService } from '../../../services/toast.service';
+import { BRAND_CONFIG } from '../../../shared/mocks/BRAND_CONFIG';
 
 @Component({
     selector: 'app-recover-password-page',
@@ -9,19 +12,30 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
     styleUrl: './recover-password-page.component.css'
 })
 
-export class RecoverPasswordPageComponent {
+export class RecoverPasswordPageComponent implements OnInit {
+    public config = BRAND_CONFIG;
+    public systemStatus = inject(SystemStatusService);
+    
     private fb = inject(FormBuilder);
+    private toastService = inject(ToastService);
     
     // Estado
     isLoading = signal(false);
     isSuccess = signal(false);
-    showToast = signal(false);
-    toastMessage = signal('');
     
     // Formulário
     recoveryForm: FormGroup = this.fb.group({
         email: ['', [Validators.required, Validators.email]]
     });
+
+    ngOnInit() {
+        // Verifica saúde do sistema ao entrar
+        this.systemStatus.checkHealth();
+    }
+
+    get fullName(): string {
+        return `${this.config.namePrefix}${this.config.nameSuffix}`;
+    }
     
     isFieldInvalid(fieldName: string): boolean {
         const field = this.recoveryForm.get(fieldName);
@@ -30,17 +44,21 @@ export class RecoverPasswordPageComponent {
     
     onSubmit() {
         if (this.recoveryForm.valid) {
+            if (this.systemStatus.isSystemOffline()) {
+                this.toastService.error('Erro', 'Sistema indisponível no momento.');
+                return;
+            }
+
             this.isLoading.set(true);
             
-            // Simulação de chamada API
+            // Simulação de chamada API de recuperação
             setTimeout(() => {
                 this.isLoading.set(false);
                 this.isSuccess.set(true);
-                // Não precisamos de toast aqui pois a UI muda para o estado de sucesso
+                this.toastService.success('Instruções Enviadas', 'Verifique o seu e-mail para continuar.');
             }, 1500);
         } else {
             this.recoveryForm.markAllAsTouched();
-            this.displayToast('Por favor, preencha o e-mail corretamente.');
         }
     }
     
@@ -48,10 +66,8 @@ export class RecoverPasswordPageComponent {
         this.isSuccess.set(false);
         this.recoveryForm.reset();
     }
-    
-    private displayToast(msg: string) {
-        this.toastMessage.set(msg);
-        this.showToast.set(true);
-        setTimeout(() => this.showToast.set(false), 3000);
+
+    retryConnection() {
+        this.systemStatus.checkHealth();
     }
 }

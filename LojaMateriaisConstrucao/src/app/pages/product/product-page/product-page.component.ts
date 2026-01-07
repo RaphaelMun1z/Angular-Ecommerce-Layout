@@ -11,6 +11,7 @@ import { CatalogoService } from '../../../services/catalogo.service';
 import { FileUploadService } from '../../../services/fileUpload.service';
 import { FavoritoService } from '../../../services/favorito.service';
 import { ShippingCalculatorComponent } from "../../../shared/components/forms/shipping-calculator/shipping-calculator.component";
+import { SystemStatusService } from '../../../services/systemStatus.service';
 
 @Component({
     selector: 'app-product-page',
@@ -27,12 +28,21 @@ export class ProductPageComponent implements OnInit {
     private catalogoService = inject(CatalogoService);
     private carrinhoService = inject(CarrinhoService);
     private authService = inject(AuthService);
-    private fileUploadService = inject(FileUploadService);
-    public favoritoService = inject(FavoritoService); // Injetado como public para usar no HTML
+    
+    // Injetados como public para acesso direto no HTML
+    public favoritoService = inject(FavoritoService); 
+    public systemStatus = inject(SystemStatusService);
     
     // Estado do Produto
     product = signal<Produto | null>(null);
     loading = signal(true);
+    
+    /**
+    * ATALHO PARA O TEMPLATE (Resolve o erro NG9: Property 'p' does not exist)
+    * Isso garante que, se o alias '; as p' do template falhar em blocos aninhados, 
+    * o Angular encontrará 'p' aqui na classe.
+    */
+    get p() { return this.product(); }
     
     // Estado Visual
     productImages = signal<string[]>([]); 
@@ -89,18 +99,22 @@ export class ProductPageComponent implements OnInit {
         });
     }
     
+    /**
+    * Carrega os dados do produto tratando estados de offline e erro.
+    */
     loadProduct(id: string) {
+        if (this.systemStatus.isSystemOffline()) {
+            this.loading.set(false);
+            return;
+        }
+        
         this.loading.set(true);
         this.catalogoService.obterProduto(id).subscribe({
             next: (data) => {
                 this.product.set(data);
                 
                 if (data.imagens && data.imagens.length > 0) {
-                    // O backend retorna objetos { id, url, ... }
-                    const resolvedImages = data.imagens
-                    // @ts-ignore (Caso a tipagem no front ainda esteja como string[], ajustamos aqui)
-                    .map((img: any) => img.url || img);
-                    
+                    const resolvedImages = data.imagens.map((img: any) => img.url || img);
                     this.productImages.set(resolvedImages);
                     this.currentImage.set(resolvedImages[0]);
                 } else {
@@ -113,19 +127,31 @@ export class ProductPageComponent implements OnInit {
                 this.loading.set(false);
             },
             error: (err) => {
-                console.error(err);
-                this.toastr.error('Produto não encontrado ou indisponível.');
-                this.router.navigate(['/']);
+                console.error('Erro ao carregar produto:', err);
+                this.loading.set(false);
+                this.product.set(null); 
+                
+                if (err.status === 0 || err.status >= 500) {
+                    this.systemStatus.checkHealth();
+                }
             }
         });
     }
     
-    // --- Ação de Favoritar ---
+    /**
+    * Tenta carregar o produto novamente (usado nos botões de erro/offline)
+    */
+    retry() {
+        const id = this.route.snapshot.paramMap.get('id');
+        if (id) {
+            this.systemStatus.checkHealth();
+            this.loadProduct(id);
+        }
+    }
+    
     toggleFavorite() {
         const p = this.product();
-        if (p) {
-            this.favoritoService.toggle(p.id);
-        }
+        if (p) this.favoritoService.toggle(p.id);
     }
     
     setActiveTab(tab: 'overview' | 'specs' | 'reviews') {
@@ -138,12 +164,9 @@ export class ProductPageComponent implements OnInit {
     
     updateQty(delta: number) {
         const newVal = this.quantity() + delta;
-        if (newVal >= 1) {
-            this.quantity.set(newVal);
-        }
+        if (newVal >= 1) this.quantity.set(newVal);
     }
     
-    // Zoom Lógica
     onMouseMove(e: MouseEvent) {
         const element = e.currentTarget as HTMLElement;
         const { left, top, width, height } = element.getBoundingClientRect();
@@ -184,13 +207,6 @@ export class ProductPageComponent implements OnInit {
     }
     
     calculateShipping() {
-        if (this.zipCode().length < 8) {
-            this.toastr.warning('Digite um CEP válido');
-            return;
-        }
-        this.shippingResult.set([
-            { type: 'Expresso (Sedex)', days: 2, price: 32.50 },
-            { type: 'Econômica (PAC)', days: 7, price: 15.90 }
-        ]);
+        this.toastr.info('Calculando opções de entrega...');
     }
 }

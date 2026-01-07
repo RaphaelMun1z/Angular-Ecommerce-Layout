@@ -1,36 +1,46 @@
-import { CommonModule } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { FileUploadService } from '../../../../services/fileUpload.service';
+import { ToastService } from '../../../../services/toast.service';
 import { UsuarioService } from '../../../../services/usuario.service';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { PersonalDataFormComponent } from "../../forms/personal-data-form/personal-data-form.component";
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
-    selector: 'app-my-personal-data',
-    imports: [CommonModule, FormsModule, PersonalDataFormComponent],
-    templateUrl: './my-personal-data.component.html',
-    styleUrl: './my-personal-data.component.css'
+    selector: 'app-personal-data-form',
+    imports: [CommonModule, FormsModule, NgxMaskDirective],
+    providers: [provideNgxMask()],
+    templateUrl: './personal-data-form.component.html',
+    styleUrl: './personal-data-form.component.css'
 })
-export class MyPersonalDataComponent implements OnInit {
+export class PersonalDataFormComponent implements OnInit {
     private authService = inject(AuthService);
     private fileUploadService = inject(FileUploadService);
     private usuarioService = inject(UsuarioService);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     
+    // Estados de Controle
+    isEditingMode = signal(false);
     isUploading = signal(false);
     isSaving = signal(false);
     
-    // Objeto para bind do formulário [(ngModel)]
+    // Objeto para bind do formulário
     formData = {
         nome: '',
         telefone: '',
         cpf: ''
     };
     
-    // Signal para visualização e controle de UI (isCliente)
+    // Backup para restauração em caso de cancelamento
+    private originalData = {
+        nome: '',
+        telefone: '',
+        cpf: ''
+    };
+    
+    // Signal para visualização e controle de UI
     user = signal({
         email: '',
         avatar: '',
@@ -38,45 +48,58 @@ export class MyPersonalDataComponent implements OnInit {
     });
     
     constructor() {
-        // Reage a qualquer mudança no utilizador global (AuthService)
         effect(() => {
             const currentUser = this.authService.currentUser();
             if (currentUser) {
                 const isCliente = currentUser.roles ? currentUser.roles.includes('ROLE_CLIENTE') : false;
-
-                // 1. Atualiza dados de exibição
+                
                 this.user.set({
                     email: currentUser.email,
-                    avatar: currentUser.avatar || `https://ui-avatars.com/api/?name=${currentUser.email}&background=0D8ABC&color=fff`,
+                    avatar: currentUser.avatar || `https://ui-avatars.com/api/?name=${currentUser.email}&background=0f172a&color=fff`,
                     isCliente: isCliente
                 });
                 
-                // 2. Sincroniza os inputs do formulário
-                // Usamos as propriedades do seu modelo User (phone e cpf)
-                this.formData.nome = currentUser.name || '';
-                this.formData.telefone = currentUser.phone || '';
-                this.formData.cpf = currentUser.cpf || '';
+                // Só sincroniza os inputs automaticamente se NÃO estiver no meio de uma edição
+                if (!this.isEditingMode()) {
+                    this.updateLocalData(currentUser);
+                }
             }
         });
     }
     
     ngOnInit() {
-        // Garante que temos os dados mais frescos ao abrir a aba
         this.authService.refreshUserData();
+    }
+    
+    private updateLocalData(currentUser: any) {
+        const data = {
+            nome: currentUser.name || '',
+            telefone: currentUser.phone || '',
+            cpf: currentUser.cpf || ''
+        };
+        this.formData = { ...data };
+        this.originalData = { ...data };
+    }
+    
+    toggleEditing() {
+        this.isEditingMode.set(true);
+    }
+    
+    cancelEditing() {
+        this.formData = { ...this.originalData }; // Restaura backup
+        this.isEditingMode.set(false);
     }
     
     savePersonalData(event: Event) {
         event.preventDefault();
         
         if (!this.formData.nome || this.formData.nome.length < 3) {
-            this.toastr.warning('O nome deve ter pelo menos 3 caracteres.');
+            this.toastService.warning('Atenção', 'O nome deve ter pelo menos 3 caracteres.');
             return;
         }
         
         this.isSaving.set(true);
         
-        // Prepara o payload para o UsuarioService.atualizarMeusDados
-        // Removemos formatação de máscara para salvar apenas números se o backend exigir
         const payload = {
             nome: this.formData.nome,
             telefone: this.formData.telefone ? this.formData.telefone.replace(/\D/g, '') : '',
@@ -85,19 +108,19 @@ export class MyPersonalDataComponent implements OnInit {
         
         this.usuarioService.atualizarMeusDados(payload).subscribe({
             next: () => {
-                this.toastr.success('Dados atualizados com sucesso!');
+                this.toastService.success('Sucesso', 'Dados atualizados com sucesso.');
                 this.isSaving.set(false);
-                // Solicita ao AuthService para buscar os dados novamente e disparar o effect de sincronia
+                this.isEditingMode.set(false);
                 this.authService.refreshUserData();
             },
             error: (err) => {
-                this.toastr.error(err.error?.message || 'Erro ao salvar alterações.');
+                const msg = err.error?.message || 'Erro ao salvar alterações.';
+                this.toastService.error('Erro', msg);
                 this.isSaving.set(false);
             }
         });
     }
     
-    // --- Upload de Foto ---
     onAvatarSelected(event: any) {
         const file: File = event.target.files[0];
         if (!file || !file.type.startsWith('image/')) return;
@@ -109,20 +132,22 @@ export class MyPersonalDataComponent implements OnInit {
                 if (body && body.fileName) {
                     this.usuarioService.atualizarMeuAvatar(body.fileName).subscribe({
                         next: () => {
-                            const newUrl = body.url;
-                            this.authService.updateUser({ avatar: newUrl });
-                            this.toastr.success('Foto de perfil atualizada!');
+                            this.authService.updateUser({ avatar: body.url });
+                            this.toastService.success('Foto Atualizada', 'Seu perfil foi atualizado.');
                             this.isUploading.set(false);
                         },
                         error: () => this.isUploading.set(false)
                     });
                 }
             },
-            error: () => this.isUploading.set(false)
+            error: () => {
+                this.toastService.error('Erro', 'Falha no upload da imagem.');
+                this.isUploading.set(false);
+            }
         });
     }
     
     handleImageError(event: any) {
-        event.target.src = `https://ui-avatars.com/api/?name=${this.user().email}&background=0D8ABC&color=fff`;
+        event.target.src = `https://ui-avatars.com/api/?name=${this.user().email}&background=0f172a&color=fff`;
     }
 }
