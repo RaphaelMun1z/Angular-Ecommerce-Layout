@@ -1,7 +1,7 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/auth/auth.service';
 import { ItemCarrinho } from '../../../models/carrinho.models';
@@ -9,15 +9,13 @@ import { Produto } from '../../../models/catalogo.models';
 import { CarrinhoService } from '../../../services/carrinho.service';
 import { CatalogoService } from '../../../services/catalogo.service';
 import { ShippingCalculatorComponent } from '../../../shared/components/forms/shipping-calculator/shipping-calculator.component';
-import { PopupState } from '../../../shared/interfaces/Cart';
 
 @Component({
     selector: 'app-cart-page',
-    imports: [CommonModule, FormsModule, CurrencyPipe, ShippingCalculatorComponent],
+    imports: [CommonModule, FormsModule, CurrencyPipe, ShippingCalculatorComponent, RouterLink],
     templateUrl: './cart-page.component.html',
     styleUrl: './cart-page.component.css'
 })
-
 export class CartPageComponent implements OnInit {
     private carrinhoService = inject(CarrinhoService);
     private authService = inject(AuthService);
@@ -26,9 +24,8 @@ export class CartPageComponent implements OnInit {
     private router = inject(Router);
     
     relatedProducts = signal<Produto[]>([]);
-    zipCode = signal(''); // Mantemos para passar como initialZipCode se necessário
+    zipCode = signal(''); 
     shippingCost = signal(0);
-    popup = signal<PopupState>({ visible: false, x: 0, y: 0, item: null });
     
     cartItems = computed(() => this.carrinhoService.carrinho()?.itens || []);
     subtotal = computed(() => this.carrinhoService.valorTotal());
@@ -80,9 +77,6 @@ export class CartPageComponent implements OnInit {
                 this.carrinhoService.removerItem(clienteId, produtoId).subscribe({
                     next: () => {
                         this.toastr.info('Item removido.', 'Carrinho');
-                        if (this.popup().item === item) {
-                            this.hidePopup();
-                        }
                     }
                 });
             }
@@ -105,7 +99,6 @@ export class CartPageComponent implements OnInit {
         });
     }
     
-    // Agora apenas recebe o valor do componente filho
     updateShippingCost(cost: number) {
         this.shippingCost.set(cost);
     }
@@ -117,29 +110,5 @@ export class CartPageComponent implements OnInit {
         } else {
             this.router.navigate(['/login']);
         }
-    }
-    
-    showPopup(item: ItemCarrinho) {
-        this.popup.update(s => ({ ...s, visible: true, item }));
-    }
-    
-    movePopup(event: MouseEvent) {
-        if (!this.popup().visible) return;
-        
-        const gap = 20;
-        const popupWidth = 288;
-        
-        let left = event.clientX + gap;
-        let top = event.clientY + gap;
-        
-        if (left + popupWidth > window.innerWidth) {
-            left = event.clientX - popupWidth - gap;
-        }
-        
-        this.popup.update(s => ({ ...s, x: left, y: top }));
-    }
-    
-    hidePopup() {
-        this.popup.update(s => ({ ...s, visible: false }));
     }
 }

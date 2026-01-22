@@ -22,26 +22,29 @@
     <section class="flex flex-col md:flex-row gap-4 items-center justify-between px-2">
         <div class="relative w-full md:max-w-sm group">
             <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-500 transition-colors"></i>
-            <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)" placeholder="Buscar por nome, SKU ou categoria..." 
+            <input type="text" 
+                   [ngModel]="searchTerm()" 
+                   (ngModelChange)="onSearch($event)" 
+                   placeholder="Buscar por nome, SKU ou categoria..." 
                    class="w-full pl-10 pr-4 py-2 bg-transparent border-b border-gray-200 focus:border-brand-500 transition-all outline-none text-sm text-gray-700 placeholder:text-gray-400">
         </div>
         
         <div class="flex items-center gap-1 overflow-x-auto scrollbar-hide w-full md:w-auto">
-            <button (click)="activeStatusFilter.set('all')" [ngClass]="activeStatusFilter() === 'all' ? 'text-brand-600 bg-brand-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Todos</button>
-            <button (click)="activeStatusFilter.set('active')" [ngClass]="activeStatusFilter() === 'active' ? 'text-green-600 bg-green-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Ativos</button>
-            <button (click)="activeStatusFilter.set('inactive')" [ngClass]="activeStatusFilter() === 'inactive' ? 'text-red-600 bg-red-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Inativos</button>
+            <button (click)="applyFilter('all')" [ngClass]="activeStatusFilter() === 'all' ? 'text-brand-600 bg-brand-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Todos</button>
+            <button (click)="applyFilter('active')" [ngClass]="activeStatusFilter() === 'active' ? 'text-green-600 bg-green-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Ativos</button>
+            <button (click)="applyFilter('inactive')" [ngClass]="activeStatusFilter() === 'inactive' ? 'text-red-600 bg-red-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Inativos</button>
         </div>
     </section>
 
     <!-- Tabela Completa -->
-    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden relative min-h-[500px] shadow-sm">
+    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden relative min-h-[500px] shadow-sm flex flex-col">
         @if (isLoading()) {
             <div class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-30 flex items-center justify-center text-brand-600">
                 <i class="ph ph-spinner animate-spin text-3xl"></i>
             </div>
         }
 
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto flex-1">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="text-[10px] text-gray-400 uppercase tracking-widest border-b border-gray-50 font-bold bg-gray-50/30">
@@ -55,28 +58,19 @@
                     </tr>
                 </thead>
                 <tbody class="text-sm divide-y divide-gray-50">
-                    @for (product of filteredProducts(); track product.id) {
+                    @for (product of products(); track product.id) {
                         <tr class="hover:bg-gray-50/50 transition-colors group">
                             
-                            <!-- Produto (Imagem + Nome + SKU) -->
                             <td class="px-6 py-5">
                                 <div class="flex items-center gap-4">
-                                    
-                                    <!-- IMAGEM DO PRODUTO (Atualizado) -->
                                     <div class="w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden relative group-hover:border-brand-200 transition-colors">
                                         @if (product.imagens && product.imagens.length > 0) {
-                                            <!-- Mostra a imagem real se existir -->
-                                            <img [src]="product.imagens[0].url" 
-                                                 [alt]="product.titulo"
-                                                 class="w-full h-full object-contain p-0.5">
+                                            <img [src]="product.imagens[0].url" [alt]="product.titulo" class="w-full h-full object-contain p-0.5">
                                         } @else {
-                                            <!-- Fallback: Avatar com iniciais -->
                                             <img [src]="'https://ui-avatars.com/api/?name=' + product.titulo + '&background=f3f4f6&color=4b5563&size=128&font-size=0.4&length=2'" 
-                                                 [alt]="product.titulo"
-                                                 class="w-full h-full object-cover opacity-80 mix-blend-multiply">
+                                                 [alt]="product.titulo" class="w-full h-full object-cover opacity-80 mix-blend-multiply">
                                         }
                                     </div>
-                                    
                                     <div class="flex flex-col min-w-0">
                                         <span class="font-bold text-gray-900 truncate max-w-[220px]" [title]="product.titulo">
                                             {{ product.titulo }}
@@ -90,14 +84,12 @@
                                 </div>
                             </td>
                             
-                            <!-- Categoria -->
                             <td class="px-6 py-4">
                                 <span class="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded-md uppercase tracking-wider">
                                     {{ product.categoria?.nome || 'Sem Categoria' }}
                                 </span>
                             </td>
 
-                            <!-- Preços -->
                             <td class="px-6 py-4">
                                 <div class="flex flex-col">
                                     <span class="font-bold text-gray-900">{{ product.preco | currency:'BRL' }}</span>
@@ -107,7 +99,6 @@
                                 </div>
                             </td>
 
-                            <!-- Estoque (Com Botão Rápido) -->
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="flex flex-col">
@@ -124,7 +115,6 @@
                                 </div>
                             </td>
 
-                            <!-- Especificações -->
                             <td class="px-6 py-4">
                                 <div class="text-[10px] text-gray-500 space-y-0.5">
                                     <p class="flex items-center gap-1">
@@ -138,7 +128,6 @@
                                 </div>
                             </td>
 
-                            <!-- Status -->
                             <td class="px-6 py-4">
                                 <span [ngClass]="product.ativo ? 'text-green-600 bg-green-50 border-green-100' : 'text-gray-400 bg-gray-50 border-gray-100'" 
                                       class="px-2 py-0.5 rounded-md text-[10px] font-bold border uppercase inline-flex items-center gap-1.5">
@@ -147,10 +136,8 @@
                                 </span>
                             </td>
 
-                            <!-- Ações -->
                             <td class="px-6 py-4 text-center">
                                 <div class="flex items-center justify-end gap-1 transition-all duration-200 translate-x-2">
-                                    <!-- Toggle Rápido -->
                                     <button (click)="toggleStatus(product)" 
                                             class="p-2 rounded-lg transition-colors cursor-pointer"
                                             [title]="product.ativo ? 'Desativar' : 'Ativar'"
@@ -158,7 +145,6 @@
                                         <i [class]="product.ativo ? 'ph-bold ph-power' : 'ph-bold ph-play'"></i>
                                     </button>
                                     
-                                    <!-- Editar -->
                                     <button [routerLink]="['/dashboard-admin/registrar-product']" 
                                             [queryParams]="{id: product.id}" 
                                             class="p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors cursor-pointer" 
@@ -166,7 +152,6 @@
                                         <i class="ph-bold ph-pencil-simple"></i>
                                     </button>
 
-                                    <!-- Excluir -->
                                     <button (click)="deleteProduct(product)" 
                                             class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer" 
                                             title="Excluir Produto">
@@ -194,12 +179,51 @@
             </table>
         </div>
         
-        <footer class="px-6 py-4 border-t border-gray-50 flex items-center justify-between bg-white">
-            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{{ filteredProducts().length }} de {{ totalElements() }} itens</span>
-            <div class="flex items-center gap-2">
-                <button (click)="changePage(-1)" [disabled]="currentPage() === 0 || isLoading()" class="p-2 text-gray-400 hover:text-gray-900 disabled:opacity-20 cursor-pointer transition-all"><i class="ph-bold ph-arrow-left"></i></button>
-                <span class="text-xs font-bold text-gray-900 px-2">{{ currentPage() + 1 }}</span>
-                <button (click)="changePage(1)" [disabled]="((currentPage() + 1) * pageSize()) >= totalElements() || isLoading()" class="p-2 text-gray-400 hover:text-gray-900 disabled:opacity-20 cursor-pointer transition-all"><i class="ph-bold ph-arrow-right"></i></button>
+        <!-- PAGINAÇÃO ATUALIZADA COM NÚMEROS -->
+        <footer class="px-6 py-4 border-t border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
+            
+            <!-- Items por página -->
+            <div class="flex items-center gap-3 text-xs text-gray-500 order-2 sm:order-1">
+                <span>Mostrar</span>
+                <select [ngModel]="pageSize()" (ngModelChange)="updatePageSize($event)" class="bg-gray-50 border border-gray-200 text-gray-900 text-xs rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-1.5 outline-none cursor-pointer">
+                    <option [value]="5">5</option>
+                    <option [value]="10">10</option>
+                    <option [value]="20">20</option>
+                    <option [value]="50">50</option>
+                </select>
+                <span>por página</span>
+            </div>
+
+            <!-- Controles de Página -->
+            <div class="flex items-center gap-1 order-1 sm:order-2">
+                <button (click)="changePage(currentPage() - 1)" 
+                        [disabled]="currentPage() === 0 || isLoading()" 
+                        class="px-3 py-1.5 rounded-lg text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors text-xs font-bold cursor-pointer">
+                    Anterior
+                </button>
+
+                <!-- Páginas Numeradas -->
+                 @for (page of visiblePages(); track page) {
+                    <button (click)="goToPage(page)"
+                            [class.bg-brand-600]="page === currentPage()"
+                            [class.text-white]="page === currentPage()"
+                            [class.text-gray-600]="page !== currentPage()"
+                            [class.hover:bg-gray-100]="page !== currentPage()"
+                            class="w-8 h-8 rounded-lg text-xs font-bold transition-all flex items-center justify-center cursor-pointer">
+                        {{ page + 1 }}
+                    </button>
+                 }
+
+                <button (click)="changePage(currentPage() + 1)" 
+                        [disabled]="currentPage() >= (totalPages() - 1) || isLoading()" 
+                        class="px-3 py-1.5 rounded-lg text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors text-xs font-bold cursor-pointer">
+                    Próxima
+                </button>
+            </div>
+            
+            <!-- Resumo -->
+            <div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest order-3">
+                Total de {{ totalElements() }} itens
             </div>
         </footer>
     </div>

@@ -51,7 +51,13 @@ export interface PageMetadata {
 
 export interface PagedResponse<T> {
     content: T[];
-    page: PageMetadata;
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+    first?: boolean;
+    last?: boolean;
+    empty?: boolean;
 }
 
 export interface ProdutoRequest {
@@ -73,7 +79,7 @@ export interface ProdutoRequest {
 export interface ProdutoFiltro {
     termo?: string;
     categoriaId?: string;
-    precoMin: number;
-    precoMax: number;
+    precoMin?: number;
+    precoMax?: number;
     apenasAtivos?: boolean;
 }

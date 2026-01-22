@@ -53,10 +53,10 @@
                         </div>
 
                         <div class="flex gap-3 w-full lg:w-auto">
-                            <button class="flex-1 lg:flex-none justify-center items-center gap-2 px-4 py-2.5 border border-gray-200 bg-white rounded-xl text-gray-600 font-bold text-sm hover:bg-gray-50 hover:text-gray-900 transition-colors shadow-sm">
+                            <button class="flex-1 lg:flex-none justify-center items-center gap-2 px-4 py-2.5 border border-gray-200 bg-white rounded-xl text-gray-600 font-bold text-sm hover:bg-gray-50 hover:text-gray-900 transition-colors shadow-sm cursor-pointer">
                                 <i class="ph-bold ph-file-pdf text-lg"></i> Nota Fiscal
                             </button>
-                            <button class="flex-1 lg:flex-none justify-center items-center gap-2 px-4 py-2.5 bg-brand-600 text-white rounded-xl font-bold text-sm hover:bg-brand-700 shadow-lg shadow-brand-500/20 transition-all">
+                            <button class="flex-1 lg:flex-none justify-center items-center gap-2 px-4 py-2.5 bg-brand-600 text-white rounded-xl font-bold text-sm hover:bg-brand-700 shadow-lg shadow-brand-500/20 transition-all cursor-pointer">
                                 <i class="ph-bold ph-whatsapp-logo text-lg"></i> Ajuda
                             </button>
                         </div>
@@ -64,6 +64,7 @@
                 </div>
                 
                 <!-- Timeline de Rastreamento (Com Datas e Detalhes) -->
+                <!-- Timeline de Rastreamento (Atualizada) -->
                 @if (order.status !== 'CANCELADO') {
                     <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8 overflow-hidden hidden md:block">
                         <div class="flex items-center gap-2 mb-10">
@@ -72,26 +73,32 @@
                         </div>
                         
                         <div class="relative px-4">
-                            <!-- Linha de Fundo -->
-                            <div class="absolute top-5 left-0 w-full h-1 bg-gray-100 rounded-full -z-10"></div>
-                            <!-- Barra de Progresso Dinâmica -->
-                            <div class="absolute top-5 left-0 h-1 bg-brand-500 rounded-full -z-10 transition-all duration-1000 ease-out shadow-sm" 
-                                 [style.width.%]="progressPercentage()"></div>
+                            <!-- Container das Linhas (Centralizado com os Ícones) -->
+                            <!-- top-5 = 20px (centro dos ícones). left-16/right-16 (64px) = metade de w-32 (128px) -->
+                            <div class="absolute top-5 left-16 right-16 h-1 -translate-y-1/2 z-0">
+                                <!-- Linha de Fundo -->
+                                <div class="absolute inset-0 w-full h-full bg-gray-200 rounded-full"></div>
+                                <!-- Barra de Progresso -->
+                                <div class="absolute left-0 top-0 h-full bg-brand-600 rounded-full transition-all duration-1000 ease-out shadow-sm" 
+                                     [style.width.%]="progressPercentage()"></div>
+                            </div>
                             
+                            <!-- Itens da Timeline -->
                             <div class="relative flex justify-between z-10">
                                 @for (step of timelineSteps(); track step.label) {
                                     <div class="flex flex-col items-center gap-3 text-center w-32 group cursor-default">
+                                        
                                         <!-- Ícone do Passo -->
                                         @if (step.status === 'completed') {
-                                            <div class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center border-4 border-white shadow-md ring-2 ring-brand-100 transition-all group-hover:scale-110 relative z-10">
+                                            <div class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center border-4 border-white shadow-md ring-2 ring-brand-100 transition-all group-hover:scale-110 relative bg-white">
                                                 <i class="ph-bold ph-check text-lg"></i>
                                             </div>
                                         } @else if (step.status === 'current') {
-                                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center border-4 border-brand-100 shadow-md ring-2 ring-brand-500 animate-pulse relative z-10">
+                                            <div class="w-10 h-10 rounded-full bg-white text-brand-600 flex items-center justify-center border-4 border-brand-100 shadow-md ring-2 ring-brand-500 animate-pulse relative">
                                                 <i [class]="'ph-fill ' + step.icon + ' text-lg'"></i>
                                             </div>
                                         } @else {
-                                            <div class="w-10 h-10 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center border-4 border-white shadow-sm relative z-10">
+                                            <div class="w-10 h-10 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center border-4 border-white shadow-sm relative">
                                                 <i [class]="'ph-bold ' + step.icon + ' text-lg'"></i>
                                             </div>
                                         }
@@ -144,22 +151,48 @@
                             </div>
                             <div class="divide-y divide-gray-100">
                                 @for (item of items; track item.nomeProduto) {
-                                    <div class="p-6 flex flex-col sm:flex-row items-center gap-5 hover:bg-gray-50 transition-colors group">
-                                        <!-- Imagem Gerada (Avatar) -->
-                                        <div class="w-20 h-20 bg-white rounded-xl border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center relative shadow-sm">
-                                            <img [src]="'https://ui-avatars.com/api/?name=' + item.nomeProduto + '&background=f3f4f6&color=4b5563&size=128&font-size=0.35'" 
-                                                 [alt]="item.nomeProduto" 
-                                                 class="w-full h-full object-cover">
-                                        </div>
+                                    <div class="p-6 flex flex-col sm:flex-row items-center gap-5 hover:bg-gray-50 transition-colors group relative">
+                                        
+                                        <!-- Imagem com Link (usando 'id' e 'imagens' do JSON) -->
+                                        @if (item.id) {
+                                            <a [routerLink]="['/produto', item.id]" target="_blank" class="w-20 h-20 bg-white rounded-xl border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center relative shadow-sm cursor-pointer hover:opacity-80 transition-opacity">
+                                                @if (item.imagens && item.imagens.length > 0) {
+                                                    <img [src]="item.imagens[0].url" [alt]="item.nomeProduto" class="w-full h-full object-contain">
+                                                } @else {
+                                                    <img [src]="'https://ui-avatars.com/api/?name=' + item.nomeProduto + '&background=f3f4f6&color=4b5563&size=128&font-size=0.35'" 
+                                                         [alt]="item.nomeProduto" 
+                                                         class="w-full h-full object-cover">
+                                                }
+                                            </a>
+                                        } @else {
+                                            <div class="w-20 h-20 bg-white rounded-xl border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center relative shadow-sm">
+                                                @if (item.imagens && item.imagens.length > 0) {
+                                                    <img [src]="item.imagens[0].url" [alt]="item.nomeProduto" class="w-full h-full object-cover">
+                                                } @else {
+                                                    <img [src]="'https://ui-avatars.com/api/?name=' + item.nomeProduto + '&background=f3f4f6&color=4b5563&size=128&font-size=0.35'" 
+                                                         [alt]="item.nomeProduto" 
+                                                         class="w-full h-full object-cover">
+                                                }
+                                            </div>
+                                        }
 
                                         <div class="flex-1 min-w-0 space-y-1 text-center sm:text-left">
-                                            <h4 class="font-bold text-gray-900 text-base leading-tight line-clamp-2" [title]="item.nomeProduto">
-                                                {{ item.nomeProduto }}
-                                            </h4>
+                                            @if (item.id) {
+                                                <a [routerLink]="['/produto', item.id]" target="_blank" class="font-bold text-gray-900 text-base leading-tight line-clamp-2 hover:text-brand-600 transition-colors cursor-pointer" [title]="item.nomeProduto">
+                                                    {{ item.nomeProduto }}
+                                                </a>
+                                            } @else {
+                                                <h4 class="font-bold text-gray-900 text-base leading-tight line-clamp-2" [title]="item.nomeProduto">
+                                                    {{ item.nomeProduto }}
+                                                </h4>
+                                            }
+                                            
                                             <div class="flex flex-wrap justify-center sm:justify-start items-center gap-2 text-xs text-gray-500">
-                                                <span class="bg-gray-100 px-2 py-0.5 rounded text-gray-600 font-mono border border-gray-200">
-                                                    REF: {{ item.nomeProduto.substring(0,3).toUpperCase() }}
-                                                </span>
+                                                @if(item.id) {
+                                                    <span class="bg-gray-100 px-2 py-0.5 rounded text-gray-600 font-mono border border-gray-200">
+                                                        REF: {{ item.id.substring(0,8).toUpperCase() }}
+                                                    </span>
+                                                }
                                                 <span class="w-1 h-1 bg-gray-300 rounded-full hidden sm:block"></span>
                                                 <span>Unitário: {{ item.precoUnitario | currency:'BRL' }}</span>
                                             </div>
@@ -172,10 +205,12 @@
                                             </div>
 
                                             <!-- Botão Ver Produto -->
-                                            <button class="bg-white border border-gray-200 text-gray-500 hover:text-brand-600 hover:border-brand-200 p-2 rounded-lg transition-colors shadow-sm group-hover:shadow" 
-                                                    title="Ver Produto">
-                                                <i class="ph-bold ph-arrow-right"></i>
-                                            </button>
+                                            @if (item.id) {
+                                                <a [routerLink]="['/produto', item.id]" target="_blank" class="bg-white border border-gray-200 text-gray-500 hover:text-brand-600 hover:border-brand-200 p-2 rounded-lg transition-colors shadow-sm group-hover:shadow cursor-pointer" 
+                                                        title="Ver Produto em Nova Aba">
+                                                    <i class="ph-bold ph-arrow-right"></i>
+                                                </a>
+                                            }
                                         </div>
                                     </div>
                                 }

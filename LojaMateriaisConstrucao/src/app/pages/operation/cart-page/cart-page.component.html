@@ -1,34 +1,5 @@
 <div class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen relative pb-12">
     
-    <!-- Popup Flutuante (Quick View do Item) -->
-    @if (popup().visible && popup().item) {
-        <div 
-        class="fixed z-50 bg-white p-4 rounded-2xl shadow-2xl border border-gray-100 w-72 pointer-events-none transition-opacity duration-200"
-        [style.left.px]="popup().x"
-        [style.top.px]="popup().y"
-        [class.opacity-0]="!popup().visible"
-        [class.opacity-100]="popup().visible">
-        
-        <div class="space-y-2">
-            <div>
-                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider mb-0.5">Item do Carrinho</p>
-                <h4 class="font-bold text-gray-900 text-sm leading-tight line-clamp-2">{{ popup().item?.nomeProduto }}</h4>
-            </div>
-            
-            <div class="flex justify-between items-center mt-3 pt-3 border-t border-gray-50">
-                <div class="flex flex-col">
-                    <span class="text-[10px] text-gray-400">Preço Unitário</span>
-                    <span class="font-extrabold text-brand-600 text-lg leading-none">{{ popup().item?.precoUnitario | currency:'BRL' }}</span>
-                </div>
-                
-                <span class="text-[10px] px-2 py-1 rounded-full font-bold bg-gray-100 text-gray-700">
-                    Qtd: {{ popup().item?.quantidade }}
-                </span>
-            </div>
-        </div>
-    </div>
-}
-
 <main class="container mx-auto px-4 pt-28 pb-12 animate-fade-in">
     
     <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
@@ -65,14 +36,15 @@
                     @for (item of cartItems(); track item.id) {
                         <div class="p-6 flex flex-col md:grid md:grid-cols-12 gap-6 items-center group relative border-b border-gray-50 last:border-0">
                             
-                            <div 
-                            class="flex items-center gap-4 w-full md:col-span-6 cursor-help transition-colors hover:bg-gray-50/50 rounded-lg p-2 -ml-2"
-                            (mouseenter)="showPopup(item)"
-                            (mousemove)="movePopup($event)"
-                            (mouseleave)="hidePopup()">
+                            <div class="flex items-center gap-4 w-full md:col-span-6 transition-colors hover:bg-gray-50/50 rounded-lg p-2 -ml-2">
                             
+                            <!-- Lógica de Imagem Atualizada (Array de Imagens) -->
                             <div class="w-20 h-20 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center text-gray-300">
-                                <i class="ph-duotone ph-image text-3xl"></i>
+                                @if (item.imagens && item.imagens.length > 0) {
+                                    <img [src]="item.imagens[0].url" [alt]="item.nomeProduto" class="w-full h-full object-contain">
+                                } @else {
+                                    <i class="ph-duotone ph-image text-3xl"></i>
+                                }
                             </div>
 
                             <div class="min-w-0 flex-1">
@@ -120,7 +92,6 @@
             <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
                 <h3 class="font-bold text-lg text-gray-900 mb-6 border-b border-gray-50 pb-4">Resumo do Pedido</h3>
                 
-                <!-- COMPONENTE REUTILIZÁVEL DE FRETE -->
                 <div class="mb-8">
                     <app-shipping-calculator
                         [initialZipCode]="zipCode()" 
@@ -184,7 +155,11 @@
             @for (product of relatedProducts(); track product.id) {
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all p-3 flex flex-col h-full group">
                     <div class="relative w-full aspect-square bg-gray-50 rounded-lg overflow-hidden mb-3 flex items-center justify-center text-gray-300">
-                        <i class="ph-duotone ph-image text-4xl group-hover:scale-110 transition-transform"></i>
+                        @if (product.imagens && product.imagens.length > 0) {
+                             <img [src]="product.imagens[0].url" [alt]="product.titulo" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        } @else {
+                            <i class="ph-duotone ph-image text-4xl group-hover:scale-110 transition-transform"></i>
+                        }
                     </div>
                     <div class="flex-1 flex flex-col">
                         <span class="text-[10px] text-gray-400 uppercase font-bold">{{ product.categoria?.nome || 'Geral' }}</span>

@@ -1,3 +1,5 @@
+import { ImagemProduto } from "./catalogo.models";
+
 export interface ItemCarrinho {
     id: string;
     nomeProduto: string;
@@ -5,6 +7,7 @@ export interface ItemCarrinho {
     quantidade: number;
     precoUnitario: number;
     subTotal: number;
+    imagens: ImagemProduto[];
 }
 
 export interface Carrinho {

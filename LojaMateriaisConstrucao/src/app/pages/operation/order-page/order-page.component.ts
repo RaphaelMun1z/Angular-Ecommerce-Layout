@@ -51,6 +51,7 @@ export class OrderPageComponent implements OnInit {
         this.loading.set(true);
         this.pedidoService.buscarPorId(id).subscribe({
             next: (data) => {
+                console.log(data)
                 this.pedido.set(data);
                 this.construirTimeline(data);
                 this.loading.set(false);
