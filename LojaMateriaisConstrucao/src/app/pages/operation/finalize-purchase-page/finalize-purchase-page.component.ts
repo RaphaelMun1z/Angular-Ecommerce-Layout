@@ -9,6 +9,7 @@ import {
     EntregaRequest,
     MetodoPagamento,
     PagamentoRequest,
+	Pedido,
 } from '../../../models/pedido.models';
 import { CarrinhoService } from '../../../services/carrinho.service';
 import { PedidoService } from '../../../services/pedido.service';
@@ -46,8 +47,10 @@ export class FinalizePurchasePageComponent {
     private router = inject(Router);
     private toastr = inject(ToastrService);
 
-    // --- Estado ---
-    paymentMethod = signal<'credit' | 'pix' | 'boleto'>('credit');
+    // --- Estado (UI) ---
+    // Mantemos strings simples aqui para facilitar o bind com os Radio Buttons do HTML
+    paymentMethod = signal<'credit' | 'pix' | 'boleto'>('pix');
+    
     isLoading = signal(false);
     selectedAddressId = signal<string | null>(null);
     selectedShippingMethod = signal<'economic' | 'fast' | null>(null);
@@ -201,33 +204,62 @@ export class FinalizePurchasePageComponent {
 
         this.isLoading.set(true);
 
-        // Chama o Service Facade para processar tudo
+        // 1. Converter a string da UI ('credit', 'pix') para o Enum do Backend (MetodoPagamento)
+        // Isso garante a tipagem forte que o Service espera.
+        let metodoPagamentoEnum: MetodoPagamento;
+
+        switch (this.paymentMethod()) {
+            case 'credit':
+                metodoPagamentoEnum = MetodoPagamento.CARTAO_CREDITO;
+                break;
+            case 'boleto':
+                metodoPagamentoEnum = MetodoPagamento.BOLETO;
+                break;
+            case 'pix':
+            default:
+                metodoPagamentoEnum = MetodoPagamento.PIX;
+                break;
+        }
+
+        // 2. Chamar o serviço passando o Enum
         this.checkoutService
             .processarCompraCompleta({
                 userId: userId,
                 endereco: enderecoSelecionado,
                 metodoFrete: this.selectedShippingMethod()!,
                 valorFrete: this.shippingCost(),
-                metodoPagamento: this.paymentMethod(),
+                metodoPagamento: metodoPagamentoEnum,
                 total: this.total(),
             })
             .subscribe({
-                next: () => {
+                next: (pedidoCriado: Pedido) => { 
                     this.toastr.success(
-                        'Pedido realizado com sucesso!',
-                        'Parabéns',
+                        'Pedido criado! Redirecionando para pagamento...',
+                        'Sucesso'
                     );
+                    
                     this.carrinhoService.limparEstadoLocal();
-                    this.router.navigate(['/pedido-confirmado']);
+
+                    // Verifica se a URL de pagamento existe na resposta
+                    const urlPagamento = pedidoCriado.pagamento?.urlPagamento;
+
+                    if (urlPagamento) {
+                        // Redireciona o usuário para a AbacatePay
+                        window.location.href = urlPagamento;
+                    } else {
+                        // Fallback caso não tenha link
+                        this.router.navigate(['/pedido-confirmado', pedidoCriado.id]);
+                        this.isLoading.set(false);
+                    }
                 },
                 error: (err) => {
                     console.error('Erro no checkout:', err);
-                    // Tenta extrair mensagem amigável se vier array de erros
                     const msg =
                         err.error && Array.isArray(err.error)
                             ? err.error[0]
-                            : 'Erro ao processar pedido.';
-                    this.toastr.error(msg, 'Atenção');
+                            : err.error?.message || 'Erro ao processar pedido.';
+                    
+                    this.toastr.error(msg, 'Erro');
                     this.isLoading.set(false);
                 },
             });

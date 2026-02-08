@@ -13,22 +13,26 @@
     animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* Checkmark desenhando */
-@keyframes checkStroke {
-    from {
-        stroke-dasharray: 0 100;
-        opacity: 0;
+/* Shake sutil para o ícone de erro */
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
     }
-    to {
-        stroke-dasharray: 100 100;
-        opacity: 1;
+    20%,
+    60% {
+        transform: translateX(-5px);
+    }
+    40%,
+    80% {
+        transform: translateX(5px);
     }
 }
-.animate-check-stroke {
-    animation: checkStroke 0.8s ease-out forwards 0.3s; /* Delay para começar após o pop */
+.animate-shake {
+    animation: shake 0.5s ease-in-out forwards 0.5s;
 }
 
-/* Pulso suave */
+/* Pulso suave de alerta */
 @keyframes pingSlow {
     75%,
     100% {
@@ -40,7 +44,7 @@
     animation: pingSlow 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-/* Flutuação Background */
+/* Flutuação dos gradientes de fundo */
 @keyframes floatSlow {
     0%,
     100% {
@@ -55,14 +59,4 @@
 }
 .animate-float-slow-reverse {
     animation: floatSlow 10s ease-in-out infinite reverse;
-}
-
-/* Efeito de Brilho no Botão */
-@keyframes shimmer {
-    100% {
-        transform: translateX(100%);
-    }
-}
-.group-hover\\:animate-shimmer {
-    animation: shimmer 1.5s infinite;
 }

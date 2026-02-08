@@ -28,6 +28,7 @@ import { MyAddressesComponent } from "./shared/components/profile/my-addresses/m
 import { MyFavoriteProductsComponent } from "./shared/components/profile/my-favorite-products/my-favorite-products.component";
 import { MyOrdersComponent } from "./shared/components/profile/my-orders/my-orders.component";
 import { MyPersonalDataComponent } from "./shared/components/profile/my-personal-data/my-personal-data.component";
+import { OrderFailedPageComponent } from "./pages/operation/order-failed-page/order-failed-page.component";
 
 export const routes: Routes = [
     {
@@ -51,13 +52,18 @@ export const routes: Routes = [
                 canActivate: [authGuard] 
             },
             { 
-                path: 'pedido/:id', 
-                component: OrderPageComponent, 
+                path: 'pedido/sucesso', 
+                component: OrderConfirmedPageComponent,
+                canActivate: [authGuard]
+            },
+			{ 
+                path: 'pedido/falhou', 
+                component: OrderFailedPageComponent,
                 canActivate: [authGuard]
             },
             { 
-                path: 'pedido-confirmado', 
-                component: OrderConfirmedPageComponent,
+                path: 'pedido/:id', 
+                component: OrderPageComponent, 
                 canActivate: [authGuard]
             },
             // CONFIGURAÇÃO DE ROTAS FILHAS PARA O PERFIL
