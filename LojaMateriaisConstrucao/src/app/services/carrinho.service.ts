@@ -11,7 +11,6 @@ export class CarrinhoService {
     private http = inject(HttpClient);
     private apiUrl = `${environment.apiUrl}/carrinho`;
     
-    // Estado Reativo
     private _carrinho = signal<Carrinho | null>(null);
     public carrinho = this._carrinho.asReadonly();
     
@@ -26,7 +25,7 @@ export class CarrinhoService {
         this.http.get<Carrinho>(`${this.apiUrl}/${clienteId}`)
         .subscribe({
             next: (dados) => this._carrinho.set(dados),
-            error: () => this._carrinho.set(null) // Carrinho vazio ou não encontrado
+            error: () => this._carrinho.set(null)
         });
     }
     
@@ -53,10 +52,9 @@ export class CarrinhoService {
     
     limparCarrinho(clienteId: string) {
         return this.http.delete(`${this.apiUrl}/${clienteId}/limpar`)
-        .pipe(tap(() => this._carrinho.set(null))); // Limpa estado local
+        .pipe(tap(() => this._carrinho.set(null)));
     }
     
-    // Reseta o estado local (usado no logout)
     limparEstadoLocal() {
         this._carrinho.set(null);
     }

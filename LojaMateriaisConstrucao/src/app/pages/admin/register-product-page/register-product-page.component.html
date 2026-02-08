@@ -1,6 +1,5 @@
 <div class="space-y-6 pb-12 animate-fade-in">
     
-    <!-- Header da Página -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="flex items-center gap-4">
             <a routerLink="/dashboard-admin/produtos" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-white rounded-lg transition-colors">
@@ -30,13 +29,10 @@
         </div>
     </div>
     
-    <!-- Formulário -->
     <form [formGroup]="productForm" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <!-- Coluna Principal (Esquerda) -->
         <div class="lg:col-span-2 space-y-8">
             
-            <!-- Informações Básicas -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <h2 class="text-lg font-bold text-gray-900 mb-6">Informações Gerais</h2>
                 
@@ -61,11 +57,9 @@
                 </div>
             </div>
             
-            <!-- Mídia (Upload de Imagens) -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <h2 class="text-lg font-bold text-gray-900 mb-6">Galeria de Fotos</h2>
                 
-                <!-- Área de Drop / Input -->
                 <div class="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-brand-400 hover:bg-brand-50/30 transition-all cursor-pointer group relative">
                     <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" (change)="onFileSelected($event)" accept="image/*" multiple [disabled]="isUploading()">
                     
@@ -83,19 +77,16 @@
                     <p class="text-xs text-gray-400 mt-1">Imagens quadradas (1:1) funcionam melhor.</p>
                 </div>
                 
-                <!-- Preview das Imagens -->
                 @if (images().length > 0) {
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
                         @for (img of images(); track img; let i = $index) {
                             <div class="relative group aspect-square rounded-xl overflow-hidden border border-gray-100 shadow-sm bg-gray-50">
                                 <img [src]="img" class="w-full h-full object-cover">
                                 
-                                <!-- Botão de Remover -->
                                 <button type="button" (click)="removeImage(i)" class="absolute top-1.5 right-1.5 bg-white/90 text-red-500 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-50 cursor-pointer z-10">
                                     <i class="ph-bold ph-trash"></i>
                                 </button>
                                 
-                                <!-- Tag Principal -->
                                 @if (i === 0) {
                                     <div class="absolute bottom-0 left-0 right-0 bg-brand-600/90 backdrop-blur-sm text-white text-[10px] font-bold text-center py-1">
                                         Principal
@@ -108,10 +99,8 @@
             </div>
         </div>
         
-        <!-- Coluna Lateral (Direita) -->
         <div class="space-y-8">
             
-            <!-- Organização -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <h2 class="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">Categorização</h2>
                 
@@ -149,7 +138,6 @@
                 </div>
             </div>
             
-            <!-- Preço e Estoque -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <h2 class="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">Valores e Inventário</h2>
                 
@@ -182,7 +170,6 @@
                 </div>
             </div>
 
-            <!-- Dados Técnicos -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <h2 class="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">Especificações</h2>
                 <div class="space-y-4">
@@ -204,7 +191,6 @@
         </div>
     </form>
     
-    <!-- Modal de Ajuste de Estoque (Se necessário) -->
     @if (showStockModal()) {
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative">

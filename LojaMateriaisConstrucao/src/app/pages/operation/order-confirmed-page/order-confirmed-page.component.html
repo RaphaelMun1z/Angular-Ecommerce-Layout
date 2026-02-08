@@ -1,13 +1,10 @@
-<!-- Fundo Imersivo com Gradiente Animado -->
 <div
     class="fixed inset-0 w-full h-full bg-gradient-to-br from-emerald-500 via-green-600 to-teal-800 flex items-center justify-center p-4 overflow-hidden z-50"
 >
-    <!-- Pattern de Fundo (Opcional) -->
     <div
         class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"
     ></div>
 
-    <!-- Partículas de Fundo -->
     <div
         class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-green-400/20 rounded-full blur-[100px] animate-float-slow"
     ></div>
@@ -15,13 +12,10 @@
         class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-teal-300/20 rounded-full blur-[100px] animate-float-slow-reverse"
     ></div>
 
-    <!-- Card Principal (Design Glass/Clean) -->
     <div
         class="relative bg-white/95 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-green-900/40 p-8 md:p-12 text-center max-w-md w-full animate-pop-in border border-white/50 overflow-hidden"
     >
-        <!-- Ícone de Sucesso Animado -->
         <div class="relative w-28 h-28 mx-auto mb-8 group">
-            <!-- Círculos Pulsantes -->
             <div
                 class="absolute inset-0 bg-green-100 rounded-full animate-ping-slow opacity-75"
             ></div>
@@ -29,7 +23,6 @@
                 class="absolute inset-2 bg-green-200 rounded-full animate-pulse opacity-50"
             ></div>
 
-            <!-- Círculo Central -->
             <div
                 class="relative w-full h-full bg-gradient-to-tr from-green-500 to-emerald-400 rounded-full flex items-center justify-center shadow-lg transform transition-transform group-hover:scale-110 duration-300"
             >
@@ -50,19 +43,16 @@
             </div>
         </div>
 
-        <!-- Título e Saudação -->
         <h1
             class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-3 tracking-tight"
         >
             Sucesso, {{ userName() }}!
         </h1>
 
-        <!-- Mensagem Atualizada (Sem código do pedido) -->
         <p class="text-gray-500 font-medium text-lg mb-8 leading-relaxed">
             Seu pagamento foi aprovado e o pedido realizado com sucesso.
         </p>
 
-        <!-- Botões de Ação -->
         <div class="space-y-4">
             <a
                 routerLink="/perfil/pedidos"

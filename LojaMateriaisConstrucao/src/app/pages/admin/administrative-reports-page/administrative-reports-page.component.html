@@ -1,6 +1,5 @@
 <div class="space-y-10 animate-fade-in pb-12 max-w-[1200px] mx-auto">
     
-    <!-- Cabeçalho Minimalista -->
     <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
             <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Central de Relatórios</h1>
@@ -14,7 +13,6 @@
         </div>
     </header>
     
-    <!-- Abas de Filtro Discretas -->
     <nav class="flex items-center gap-1 border-b border-gray-100 px-2 overflow-x-auto scrollbar-hide">
         @for (cat of ['Todos', 'Vendas', 'Estoque', 'Clientes', 'Financeiro']; track cat) {
             <button (click)="setCategory(cat)" 
@@ -25,12 +23,10 @@
         }
     </nav>
 
-    <!-- Grid de Relatórios -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
         @for (report of filteredReports(); track report.id) {
             <div class="bg-white p-6 rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all flex flex-col group">
                 
-                <!-- Ícone e Tag -->
                 <div class="flex justify-between items-start mb-6">
                     <div [class]="'p-3 rounded-xl ' + report.colorClass">
                         <i [class]="'text-2xl ph-fill ' + report.icon"></i>
@@ -40,13 +36,11 @@
                     </span>
                 </div>
                 
-                <!-- Descrição -->
                 <div class="flex-1 mb-8">
                     <h3 class="text-base font-bold text-gray-900 mb-2">{{ report.title }}</h3>
                     <p class="text-xs text-gray-500 leading-relaxed">{{ report.description }}</p>
                 </div>
                 
-                <!-- Footer do Card -->
                 <div class="space-y-4 pt-4 border-t border-gray-50">
                     <div class="flex flex-col gap-1">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Período</label>
@@ -85,7 +79,6 @@
         }
     </div>
 
-    <!-- Info Footer -->
     <footer class="px-4 py-6 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-start gap-4 mx-2">
         <div class="bg-blue-100 text-blue-600 p-2 rounded-lg shrink-0">
             <i class="ph-fill ph-info text-lg"></i>

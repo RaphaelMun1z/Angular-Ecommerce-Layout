@@ -23,20 +23,16 @@ export class RegisterCustomerPageComponent {
     private toastr = inject(ToastrService);
     private router = inject(Router);
     
-    // Estado
     isLoading = signal(false);
     isLoadingCep = signal(false);
     
-    // Formulário Completo
     customerForm: FormGroup = this.fb.group({
-        // Dados para Auth/Cliente
         name: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['123456', [Validators.required, Validators.minLength(6)]], // Senha padrão para admin cadastrar
-        document: ['', [Validators.required]], // CPF
+        password: ['123456', [Validators.required, Validators.minLength(6)]],
+        document: ['', [Validators.required]], 
         phone: [''],
         
-        // Dados para Endereço
         zipCode: ['', [Validators.required]],
         street: ['', [Validators.required]],
         number: ['', [Validators.required]],
@@ -45,14 +41,12 @@ export class RegisterCustomerPageComponent {
         city: ['', [Validators.required]],
         state: ['', [Validators.required]],
         
-        // Configurações extras
         status: ['active'],
         group: ['retail'],
         newsletter: [true],
         notes: ['']
     });
     
-    // --- Integração ViaCEP ---
     buscarCep() {
         const cep = this.customerForm.get('zipCode')?.value?.replace(/\D/g, '');
         if (!cep || cep.length !== 8) return;
@@ -91,7 +85,6 @@ export class RegisterCustomerPageComponent {
         this.isLoading.set(true);
         const val = this.customerForm.value;
         
-        // 1. Prepara Requisição de Cadastro (Auth)
         const registerReq: RegisterRequest = {
             nome: val.name,
             email: val.email,
@@ -100,12 +93,9 @@ export class RegisterCustomerPageComponent {
             telefone: val.phone
         };
         
-        // 2. Executa o registro
         this.authService.register(registerReq).subscribe({
             next: (success) => {
                 if (success) {
-                    // Nota: Idealmente o backend retornaria o ID do novo cliente no registro.
-                    // Se não retornar, precisaremos buscar o cliente por email para salvar o endereço.
                     this.toastr.success('Cliente cadastrado com sucesso!');
                     this.router.navigate(['/dashboard-admin']);
                 }

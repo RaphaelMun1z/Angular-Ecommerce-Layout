@@ -1,6 +1,5 @@
 <div class="space-y-8 animate-fade-in pb-10 max-w-[1600px] mx-auto">
     
-    <!-- Header -->
     <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
             <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Catálogo de Produtos</h1>
@@ -18,7 +17,6 @@
         </div>
     </header>
     
-    <!-- Filtros -->
     <section class="flex flex-col md:flex-row gap-4 items-center justify-between px-2">
         <div class="relative w-full md:max-w-sm group">
             <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-500 transition-colors"></i>
@@ -36,7 +34,6 @@
         </div>
     </section>
 
-    <!-- Tabela Completa -->
     <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden relative min-h-[500px] shadow-sm flex flex-col">
         @if (isLoading()) {
             <div class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-30 flex items-center justify-center text-brand-600">
@@ -179,10 +176,8 @@
             </table>
         </div>
         
-        <!-- PAGINAÇÃO -->
         <footer class="px-6 py-4 border-t border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
             
-            <!-- Items por página -->
             <div class="flex items-center gap-3 text-xs text-gray-500 order-2 sm:order-1">
                 <span>Mostrar</span>
                 <select [ngModel]="pageSize()" (ngModelChange)="updatePageSize($event)" class="bg-gray-50 border border-gray-200 text-gray-900 text-xs rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-1.5 outline-none cursor-pointer">
@@ -194,7 +189,6 @@
                 <span>por página</span>
             </div>
 
-            <!-- Controles de Página -->
             <div class="flex items-center gap-1 order-1 sm:order-2">
                 <button (click)="changePage(currentPage() - 1)" 
                         [disabled]="currentPage() === 0 || isLoading()" 
@@ -202,7 +196,6 @@
                     Anterior
                 </button>
 
-                <!-- Páginas Numeradas -->
                  @for (page of visiblePages(); track page) {
                     <button (click)="goToPage(page)"
                             [class.bg-brand-600]="page === currentPage()"
@@ -221,7 +214,6 @@
                 </button>
             </div>
             
-            <!-- Resumo -->
             <div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest order-3">
                 Total de {{ totalElements() }} itens
             </div>
@@ -229,17 +221,13 @@
     </div>
 </div>
 
-<!-- Modal movido para fora do container principal -->
 @if (showStockModal()) {
     <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-        <!-- Backdrop -->
         <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity duration-300 animate-fade-in" 
              (click)="showStockModal.set(false)"></div>
         
-        <!-- Modal Content (Design Atualizado) -->
         <div class="relative bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden transform transition-all duration-300 animate-scale-up-fast z-10 flex flex-col max-h-[90vh]">
             
-            <!-- Header Clean -->
             <div class="px-8 pt-8 pb-0 flex justify-between items-start">
                 <div>
                     <h3 class="font-extrabold text-2xl text-gray-900">Ajustar Estoque</h3>
@@ -252,7 +240,6 @@
 
             <form [formGroup]="stockForm" (ngSubmit)="confirmStockAdjustment()" class="p-8 flex flex-col gap-6 overflow-y-auto">
                 
-                <!-- Product Card (Within Modal) -->
                 <div class="flex items-center gap-4 p-4 bg-gray-50/80 rounded-2xl border border-gray-100">
                     <div class="w-16 h-16 bg-white rounded-xl border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center relative">
                         @if (selectedProduct()?.imagens && selectedProduct()?.imagens!.length > 0) {
@@ -278,7 +265,6 @@
                     </div>
                 </div>
 
-                <!-- Type Selector (Visual Radio) -->
                 <div class="grid grid-cols-2 gap-3">
                     <label class="cursor-pointer relative group">
                         <input type="radio" formControlName="tipo" [value]="enumTipo.ENTRADA" class="peer sr-only">
@@ -300,7 +286,6 @@
                     </label>
                 </div>
 
-                <!-- Quantity Input -->
                 <div class="relative">
                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Quantidade</label>
                     <div class="relative flex items-center">
@@ -314,7 +299,6 @@
                     </div>
                 </div>
 
-                <!-- Reason Input -->
                 <div>
                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Justificativa <span class="text-red-500">*</span></label>
                     <div class="relative">
@@ -329,7 +313,6 @@
                     }
                 </div>
 
-                <!-- Actions -->
                 <div class="pt-4 flex gap-3">
                     <button type="button" (click)="showStockModal.set(false)" class="flex-1 py-4 rounded-xl font-bold text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-all cursor-pointer">
                         Cancelar

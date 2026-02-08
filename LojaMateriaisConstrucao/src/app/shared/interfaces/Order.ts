@@ -2,9 +2,9 @@ export interface Order {
     id: string;
     date: string;
     status: 'Entregue' | 'Em Trânsito' | 'Cancelado';
-    statusColor: string; // Tailwind class para a bolinha
-    statusBg: string; // Tailwind class para o badge
-    statusText: string; // Tailwind class para o texto
+    statusColor: string;  
+    statusBg: string; 
+    statusText: string;
     total: number;
     itemsCount: number;
     images: string[];

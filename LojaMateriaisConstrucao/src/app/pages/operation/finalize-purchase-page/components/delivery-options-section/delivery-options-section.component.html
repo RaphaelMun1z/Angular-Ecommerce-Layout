@@ -13,7 +13,6 @@
 
     @if (hasAddressSelected()) {
         <div class="space-y-3 animate-fade-in">
-            <!-- Opção 1: Econômica -->
             <label
                 class="flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all hover:bg-gray-50"
                 [class.border-brand-500]="selectedShippingMethod() === 'economic'"
@@ -41,7 +40,6 @@
                 <span class="text-sm font-bold text-green-600">Grátis</span>
             </label>
 
-            <!-- Opção 2: Rápida -->
             <label
                 class="flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all hover:bg-gray-50"
                 [class.border-brand-500]="selectedShippingMethod() === 'fast'"

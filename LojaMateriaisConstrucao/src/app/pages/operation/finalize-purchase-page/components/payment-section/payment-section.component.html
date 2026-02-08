@@ -7,7 +7,6 @@
         Pagamento
     </h3>
 
-    <!-- Botões de Seleção -->
     <div class="grid grid-cols-3 gap-3 mb-6">
         <button
             type="button"
@@ -52,7 +51,6 @@
         </button>
     </div>
 
-    <!-- Conteúdo: Cartão -->
     <div *ngIf="paymentMethod() === 'credit'" class="space-y-4 animate-fade-in">
         <div class="relative">
             <i
@@ -98,7 +96,6 @@
         </select>
     </div>
 
-    <!-- Conteúdo: Pix -->
     <div
         *ngIf="paymentMethod() === 'pix'"
         class="text-center py-6 animate-fade-in"
@@ -114,7 +111,6 @@
         <p class="text-xs text-gray-500 mt-1">Aprovação imediata.</p>
     </div>
 
-    <!-- Conteúdo: Boleto -->
     <div
         *ngIf="paymentMethod() === 'boleto'"
         class="text-center py-6 animate-fade-in"

@@ -1,9 +1,7 @@
 <div class="bg-white rounded-3xl border border-gray-100 p-6 lg:p-10 animate-fade-in relative">
         
-        <!-- Cabeçalho da Seção -->
         <div class="border-b border-gray-100 pb-8 mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-5 text-center sm:text-left flex-col sm:flex-row">
-                <!-- Avatar Upload (Habilitado apenas em edição) -->
                 <div class="relative group">
                     <div class="w-24 h-24 rounded-2xl overflow-hidden border-4 border-gray-50 shadow-sm transition-all"
                          [class.ring-2]="isUploading()" [class.ring-brand-500]="isUploading()" [class.opacity-50]="isUploading()">
@@ -28,7 +26,6 @@
                 </div>
             </div>
 
-            <!-- Ações de Cabeçalho -->
             <div class="flex gap-3">
                 @if (!isEditingMode()) {
                     <button (click)="toggleEditing()" 
@@ -54,7 +51,6 @@
         <form (submit)="savePersonalData($event)" class="space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 
-                <!-- Email (Sempre Desabilitado) -->
                 <div class="space-y-2">
                     <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">E-mail de Acesso</label>
                     <div class="relative">
@@ -66,7 +62,6 @@
                     </div>
                 </div>
                 
-                <!-- Nome -->
                 <div class="space-y-2">
                     <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest ml-1"
                            [class.text-brand-600]="isEditingMode()">Nome Completo</label>
@@ -82,7 +77,6 @@
                 </div>
                 
                 @if (user().isCliente) {
-                    <!-- CPF -->
                     <div class="space-y-2">
                         <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest ml-1"
                                [class.text-brand-600]="isEditingMode()">CPF</label>
@@ -97,7 +91,6 @@
                         </div>
                     </div>
                     
-                    <!-- Telefone -->
                     <div class="space-y-2">
                         <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest ml-1"
                                [class.text-brand-600]="isEditingMode()">WhatsApp / Telefone</label>
@@ -114,7 +107,6 @@
                 }
             </div>
 
-            <!-- Destaque de Segurança -->
             @if (isEditingMode()) {
               <div class="bg-amber-50/50 border border-amber-100 rounded-2xl p-4 flex items-start gap-4 animate-fade-in">
                   <div class="bg-amber-100 text-amber-600 p-2 rounded-xl shrink-0">

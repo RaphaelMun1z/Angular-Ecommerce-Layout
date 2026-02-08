@@ -17,10 +17,8 @@ export class DashboardAdminPageComponent {
     
     @Input() color: 'dark' | 'light' = 'dark';
     
-    // Estado UI
     isSidebarOpen = signal(false);
     
-    // Dados do Usuário logado
     adminUser = computed(() => this.authService.currentUser());
     
     get fullName(): string {

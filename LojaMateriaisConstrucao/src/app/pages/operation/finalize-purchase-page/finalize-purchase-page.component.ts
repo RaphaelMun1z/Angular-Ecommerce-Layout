@@ -47,8 +47,6 @@ export class FinalizePurchasePageComponent {
     private router = inject(Router);
     private toastr = inject(ToastrService);
 
-    // --- Estado (UI) ---
-    // Mantemos strings simples aqui para facilitar o bind com os Radio Buttons do HTML
     paymentMethod = signal<'credit' | 'pix' | 'boleto'>('pix');
     
     isLoading = signal(false);
@@ -58,7 +56,6 @@ export class FinalizePurchasePageComponent {
     showAddressForm = signal(false);
     editingAddress = signal<any>(null);
 
-    // --- Computed Signals ---
     userEmail = computed(() => this.authService.currentUser()?.email || '');
     cartItems = computed(() => this.carrinhoService.carrinho()?.itens || []);
     subtotal = computed(() => this.carrinhoService.valorTotal());
@@ -73,7 +70,6 @@ export class FinalizePurchasePageComponent {
     total = computed(() => this.subtotal() + this.shippingCost());
 
     constructor() {
-        // Carrega carrinho e endereços
         effect(() => {
             const userId = this.authService.currentUser()?.id;
             if (userId) {
@@ -82,7 +78,6 @@ export class FinalizePurchasePageComponent {
             }
         });
 
-        // Seleciona endereço principal automaticamente
         effect(() => {
             const addrs = this.addresses();
             if (addrs.length > 0 && !this.selectedAddressId()) {
@@ -93,8 +88,6 @@ export class FinalizePurchasePageComponent {
             }
         });
     }
-
-    // --- Ações de Endereço ---
 
     toggleAddressForm() {
         this.showAddressForm.update((v) => !v);
@@ -170,8 +163,6 @@ export class FinalizePurchasePageComponent {
         });
     }
 
-    // --- Ações de Checkout ---
-
     setPayment(method: 'credit' | 'pix' | 'boleto') {
         this.paymentMethod.set(method);
     }
@@ -179,7 +170,6 @@ export class FinalizePurchasePageComponent {
     confirmarPedido() {
         const userId = this.authService.currentUser()?.id;
 
-        // Validações básicas
         if (!userId) {
             this.toastr.error('Erro de autenticação.');
             return;
@@ -204,8 +194,6 @@ export class FinalizePurchasePageComponent {
 
         this.isLoading.set(true);
 
-        // 1. Converter a string da UI ('credit', 'pix') para o Enum do Backend (MetodoPagamento)
-        // Isso garante a tipagem forte que o Service espera.
         let metodoPagamentoEnum: MetodoPagamento;
 
         switch (this.paymentMethod()) {
@@ -221,7 +209,6 @@ export class FinalizePurchasePageComponent {
                 break;
         }
 
-        // 2. Chamar o serviço passando o Enum
         this.checkoutService
             .processarCompraCompleta({
                 userId: userId,
@@ -240,14 +227,11 @@ export class FinalizePurchasePageComponent {
                     
                     this.carrinhoService.limparEstadoLocal();
 
-                    // Verifica se a URL de pagamento existe na resposta
                     const urlPagamento = pedidoCriado.pagamento?.urlPagamento;
 
                     if (urlPagamento) {
-                        // Redireciona o usuário para a AbacatePay
                         window.location.href = urlPagamento;
                     } else {
-                        // Fallback caso não tenha link
                         this.router.navigate(['/pedido-confirmado', pedidoCriado.id]);
                         this.isLoading.set(false);
                     }

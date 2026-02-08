@@ -54,9 +54,7 @@ export class HeroCarouselComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.stopTimer();
     }
-    
-    // --- Lógica de Navegação ---
-    
+        
     nextSlide() {
         this.currentSlide = (this.currentSlide + 1) % this.slides.length;
         this.resetTimer();
@@ -71,13 +69,11 @@ export class HeroCarouselComponent implements OnInit, OnDestroy {
         this.currentSlide = index;
         this.resetTimer();
     }
-    
-    // --- Controle do Timer ---
-    
+        
     private startTimer() {
         this.intervalId = setInterval(() => {
             this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-        }, 5000); // Muda a cada 5 segundos
+        }, 5000);
     }
     
     private stopTimer() {

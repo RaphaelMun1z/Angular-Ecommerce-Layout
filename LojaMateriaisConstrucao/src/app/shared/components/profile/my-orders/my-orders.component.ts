@@ -46,7 +46,6 @@ export class MyOrdersComponent implements OnInit {
         });
     }
     
-    // Helpers de UI para Status
     getStatusLabel(status: StatusPedido): string {
         const labels: Record<StatusPedido, string> = {
             [StatusPedido.AGUARDANDO_PAGAMENTO]: 'Aguardando Pagamento',

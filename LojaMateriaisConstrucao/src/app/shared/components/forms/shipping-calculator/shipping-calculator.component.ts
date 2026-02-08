@@ -37,12 +37,10 @@ export class ShippingCalculatorComponent {
         
         this.isLoading.set(true);
         
-        // Simula um delay de rede
         setTimeout(() => {
             this.isLoading.set(false);
             this.isCalculated.set(true);
             
-            // Auto-seleciona a primeira opção (mais barata) por padrão
             this.selectOption(this.shippingOptions()[0]);
         }, 800);
     }

@@ -14,30 +14,20 @@ export class MyAccountAreaComponent {
     
     isMenuOpen = signal(false);
     
-    // Expomos os sinais do serviço diretamente para facilitar
     user = this.authService.currentUser;
     isAdmin = this.authService.isAdmin;
     
-    /**
-    * userName Computado: Reage automaticamente quando o sinal do usuário no AuthService muda.
-    */
     userName = computed(() => {
         const u = this.user();
         if (u?.name) return u.name.split(' ')[0];
         return u?.email?.split('@')[0] || 'Minha Conta';
     });
     
-    /**
-    * userAvatar Computado: 
-    * Se o usuário tiver avatar (URL do backend), usa ela.
-    * Se não, gera o fallback do ui-avatars.
-    */
     userAvatar = computed(() => {
         const u = this.user();
         if (u?.avatar) {
             return u.avatar;
         }
-        // Fallback dinâmico baseado no nome ou e-mail
         const identifier = this.userName();
         return `https://ui-avatars.com/api/?name=${identifier}&background=0f172a&color=fff&size=128`;
     });
@@ -54,9 +44,6 @@ export class MyAccountAreaComponent {
         this.isMenuOpen.set(false);
     }
     
-    /**
-    * Tratamento de erro de carregamento de imagem (ex: 404 no servidor de arquivos)
-    */
     handleImageError(event: any) {
         event.target.src = `https://ui-avatars.com/api/?name=${this.userName()}&background=0f172a&color=fff&size=128`;
     }

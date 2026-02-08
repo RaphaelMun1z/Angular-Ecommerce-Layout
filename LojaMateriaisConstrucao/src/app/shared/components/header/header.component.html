@@ -5,16 +5,13 @@
         
         <app-central-search-bar></app-central-search-bar>
         
-        <!-- Ações do Usuário -->
         <div class="flex items-center gap-2 sm:gap-4 min-w-fit justify-end">
-            <!-- Busca Mobile -->
             <button class="md:hidden text-gray-600 p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <i class="ph ph-magnifying-glass text-2xl"></i>
             </button>
             
             <app-wrapper-cart></app-wrapper-cart>
             
-            <!-- Lógica de Autenticação -->
             @if (authService.isAuthenticated()) {
                 <app-my-account-area></app-my-account-area>
             } @else {

@@ -9,7 +9,6 @@ import { ToastService } from '../../../../services/toast.service';
     styleUrl: './toast.component.css'
 })
 export class ToastComponent {
-    // Injeta o serviço global
     public toastService = inject(ToastService);
     
     getThemeClasses() {

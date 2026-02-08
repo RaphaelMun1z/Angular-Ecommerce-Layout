@@ -66,7 +66,6 @@ export const routes: Routes = [
                 component: OrderPageComponent, 
                 canActivate: [authGuard]
             },
-            // CONFIGURAÇÃO DE ROTAS FILHAS PARA O PERFIL
             { 
                 path: 'perfil', 
                 component: ProfilePageComponent,

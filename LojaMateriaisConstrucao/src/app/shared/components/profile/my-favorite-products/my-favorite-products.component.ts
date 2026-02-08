@@ -50,12 +50,10 @@ export class MyFavoriteProductsComponent {
     }
     
     removeFavorite(item: Favorito) {
-        // Atualização Otimista
         this.favorites.update(list => list.filter(fav => fav.id !== item.id));
         this.favoritoService.remover(item.produtoId);
     }
     
-    // Recebe o Produto convertido vindo do evento do Card
     addToCart(product: Produto) {
         const userId = this.authService.currentUser()?.id;
         
@@ -85,11 +83,7 @@ export class MyFavoriteProductsComponent {
         }
     }
     
-    // Conversor Robusto: Backend FavoritoDTO -> Frontend Produto
     mapToProduto(fav: Favorito): Produto {
-        // Lógica de Preço:
-        // Se tiver precoOriginal, ele é o "De", e o preco é o "Por" (Promocional)
-        // Se não tiver, o preco é o valor normal.
         const hasPromo = !!fav.precoOriginal;
         
         return {
@@ -98,14 +92,12 @@ export class MyFavoriteProductsComponent {
             codigoControle: fav.codigoControle,
             descricao: fav.descricao,
             
-            // Se tem promoção, o preço base é o original, senão é o atual
             preco: hasPromo ? fav.precoOriginal! : fav.preco,
             precoPromocional: hasPromo ? fav.preco : undefined,
             
-            estoque: fav.emEstoque ? 100 : 0, // Mock numérico
+            estoque: fav.emEstoque ? 100 : 0, 
             ativo: true,
             
-            // Mock parcial da categoria apenas para exibição do nome
             categoria: { 
                 id: '', 
                 nome: fav.categoria, 
@@ -114,7 +106,6 @@ export class MyFavoriteProductsComponent {
                 subcategorias: [] 
             },
             
-            // Converte lista de strings (URLs) para objetos ImagemProduto
             imagens: fav.imagens ? fav.imagens.map((url, index) => ({
                 id: `img-${index}`,
                 url: url,

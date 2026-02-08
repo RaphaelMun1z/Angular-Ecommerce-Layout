@@ -11,15 +11,12 @@ import { Observable, tap } from 'rxjs';
 export class CatalogoService {
     private http = inject(HttpClient);
     private apiUrl = `${environment.apiUrl}`;
-    
-    // --- PRODUTOS ---
-    
+        
     listarProdutosVitrine(pageable?: PageableParams): Observable<Page<Produto>> {
         let params = this.buildPageParams(pageable);
         return this.http.get<Page<Produto>>(`${this.apiUrl}/produtos/vitrine`, { params });
     }
     
-    // Admin: Listar todos (ativos e inativos)
     listarTodosProdutosAdmin(pageable?: PageableParams): Observable<Page<Produto>> {
         let params = this.buildPageParams(pageable);
         return this.http.get<Page<Produto>>(`${this.apiUrl}/produtos`, { params });
@@ -59,9 +56,7 @@ export class CatalogoService {
     desativarProduto(id: string): Observable<void> {
         return this.http.patch<void>(`${this.apiUrl}/produtos/${id}/desativar`, {});
     }
-    
-    // --- CATEGORIAS ---
-    
+        
     listarCategoriasAtivas(pageable?: PageableParams): Observable<Page<Categoria>> {
         const params = this.buildPageParams(pageable);
         return this.http.get<Page<Categoria>>(`${this.apiUrl}/categorias/ativas`, { params });

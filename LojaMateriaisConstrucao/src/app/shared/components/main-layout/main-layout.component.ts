@@ -20,16 +20,14 @@ export class MainLayoutComponent implements OnInit {
     private catalogoService = inject(CatalogoService);
     private route = inject(ActivatedRoute);
     
-    // Dados de Produtos
     produtos = signal<Produto[]>([]);
     loading = signal(true);
     hasError = signal(false);
     
-    // Estado da Paginação (Baseado no seu JSON de exemplo)
     totalItems = signal(0);
     totalPages = signal(0);
-    currentPage = signal(0); // Começa em 0 (padrão Spring)
-    pageSize = signal(12);   // Itens por página
+    currentPage = signal(0); 
+    pageSize = signal(12); 
     
     isMobileFilterOpen = signal(false);
     viewMode = signal<'grid' | 'list'>('grid');
@@ -65,14 +63,11 @@ export class MainLayoutComponent implements OnInit {
         
         requisicao$.subscribe({
             next: (response: any) => {
-                // Mapeia os dados conforme o JSON fornecido (response.content e response.page)
                 this.produtos.set(response.content);
                 
                 if (response.page) {
                     this.totalItems.set(response.page.totalElements);
                     this.totalPages.set(response.page.totalPages);
-                    // O seu JSON mostra "number: 1" para a primeira página, mas o Spring usa 0-indexed. 
-                    // Ajuste aqui se sua API for 1-indexed. Ex: this.currentPage.set(response.page.number - 1);
                     this.currentPage.set(response.page.number); 
                 }
                 
@@ -94,7 +89,7 @@ export class MainLayoutComponent implements OnInit {
     
     aplicarFiltros(filtro: ProdutoFiltro) {
         this.currentFilter.set(filtro);
-        this.currentPage.set(0); // Volta para primeira página ao filtrar
+        this.currentPage.set(0);
         this.carregarDados();
     }
     

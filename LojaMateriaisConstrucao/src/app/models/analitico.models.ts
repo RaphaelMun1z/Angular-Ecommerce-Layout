@@ -1,7 +1,5 @@
 import { Pedido } from './pedido.models';
 
-// --- NOTIFICAÇÕES ---
-
 export enum TipoCanal {
     EMAIL = 'EMAIL',
     SMS = 'SMS',
@@ -25,8 +23,6 @@ export interface Notificacao {
     status: StatusEnvio;
     dataEnvio: string;
 }
-
-// --- DASHBOARD ---
 
 export interface StatCard {
     title: string;

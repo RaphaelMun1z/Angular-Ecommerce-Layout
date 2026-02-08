@@ -1,6 +1,5 @@
 <div class="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
     
-    <!-- Título e Contador -->
     <div class="flex items-center gap-3 self-start sm:self-center">
         <div class="bg-brand-50 text-brand-600 p-2 rounded-lg">
             <i class="ph-fill ph-squares-four text-xl"></i>
@@ -13,10 +12,8 @@
         </div>
     </div>
     
-    <!-- Controles -->
     <div class="flex items-center gap-3 w-full sm:w-auto">
         
-        <!-- Toggle de Visualização -->
         <div class="hidden sm:flex bg-gray-100 p-1 rounded-lg mr-2">
             <button (click)="setView('grid')" 
                     class="p-1.5 rounded-md transition-all"
@@ -32,7 +29,6 @@
         
         <div class="h-8 w-px bg-gray-200 hidden sm:block mx-1"></div>
         
-        <!-- Ordenação -->
         <div class="relative w-full sm:w-52 group">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i class="ph ph-arrows-down-up text-gray-400 group-focus-within:text-brand-500 transition-colors"></i>

@@ -1,6 +1,5 @@
 <div class="w-full overflow-hidden">
     
-    <!-- Cabeçalho (Simplificado e sem borda inferior pesada) -->
     <div class="flex justify-between items-center mb-4">
         <div class="flex items-center gap-2">
             <div class="bg-brand-50 p-1.5 rounded-lg text-brand-600">
@@ -17,7 +16,6 @@
     </div>
 
     <div>
-        <!-- Input de CEP (Visual Minimalista) -->
         @if (!isCalculated()) {
             <div class="flex gap-2">
                 <div class="relative flex-1 group">
@@ -44,7 +42,6 @@
             <p class="text-[10px] text-gray-400 mt-2 ml-1 italic">Informe o CEP para ver prazos e valores.</p>
         }
 
-        <!-- Opções de Frete (Estilizadas como cards internos) -->
         @if (isCalculated()) {
             <div class="space-y-2 animate-fade-in">
                 @for (option of shippingOptions(); track option.id) {

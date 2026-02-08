@@ -1,11 +1,9 @@
-/* Sidebar Link Active State */
 .sidebar-link.active {
-    background-color: #fff7ed; /* brand-50 */
-    color: #ea580c; /* brand-600 */
+    background-color: #fff7ed; 
+    color: #ea580c; 
     border-right: 3px solid #ea580c;
 }
 
-/* Animação Fade In */
 .animate-fade-in {
     animation: fadeIn 0.5s ease-out forwards;
 }

@@ -15,11 +15,9 @@ import { AnaliticoService } from '../../../services/analitico.service';
 export class MainPageComponent implements OnInit {
     private analiticoService = inject(AnaliticoService);
 
-    // Filtros de Período (A lógica de filtro pode ser expandida no backend futuramente)
     periods = ['Hoje', '7 Dias', 'Este Mês'];
     activePeriod = signal('Este Mês');
     
-    // Estados Reativos para Dados Reais
     stats = signal<StatCard[]>([]);
     recentOrders = signal<Pedido[]>([]);
     isLoading = signal(true);
@@ -35,7 +33,6 @@ export class MainPageComponent implements OnInit {
     
     loadDashboardData() {
         this.isLoading.set(true);
-        // Chama o endpoint real do backend (GET /api/dashboard/visao-geral)
         this.analiticoService.obterVisaoGeral().subscribe({
             next: (data) => {
                 this.stats.set(data.stats);
@@ -49,13 +46,9 @@ export class MainPageComponent implements OnInit {
         });
     }
     
-    /* =====================
-     * Helpers Visuais de Status
-     * ===================== */
     getStatusClass(status: string) {
         const base = 'px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wide font-bold border ';
         
-        // Mapeamento para os Enums reais do Backend
         const styles: Record<string, string> = {
             'PAGO': 'bg-green-50 text-green-700 border-green-200',
             'PENDENTE': 'bg-yellow-50 text-yellow-700 border-yellow-200',

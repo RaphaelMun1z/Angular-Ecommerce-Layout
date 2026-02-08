@@ -56,7 +56,7 @@ export class OrderConfirmedPageComponent implements OnInit {
                 particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#10B981', '#34D399', '#FBBF24', '#ffffff'], // Cores: Verde, Verde Claro, Dourado, Branco
+                colors: ['#10B981', '#34D399', '#FBBF24', '#ffffff'],
             });
 
             setTimeout(() => {

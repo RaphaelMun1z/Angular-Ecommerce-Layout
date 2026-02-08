@@ -21,26 +21,22 @@ export class PersonalDataFormComponent implements OnInit {
     private usuarioService = inject(UsuarioService);
     private toastService = inject(ToastService);
     
-    // Estados de Controle
     isEditingMode = signal(false);
     isUploading = signal(false);
     isSaving = signal(false);
     
-    // Objeto para bind do formulário
     formData = {
         nome: '',
         telefone: '',
         cpf: ''
     };
     
-    // Backup para restauração em caso de cancelamento
     private originalData = {
         nome: '',
         telefone: '',
         cpf: ''
     };
     
-    // Signal para visualização e controle de UI
     user = signal({
         email: '',
         avatar: '',
@@ -59,7 +55,6 @@ export class PersonalDataFormComponent implements OnInit {
                     isCliente: isCliente
                 });
                 
-                // Só sincroniza os inputs automaticamente se NÃO estiver no meio de uma edição
                 if (!this.isEditingMode()) {
                     this.updateLocalData(currentUser);
                 }
@@ -86,7 +81,7 @@ export class PersonalDataFormComponent implements OnInit {
     }
     
     cancelEditing() {
-        this.formData = { ...this.originalData }; // Restaura backup
+        this.formData = { ...this.originalData };
         this.isEditingMode.set(false);
     }
     

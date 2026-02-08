@@ -19,17 +19,14 @@ export class RecoverPasswordPageComponent implements OnInit {
     private fb = inject(FormBuilder);
     private toastService = inject(ToastService);
     
-    // Estado
     isLoading = signal(false);
     isSuccess = signal(false);
     
-    // Formulário
     recoveryForm: FormGroup = this.fb.group({
         email: ['', [Validators.required, Validators.email]]
     });
 
     ngOnInit() {
-        // Verifica saúde do sistema ao entrar
         this.systemStatus.checkHealth();
     }
 
@@ -51,7 +48,6 @@ export class RecoverPasswordPageComponent implements OnInit {
 
             this.isLoading.set(true);
             
-            // Simulação de chamada API de recuperação
             setTimeout(() => {
                 this.isLoading.set(false);
                 this.isSuccess.set(true);

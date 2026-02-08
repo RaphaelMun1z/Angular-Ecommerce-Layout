@@ -11,13 +11,10 @@ import { FaqItem } from '../../../shared/interfaces/FaqItem';
 })
 
 export class FaqPageComponent {
-    // Estado da Busca
     searchTerm = '';
     
-    // Controle do Accordion (Armazena a pergunta aberta atualmente)
     openQuestion = signal<string | null>(null);
     
-    // Dados Originais
     allFaqs: FaqItem[] = [
         {
             question: 'Qual o prazo de entrega?',
@@ -41,10 +38,8 @@ export class FaqPageComponent {
         }
     ];
     
-    // Lista Filtrada (Inicialmente igual a lista completa)
     filteredFaqs: FaqItem[] = [...this.allFaqs];
     
-    // Lógica de Filtro
     filterFaqs() {
         if (!this.searchTerm.trim()) {
             this.filteredFaqs = [...this.allFaqs];
@@ -58,9 +53,7 @@ export class FaqPageComponent {
         );
     }
     
-    // Lógica do Accordion
     toggleAccordion(item: FaqItem) {
-        // Se clicar no que já está aberto, fecha. Se não, abre o novo.
         if (this.openQuestion() === item.question) {
             this.openQuestion.set(null);
         } else {

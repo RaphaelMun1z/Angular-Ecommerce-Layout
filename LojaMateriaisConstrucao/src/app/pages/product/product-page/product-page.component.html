@@ -1,4 +1,3 @@
-<!-- 1. ESTADO: SISTEMA OFFLINE -->
 @if (systemStatus.isSystemOffline()) {
     <div class="h-screen flex flex-col items-center justify-center bg-gray-50/50 px-4 text-center animate-fade-in">
         <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 max-w-sm w-full">
@@ -17,20 +16,15 @@
     </div>
 }
 
-<!-- 2. ESTADO: CARREGAMENTO (Loading Minimalista) -->
 @else if (loading()) {
     <div class="h-screen flex flex-col items-center justify-center bg-white animate-fade-in relative overflow-hidden">
-        <!-- Elementos decorativos de fundo (ondas de pulso) -->
         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div class="w-40 h-40 bg-brand-50 rounded-full animate-ping opacity-20"></div>
             <div class="absolute w-64 h-64 bg-brand-50 rounded-full animate-ping opacity-10" style="animation-delay: 0.5s"></div>
         </div>
 
-        <!-- Container Central -->
         <div class="relative flex flex-col items-center">
-            <!-- Loader SVG Customizado -->
             <div class="relative w-24 h-24 mb-8">
-                <!-- Alterado de animate-spin-slow para animate-spin para garantir funcionamento -->
                 <svg class="w-full h-full animate-spin" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="none" stroke="#f1f5f9" stroke-width="8" />
                     <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="8" 
@@ -43,7 +37,6 @@
                 </div>
             </div>
 
-            <!-- Texto Animado -->
             <div class="text-center space-y-2">
                 <h3 class="text-sm font-black text-gray-900 uppercase tracking-[0.3em] ml-1">Sincronizando</h3>
                 <div class="flex items-center justify-center gap-1">
@@ -59,12 +52,10 @@
     </div>
 }  
 
-<!-- 3. BLOCO DE RESULTADO (Encontrado ou Não) -->
 @else {
     @if (product(); as p) {
         <main class="container mx-auto px-4 pt-28 pb-12 animate-fade-in">
             
-            <!-- Navegação Breadcrumb -->
             <nav class="flex text-sm text-gray-500 mb-8 overflow-x-auto whitespace-nowrap pb-2 items-center">
                 <a routerLink="/" class="hover:text-brand-600 transition-colors flex items-center gap-1 font-medium">
                     <i class="ph-fill ph-house"></i> Home
@@ -77,19 +68,15 @@
                 <span class="text-gray-900 font-bold truncate">{{ p.titulo }}</span>
             </nav>
             
-            <!-- Seção Principal do Produto -->
             <div class="bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-gray-100 flex flex-col lg:flex-row gap-12">
                 
-                <!-- Coluna Esquerda: Galeria de Imagens com Zoom -->
                 <div class="w-full lg:w-7/12 xl:w-1/2 flex flex-col gap-6">
                     
-                    <!-- Container da Imagem Principal (ZOOM) -->
                     <div 
                     class="relative w-full aspect-square bg-white rounded-3xl overflow-hidden border border-gray-100 group cursor-zoom-in flex items-center justify-center shadow-inner"
                     (mousemove)="onMouseMove($event)"
                     (mouseleave)="onMouseLeave()">
                     
-                        <!-- Imagem Real -->
                         <img 
                         [src]="currentImage()" 
                         [alt]="p.titulo"
@@ -97,7 +84,6 @@
                         [style.transform]="zoomTransform()"
                         [style.transform-origin]="zoomOrigin()">
                         
-                        <!-- Badges Unificados -->
                         <div class="absolute top-6 left-6 flex flex-col gap-3 z-10 pointer-events-none">
                             @if (p.precoPromocional) {
                                 <div class="flex items-center gap-2 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-sm">
@@ -121,7 +107,6 @@
                             }
                         </div>
                         
-                        <!-- Botão Favorito Flutuante -->
                         <button (click)="toggleFavorite()" 
                                 class="absolute top-6 right-6 p-4 rounded-2xl shadow-sm backdrop-blur-md transition-all z-20 group/heart border border-gray-100 hover:scale-110 active:scale-95"
                                 [ngClass]="favoritoService.isFavorito(p.id) 
@@ -131,7 +116,6 @@
                         </button>
                     </div>
                     
-                    <!-- Thumbnails -->
                     <div class="grid grid-cols-5 gap-4">
                         @for (img of productImages(); track $index) {
                             <div 
@@ -144,7 +128,6 @@
                     </div>
                 </div>
                 
-                <!-- Coluna Direita: Informações de Compra -->
                 <div class="w-full lg:w-5/12 xl:w-1/2 flex flex-col">
                     <div class="mb-8 border-b border-gray-50 pb-8">
                         <div class="flex items-center justify-between mb-4">
@@ -170,7 +153,6 @@
                         </div>
                     </div>
                     
-                    <!-- Preço e Pagamento -->
                     <div class="mb-10">
                         <div class="flex items-baseline gap-3 flex-wrap mb-2">
                             @if (p.precoPromocional) {
@@ -186,9 +168,7 @@
                             <span class="text-xs font-bold text-gray-400 mb-2 ml-1">à vista</span>
                         </div>
                         
-                        <!-- Formas de Pagamento -->
                         <div class="grid grid-cols-3 gap-3 mb-6">
-                            <!-- PIX -->
                             <div class="group relative flex flex-col items-center justify-center p-3 rounded-2xl border border-gray-100 bg-white hover:border-green-200 hover:bg-green-50/30 hover:shadow-md transition-all cursor-pointer h-full">
                                 <div class="flex items-center gap-1.5 mb-1.5">
                                     <i class="ph-bold ph-pix-logo text-green-600 text-lg"></i>
@@ -197,7 +177,6 @@
                                 <span class="text-[9px] font-bold text-green-600 bg-green-100/50 px-2 py-0.5 rounded-full">-5% OFF</span>
                             </div>
 
-                            <!-- BOLETO -->
                             <div class="group flex flex-col items-center justify-center p-3 rounded-2xl border border-gray-100 bg-white hover:border-gray-300 hover:shadow-md transition-all cursor-pointer h-full">
                                 <div class="flex items-center gap-1.5 mb-1.5">
                                     <i class="ph-bold ph-barcode text-gray-500 text-lg"></i>
@@ -206,7 +185,6 @@
                                 <span class="text-[9px] text-gray-400 font-medium">À vista</span>
                             </div>
 
-                            <!-- CARTÃO -->
                             <div class="group relative flex flex-col items-center justify-center p-3 rounded-2xl border border-gray-100 bg-white hover:border-brand-200 hover:bg-brand-50/10 hover:shadow-md transition-all cursor-pointer h-full">
                                 <div class="flex items-center gap-1.5 mb-1.5">
                                     <i class="ph-bold ph-credit-card text-brand-600 text-lg"></i>
@@ -214,7 +192,6 @@
                                 </div>
                                 <span class="text-[9px] text-brand-600 font-bold bg-brand-50/50 px-2 py-0.5 rounded-full">12x</span>
 
-                                <!-- Tooltip de Parcelas -->
                                 <div class="absolute right-0 top-full mt-3 w-64 bg-white border border-gray-100 rounded-2xl shadow-lg z-30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto overflow-hidden">
                                     <div class="bg-gray-50/50 px-4 py-3 border-b border-gray-50 flex justify-between items-center">
                                         <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Parcelamento</span>
@@ -239,7 +216,6 @@
                         </div>
                     </div>
                     
-                    <!-- Ações de Compra -->
                     <div class="flex flex-col sm:flex-row gap-4 mb-10">
                         <div class="flex items-center justify-between border-2 border-gray-100 rounded-2xl bg-white w-full sm:w-44 hover:border-gray-300 transition-colors p-1.5">
                             <button class="w-11 h-11 flex items-center justify-center text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-all active:scale-90" 
@@ -264,7 +240,6 @@
                 </div>
             </div>
             
-            <!-- SEÇÃO DE DETALHES (Abas) -->
             <div class="mt-16 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                 <nav class="border-b border-gray-100 bg-gray-50/20 px-8 flex gap-10">
                     <button (click)="setActiveTab('overview')" class="relative py-6 text-sm font-bold transition-colors focus:outline-none" [class.text-brand-600]="activeTab() === 'overview'" [class.text-gray-400]="activeTab() !== 'overview'">
@@ -347,7 +322,6 @@
         </main>
     }
     @else {
-        <!-- 4. ESTADO: PRODUTO NÃO ENCONTRADO (Redimensionado e Soft Shadow) -->
         <div class="h-screen flex flex-col items-center justify-center bg-gray-50/50 px-4 text-center animate-fade-in">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 max-w-sm w-full relative overflow-hidden">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gray-50 text-gray-300 mb-6 shadow-inner">

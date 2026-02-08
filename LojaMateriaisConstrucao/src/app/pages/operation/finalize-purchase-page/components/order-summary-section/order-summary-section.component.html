@@ -1,11 +1,9 @@
 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
     <h3 class="font-bold text-gray-900 mb-4">Resumo do Pedido</h3>
 
-    <!-- Lista de Itens (Scrollável) -->
     <div class="max-h-60 overflow-y-auto space-y-3 mb-6 pr-2 scrollbar-thin">
         @for (item of cartItems(); track item.id) {
             <div class="flex gap-3">
-                <!-- Placeholder de Imagem -->
                 <div
                     class="w-12 h-12 bg-gray-50 rounded border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center text-gray-300"
                 >
@@ -31,7 +29,6 @@
         }
     </div>
 
-    <!-- Valores -->
     <div class="space-y-2 border-t border-gray-100 pt-4 mb-6">
         <div class="flex justify-between text-sm text-gray-600">
             <span>Subtotal</span>
@@ -39,7 +36,6 @@
         </div>
         <div class="flex justify-between text-sm text-gray-600">
             <span>Frete</span>
-            <!-- Exibindo dinamicamente baseado na seleção -->
             @if (selectedShippingMethod() === "economic") {
                 <span class="text-green-600 font-medium">Grátis</span>
             } @else if (selectedShippingMethod() === "fast") {
@@ -58,7 +54,6 @@
         </div>
     </div>
 
-    <!-- Botão Finalizar -->
     <button
         (click)="confirmarPedido()"
         [disabled]="

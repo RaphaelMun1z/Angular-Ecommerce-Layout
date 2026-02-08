@@ -18,16 +18,13 @@ export class MyAddressesComponent {
     private usuarioService = inject(UsuarioService);
     private toastr = inject(ToastrService);
     
-    // Estado da UI
     showForm = signal(false);
     editingAddress = signal<any>(null);
     
-    // Estados de Carregamento e Erro
     isLoading = signal(true);
     hasError = signal(false);
     saveError = signal(false);
     
-    // Dados Locais
     addresses = signal<Endereco[]>([]);
     
     constructor() {
@@ -43,7 +40,6 @@ export class MyAddressesComponent {
         this.isLoading.set(true);
         this.hasError.set(false);
         
-        // CORREÇÃO: Usando o método do serviço em vez de chamar HTTP direto
         this.usuarioService.listarEnderecos(userId).subscribe({
             next: (lista) => {
                 this.addresses.set(lista);
@@ -61,9 +57,7 @@ export class MyAddressesComponent {
         const userId = this.authService.currentUser()?.id;
         if (userId) this.carregarEnderecos(userId);
     }
-    
-    // --- Gestão do Formulário ---
-    
+        
     toggleForm() {
         this.showForm.update(v => !v);
         this.saveError.set(false);
@@ -77,7 +71,6 @@ export class MyAddressesComponent {
         this.showForm.set(true);
         this.saveError.set(false);
         
-        // Pequeno delay para garantir que o elemento existe no DOM antes do scroll
         setTimeout(() => {
             const formElement = document.querySelector('app-address-form');
             if (formElement) {
@@ -114,9 +107,7 @@ export class MyAddressesComponent {
         const newAddress = { ...addressData, principal: addressData.principal || isFirst };
         return this.usuarioService.adicionarEndereco(userId, newAddress);
     }
-    
-    // --- Ações da Lista ---
-    
+        
     deleteAddress(id: string) {
         const userId = this.authService.currentUser()?.id;
         if (!userId) return;

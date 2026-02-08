@@ -21,11 +21,9 @@ export class ProductGridComponent {
     private authService = inject(AuthService);
     private router = inject(Router);
     
-    // Dados e Layout
     @Input() products: Produto[] = []; 
     @Input() viewMode: 'grid' | 'list' = 'grid';
     
-    // Metadados de Paginação
     @Input() totalElements = 0;
     @Input() totalPages = 0;
     @Input() currentPage = 0;
@@ -34,7 +32,6 @@ export class ProductGridComponent {
     
     selectedProduct = signal<Produto | null>(null);
     
-    // Gera o array de números de página para o @for
     get pagesArray(): number[] {
         return Array.from({ length: this.totalPages }, (_, i) => i);
     }
@@ -42,7 +39,6 @@ export class ProductGridComponent {
     changePage(page: number) {
         if (page >= 0 && page < this.totalPages && page !== this.currentPage) {
             this.pageChange.emit(page);
-            // Scroll suave para o topo do grid ao mudar de página
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }

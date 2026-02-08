@@ -1,5 +1,3 @@
-// --- CATEGORIAS ---
-
 export interface Categoria {
     id: string;
     nome: string;
@@ -17,8 +15,6 @@ export interface CategoriaRequest {
     ativa: boolean;
     categoriaPaiId?: string | null;
 }
-
-// --- PRODUTOS ---
 
 export interface ImagemProduto {
     id: string;
@@ -71,10 +67,8 @@ export interface ProdutoRequest {
     pesoKg?: number;
     dimensoes?: string;
     categoriaId: string;
-    imagens: string[]; // ADICIONADO: Lista de URLs para envio
+    imagens: string[];
 }
-
-// --- FILTROS ---
 
 export interface ProdutoFiltro {
     termo?: string;

@@ -2,7 +2,6 @@
      (mouseenter)="onMouseEnter()" 
      (mouseleave)="onMouseLeave()">
     
-    <!-- Trigger -->
     <div class="flex items-center gap-3 pl-2 border-l border-gray-200 cursor-pointer group/profile h-10" 
          (click)="toggleMenu()">
         
@@ -13,7 +12,6 @@
             </p>
         </div>
         
-        <!-- Avatar com Signal Computado -->
         <div class="w-10 h-10 rounded-full bg-gray-100 overflow-hidden border-2 border-white shadow-sm group-hover/profile:border-brand-200 transition-all ring-2 ring-transparent group-hover/profile:ring-brand-50">
             <img [src]="userAvatar()" 
                  [alt]="userName()"
@@ -25,7 +23,6 @@
            [ngClass]="{'rotate-180': isMenuOpen()}"></i>
     </div>
 
-    <!-- Dropdown Menu -->
     @if (isMenuOpen()) {
         <div class="absolute right-0 top-full pt-2 w-64 animate-fade-in origin-top-right">
             <div class="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden ring-1 ring-black/5">

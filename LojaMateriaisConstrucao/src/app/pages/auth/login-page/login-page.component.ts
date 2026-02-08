@@ -24,10 +24,8 @@ export class LoginPageComponent implements OnInit {
     private router = inject(Router);
     private toastService = inject(ToastService);
     
-    // Injetamos o serviço global de status
     public systemStatus = inject(SystemStatusService);
     
-    // Estados do Formulário
     isLoading = signal(false);
     showPassword = signal(false);
     
@@ -38,7 +36,7 @@ export class LoginPageComponent implements OnInit {
     
     ngOnInit() {
         this.authService.logout();
-        this.systemStatus.checkHealth(); // Usa o serviço global
+        this.systemStatus.checkHealth();
     }
     
     get fullName(): string {
@@ -74,7 +72,6 @@ export class LoginPageComponent implements OnInit {
                 error: (err) => {
                     this.isLoading.set(false);
                     
-                    // Se o login falhar por rede, avisamos o serviço global
                     if (err.status === 0) {
                         this.systemStatus.setOffline(true);
                     } else {

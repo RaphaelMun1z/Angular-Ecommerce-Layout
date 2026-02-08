@@ -17,7 +17,7 @@ export class AddressFormComponent implements OnInit {
     private http = inject(HttpClient);
     private toastr = inject(ToastrService);
     
-    @Input() initialData: any = null; // Dados para edição
+    @Input() initialData: any = null;
     @Output() save = new EventEmitter<any>();
     @Output() cancel = new EventEmitter<void>();
     

@@ -18,17 +18,13 @@ export class AdminCustomersPageComponent implements OnInit {
   private usuarioService = inject(UsuarioService);
   private toastr = inject(ToastrService);
 
-  // Estado da UI
   isLoading = signal(true);
   searchTerm = signal('');
 
-  // Dados
   customers = signal<Cliente[]>([]);
   totalElements = signal(0);
   currentPage = signal(0);
   pageSize = signal(10);
-
-  // --- LÓGICA DE PAGINAÇÃO (Idêntica ao Catálogo) ---
 
   totalPages = computed(() => {
     const total = Number(this.totalElements());
@@ -37,7 +33,6 @@ export class AdminCustomersPageComponent implements OnInit {
     return Math.ceil(total / size);
   });
 
-  // Calcula quais números de página mostrar (ex: 1, 2, 3, 4, 5)
   visiblePages = computed(() => {
     const total = this.totalPages();
     const current = this.currentPage();
@@ -61,33 +56,28 @@ export class AdminCustomersPageComponent implements OnInit {
     this.loadCustomers();
   }
 
-  // Busca com reset de página
   onSearch(term: string) {
     this.searchTerm.set(term);
     this.currentPage.set(0);
     this.loadCustomers();
   }
 
-  // Mudança de tamanho da página
   updatePageSize(newSize: string | number) {
     this.pageSize.set(Number(newSize));
     this.currentPage.set(0);
     this.loadCustomers();
   }
 
-  // Navegação direta
   goToPage(page: number) {
     if (page !== this.currentPage()) {
       this.changePage(page);
     }
   }
 
-  // Navegação relativa (Anterior/Próxima)
   changePage(newPage: number) {
     if (newPage >= 0 && newPage < this.totalPages()) {
       this.currentPage.set(newPage);
       this.loadCustomers();
-      // Scroll suave para o topo da tabela
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
@@ -100,12 +90,10 @@ export class AdminCustomersPageComponent implements OnInit {
       sort: 'nome,asc',
     };
 
-    // Passa o termo de busca se existir
     this.usuarioService
       .listarTodosClientes(params, this.searchTerm())
       .subscribe({
         next: (page: any) => {
-          // Suporte flexível para diferentes estruturas de resposta
           const content = page.content || page.data || [];
           let total = 0;
 

@@ -13,7 +13,6 @@ export class GridHeaderComponent {
     @Input() totalItems = 0;
     @Input() viewMode: 'grid' | 'list' = 'grid';
     
-    // Eventos para o Pai (MainLayout)
     @Output() viewModeChange = new EventEmitter<'grid' | 'list'>();
     @Output() sortChange = new EventEmitter<string>();
     
@@ -21,12 +20,10 @@ export class GridHeaderComponent {
     
     setView(mode: 'grid' | 'list') {
         this.viewMode = mode;
-        this.viewModeChange.emit(mode); // Emite para o pai atualizar o sinal
+        this.viewModeChange.emit(mode);
     }
     
     onSortChange() {
-        // Mapeia para o padrão do Spring Boot (campo,direção)
-        // As propriedades devem bater com a Entidade Java (Produto.java)
         let sortParam = '';
         
         switch (this.selectedSort) {
@@ -43,7 +40,7 @@ export class GridHeaderComponent {
             sortParam = 'dataCriacao,desc'; 
             break;
             default: 
-            sortParam = ''; // Relevância (sem sort explícito)
+            sortParam = '';
         }
         
         this.sortChange.emit(sortParam);

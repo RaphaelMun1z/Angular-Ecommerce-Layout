@@ -4,6 +4,6 @@ export interface ReportType {
     description: string;
     icon: string;
     category: 'Vendas' | 'Estoque' | 'Clientes' | 'Financeiro';
-    colorClass: string; // Cor do ícone/bg
-    selectedPeriod: string; // Estado local do filtro
+    colorClass: string; 
+    selectedPeriod: string;
 }

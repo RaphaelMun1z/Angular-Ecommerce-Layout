@@ -28,7 +28,6 @@ export class RegisterPageComponent implements OnInit {
     isLoading = signal(false);
     showPassword = signal(false);
     
-    // Formulário adaptado ao modelo RegisterRequest
     signupForm: FormGroup = this.fb.group({
         name: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.email]],
@@ -40,7 +39,6 @@ export class RegisterPageComponent implements OnInit {
     }, { validators: this.passwordMatchValidator });
     
     ngOnInit() {
-        // Verifica saúde do sistema ao carregar a página
         this.systemStatus.checkHealth();
     }
     
@@ -68,7 +66,6 @@ export class RegisterPageComponent implements OnInit {
             
             const val = this.signupForm.value;
             
-            // Mapeia dados do formulário para o modelo RegisterRequest
             const requestData = {
                 nome: val.name,
                 email: val.email,

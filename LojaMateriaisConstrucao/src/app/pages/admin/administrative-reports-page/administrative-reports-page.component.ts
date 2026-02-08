@@ -20,11 +20,9 @@ export class AdministrativeReportsPageComponent {
     private analiticoService = inject(AnaliticoService);
     private toastr = inject(ToastrService);
     
-    // Estado da UI
     activeCategory = signal<'Todos' | 'Vendas' | 'Estoque' | 'Clientes' | 'Financeiro'>('Todos');
     loadingReportId = signal<string | null>(null);
     
-    // Lista de Relatórios
     reports = signal<ReportType[]>([
         {
             id: 'sales-period',
@@ -64,7 +62,6 @@ export class AdministrativeReportsPageComponent {
         }
     ]);
     
-    // Computed para filtragem de categoria
     filteredReports = computed(() => {
         const category = this.activeCategory();
         if (category === 'Todos') return this.reports();
@@ -78,7 +75,6 @@ export class AdministrativeReportsPageComponent {
     generateReport(report: ReportType) {
         this.loadingReportId.set(report.id);
         
-        // Lógica de Datas baseada no período selecionado
         const { inicio, fim } = this.calculateDates(report.selectedPeriod);
         
         if (report.category === 'Vendas') {
@@ -104,9 +100,6 @@ export class AdministrativeReportsPageComponent {
         }
     }
     
-    /**
-    * Lê o Blob do CSV, faz o parse dos dados e gera o PDF
-    */
     private processarCsvParaPdf(blob: Blob, reportTitle: string) {
         const reader = new FileReader();
         
@@ -117,7 +110,6 @@ export class AdministrativeReportsPageComponent {
                 return;
             }
             
-            // 1. Parse básico do CSV (Lida com vírgula ou ponto e vírgula)
             const lines = csvText.split(/\r?\n/).filter((l: string) => l.trim().length > 0);
             const delimiter = csvText.includes(';') ? ';' : ',';
             
@@ -125,7 +117,6 @@ export class AdministrativeReportsPageComponent {
             const headers = data[0];
             const body = data.slice(1);
             
-            // 2. Gerar o PDF
             this.gerarTabelaPdf(headers, body, reportTitle);
         };
         
@@ -133,10 +124,9 @@ export class AdministrativeReportsPageComponent {
     }
     
     private gerarTabelaPdf(headers: string[], body: any[][], title: string) {
-        const doc = new jsPDF('l', 'mm', 'a4'); // 'l' para paisagem (melhor para tabelas)
+        const doc = new jsPDF('l', 'mm', 'a4');
         const dateStr = new Date().toLocaleString('pt-BR');
         
-        // Título e Header do documento
         doc.setFontSize(18);
         doc.text(title, 14, 20);
         
@@ -145,14 +135,13 @@ export class AdministrativeReportsPageComponent {
         doc.text(`Gerado em: ${dateStr}`, 14, 28);
         doc.text('Ecommerce - Painel Administrativo', 14, 34);
         
-        // Gerar Tabela
         autoTable(doc, {
             head: [headers],
             body: body,
             startY: 40,
             theme: 'striped',
             headStyles: { 
-                fillColor: [15, 23, 42], // Cor escura (slate-900)
+                fillColor: [15, 23, 42],
                 textColor: [255, 255, 255],
                 fontSize: 9,
                 fontStyle: 'bold'
@@ -162,7 +151,7 @@ export class AdministrativeReportsPageComponent {
                 cellPadding: 3
             },
             alternateRowStyles: {
-                fillColor: [248, 250, 252] // Cor clara (slate-50)
+                fillColor: [248, 250, 252]
             },
             margin: { top: 40 },
             didDrawPage: (data) => {
@@ -174,15 +163,11 @@ export class AdministrativeReportsPageComponent {
             }
         });
         
-        // Download
         const fileName = `${title.toLowerCase().replace(/ /g, '-')}-${new Date().getTime()}.pdf`;
         doc.save(fileName);
         this.toastr.success('Relatório PDF gerado com sucesso!');
     }
     
-    /**
-    * Calcula as datas e as formata para o padrão LocalDate (YYYY-MM-DD)
-    */
     private calculateDates(period: string): { inicio: string, fim: string } {
         const now = new Date();
         let start = new Date();

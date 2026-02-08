@@ -19,8 +19,7 @@
             <div class="container mx-auto">
                 <div class="mb-8">
                     <a
-                        routerLink="/perfil"
-                        fragment="pedidos"
+                        routerLink="/perfil/pedidos"
                         class="flex items-center gap-2 text-gray-500 hover:text-brand-600 font-semibold transition-colors mb-6 w-fit text-sm cursor-pointer"
                     >
                         <i class="ph-bold ph-arrow-left"></i> Voltar para Meus
@@ -92,12 +91,16 @@
                         </div>
 
                         <div class="flex gap-3 w-full lg:w-auto">
-                            <button
-                                class="flex-1 lg:flex-none justify-center items-center gap-2 px-4 py-2.5 border border-gray-200 bg-white rounded-xl text-gray-600 font-bold text-sm hover:bg-gray-50 hover:text-gray-900 transition-colors shadow-sm cursor-pointer"
-                            >
-                                <i class="ph-bold ph-file-pdf text-lg"></i> Nota
-                                Fiscal
-                            </button>
+                            @if (order.pagamento?.status === "APROVADO") {
+                                <button
+                                    (click)="gerarNotaFiscal()"
+                                    class="flex-1 lg:flex-none justify-center items-center gap-2 px-4 py-2.5 border border-gray-200 bg-white rounded-xl text-gray-600 font-bold text-sm hover:bg-gray-50 hover:text-gray-900 transition-colors shadow-sm cursor-pointer active:scale-95"
+                                    title="Gerar visualização de impressão"
+                                >
+                                    <i class="ph-bold ph-file-pdf text-lg"></i>
+                                    Nota Fiscal
+                                </button>
+                            }
                             <button
                                 class="flex-1 lg:flex-none justify-center items-center gap-2 px-4 py-2.5 bg-brand-600 text-white rounded-xl font-bold text-sm hover:bg-brand-700 shadow-lg shadow-brand-500/20 transition-all cursor-pointer"
                             >
@@ -129,7 +132,6 @@
                                     class="absolute left-0 top-0 h-full bg-brand-600 transition-all duration-700 ease-out"
                                     [style.width.%]="solidProgress()"
                                 ></div>
-
                                 <div
                                     class="absolute top-0 h-full bg-gradient-to-r from-brand-400 via-brand-200 to-brand-400 opacity-70 animate-skeleton-wave"
                                     [style.left.%]="solidProgress()"
@@ -166,7 +168,6 @@
                                                 ></i>
                                             </div>
                                         }
-
                                         <div class="flex flex-col items-center">
                                             <p
                                                 class="text-xs font-bold uppercase tracking-wide"
@@ -181,7 +182,6 @@
                                             >
                                                 {{ step.label }}
                                             </p>
-
                                             @if (step.dateOrInfo) {
                                                 <span
                                                     class="text-[10px] mt-1 font-medium bg-gray-50 px-2 py-0.5 rounded-md text-gray-500 border border-gray-100 whitespace-nowrap"
@@ -191,9 +191,8 @@
                                             } @else {
                                                 <span
                                                     class="text-[10px] text-gray-300 mt-1"
+                                                    >Aguardando</span
                                                 >
-                                                    Aguardando
-                                                </span>
                                             }
                                         </div>
                                     </div>
@@ -314,7 +313,6 @@
                                                     {{ item.nomeProduto }}
                                                 </h4>
                                             }
-
                                             <div
                                                 class="flex flex-wrap justify-center sm:justify-start items-center gap-2 text-xs text-gray-500"
                                             >
@@ -360,7 +358,6 @@
                                                     }}</span
                                                 >
                                             </div>
-
                                             @if (item.id) {
                                                 <a
                                                     [routerLink]="[
@@ -368,8 +365,8 @@
                                                         item.id,
                                                     ]"
                                                     target="_blank"
-                                                    class="bg-white border border-gray-200 text-gray-500 hover:text-brand-600 hover:border-brand-200 p-2 rounded-lg transition-colors shadow-sm group-hover:shadow cursor-pointer"
-                                                    title="Ver Produto em Nova Aba"
+                                                    class="bg-white border border-gray-200 text-gray-500 hover:text-brand-600 hover:border-brand-200 p-2 rounded-lg transition-colors shadow-sm cursor-pointer"
+                                                    title="Ver Produto"
                                                 >
                                                     <i
                                                         class="ph-bold ph-arrow-right"
@@ -408,7 +405,6 @@
                                             | currency: "BRL"
                                     }}</span>
                                 </div>
-
                                 <div class="flex justify-between items-center">
                                     <span>Frete</span>
                                     @if (
@@ -429,7 +425,6 @@
                                         >
                                     }
                                 </div>
-
                                 @if (
                                     order.valorDesconto &&
                                     order.valorDesconto > 0
@@ -473,7 +468,6 @@
                                 <i
                                     class="ph-duotone ph-map-pin absolute -right-6 -bottom-6 text-9xl text-gray-50 rotate-12 opacity-50"
                                 ></i>
-
                                 <div
                                     class="flex items-center gap-3 mb-4 relative z-10"
                                 >
@@ -486,10 +480,11 @@
                                         Endereço de Entrega
                                     </h3>
                                 </div>
-
-                                <div class="relative z-10 space-y-4">
+                                <div
+                                    class="relative z-10 space-y-4 text-sm text-gray-600"
+                                >
                                     <p
-                                        class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-100"
+                                        class="leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-100"
                                     >
                                         <span
                                             class="block font-bold text-gray-800 mb-1"
@@ -501,7 +496,7 @@
                                             - {{ order.entrega.complemento }}
                                         }
                                         <br />
-                                        {{ order.entrega.bairro }}<br />
+                                        {{ order.entrega.bairro }} <br />
                                         {{ order.entrega.cidade }} -
                                         {{ order.entrega.uf }}<br />
                                         <span
@@ -509,7 +504,6 @@
                                             >CEP: {{ order.entrega.cep }}</span
                                         >
                                     </p>
-
                                     @if (order.entrega.codigoRastreio) {
                                         <div class="pt-2">
                                             <p
@@ -524,15 +518,14 @@
                                                     class="ph-bold ph-barcode text-xl"
                                                 ></i>
                                                 <span
-                                                    class="font-mono font-bold tracking-widest select-all flex-1 text-center"
+                                                    class="font-mono font-bold tracking-widest flex-1 text-center"
                                                     >{{
                                                         order.entrega
                                                             .codigoRastreio
                                                     }}</span
                                                 >
                                                 <button
-                                                    class="text-gray-400 hover:text-brand-600"
-                                                    title="Copiar"
+                                                    class="text-gray-400 hover:text-brand-600 cursor-pointer"
                                                 >
                                                     <i
                                                         class="ph-bold ph-copy"
@@ -586,7 +579,6 @@
                                                 payment.metodo.replace("_", " ")
                                             }}</span
                                         >
-
                                         <span
                                             class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border"
                                             [ngClass]="{
@@ -638,6 +630,36 @@
                                             Pagamento à vista
                                         </p>
                                     }
+
+                                    @if (
+                                        payment.status === "PENDENTE" &&
+                                        payment.urlPagamento
+                                    ) {
+                                        <div class="pt-2">
+                                            <button
+                                                (click)="
+                                                    irParaPagamento(
+                                                        payment.urlPagamento
+                                                    )
+                                                "
+                                                class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer group active:scale-[0.98]"
+                                            >
+                                                <i
+                                                    class="ph-fill ph-qr-code text-xl animate-pulse"
+                                                ></i>
+                                                Pagar Agora
+                                                <i
+                                                    class="ph-bold ph-arrow-right transition-transform group-hover:translate-x-1"
+                                                ></i>
+                                            </button>
+                                            <p
+                                                class="text-[10px] text-gray-400 text-center mt-2 leading-tight"
+                                            >
+                                                Clique para abrir o link de
+                                                pagamento seguro do AbacatePay.
+                                            </p>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         }
@@ -664,7 +686,7 @@
             <a
                 routerLink="/perfil"
                 fragment="pedidos"
-                class="bg-brand-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-700 transition-all shadow-lg shadow-brand-500/20"
+                class="bg-brand-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-700 transition-all shadow-lg shadow-brand-500/20 cursor-pointer"
             >
                 Voltar para Meus Pedidos
             </a>

@@ -1,6 +1,5 @@
 <div class="container mx-auto px-4 pt-28 pb-12 flex flex-col lg:flex-row gap-8 relative min-h-screen">
     
-    <!-- Sidebar -->
     <div class="lg:w-72 shrink-0 z-40" 
          [class.hidden]="!isMobileFilterOpen()" 
          [class.block]="isMobileFilterOpen()" 
@@ -12,14 +11,12 @@
         </app-filter-sidebar>
     </div>
     
-    <!-- Overlay Mobile -->
     <div id="sidebar-overlay" 
          class="fixed inset-0 bg-gray-900/50 z-30 lg:hidden backdrop-blur-sm transition-opacity"
          [class.hidden]="!isMobileFilterOpen()"
          (click)="isMobileFilterOpen.set(false)">
     </div>
     
-    <!-- Conteúdo Principal -->
     <main class="flex-1 w-full min-w-0">
         
         <app-hero-carousel></app-hero-carousel>
@@ -40,7 +37,6 @@
         
         <div class="container mx-auto p-6 min-h-[400px]">
             
-            <!-- 1. LOADING STATE (Skeleton) -->
             @if (loading()) {
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-pulse">
                     @for (item of [1,2,3,4,5,6,7,8]; track item) {
@@ -57,7 +53,6 @@
                 </div>
             } 
             
-            <!-- 2. ERROR STATE (Mensagem Corrigida) -->
             @else if (hasError()) {
                 <div class="py-20 flex flex-col items-center justify-center text-center animate-fade-in">
                     <div class="bg-red-50 p-6 rounded-full mb-6">
@@ -73,7 +68,6 @@
                 </div>
             } 
             
-            <!-- 3. SUCCESS STATE -->
             @else {
                 <app-product-grid 
                     [products]="produtos()"

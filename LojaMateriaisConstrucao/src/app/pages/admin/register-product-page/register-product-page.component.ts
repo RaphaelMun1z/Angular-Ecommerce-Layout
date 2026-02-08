@@ -26,7 +26,6 @@ export class RegisterProductPageComponent implements OnInit {
     private router = inject(Router);
     private route = inject(ActivatedRoute); 
     
-    // Estados reativos
     isLoading = signal(false);
     isAdjustingStock = signal(false);
     isUploading = signal(false);
@@ -35,10 +34,8 @@ export class RegisterProductPageComponent implements OnInit {
     productId = signal<string | null>(null);
     categorias = signal<Categoria[]>([]);
     
-    // Lista de URLs das imagens carregadas
     images = signal<string[]>([]);
     
-    // Formulário Principal
     productForm: FormGroup = this.fb.group({
         codigoControle: ['', [Validators.required, Validators.minLength(3)]],
         titulo: ['', [Validators.required, Validators.minLength(3)]],
@@ -52,7 +49,6 @@ export class RegisterProductPageComponent implements OnInit {
         dimensoes: ['']
     });
     
-    // Formulário de Ajuste de Estoque
     stockForm: FormGroup = this.fb.group({
         quantidade: [1, [Validators.required, Validators.min(1)]],
         tipo: [TipoMovimentacao.ENTRADA, Validators.required],
@@ -112,7 +108,6 @@ export class RegisterProductPageComponent implements OnInit {
         });
     }
     
-    // --- Lógica de Upload CORRIGIDA ---
     onFileSelected(event: any) {
         const files: FileList = event.target.files;
         if (files && files.length > 0) {
@@ -134,19 +129,15 @@ export class RegisterProductPageComponent implements OnInit {
                     next: (response: any) => {
                         let finalUrl = '';
                         
-                        // Verifica se é uma resposta HTTP completa com corpo
                         if (response instanceof HttpResponse) {
                             if (response.body && response.body.url) {
                                 finalUrl = response.body.url;
                             }
                         } 
-                        // Verifica se é o objeto DTO direto (caso o serviço retorne o body)
-                        // Importante: Checamos 'fileName' para garantir que não é um HttpHeaderResponse
                         else if (response.url && response.fileName) {
                             finalUrl = response.url;
                         }
                         
-                        // Só adiciona se tivermos uma URL válida de imagem
                         if (finalUrl) {
                             this.images.update(imgs => [...imgs, finalUrl]);
                             uploadCount++;
@@ -174,7 +165,6 @@ export class RegisterProductPageComponent implements OnInit {
         this.images.update(imgs => imgs.filter((_, i) => i !== index));
     }
     
-    // Salvar Produto com Imagens
     onSubmit() {
         if (this.productForm.invalid) {
             this.productForm.markAllAsTouched();
@@ -214,9 +204,7 @@ export class RegisterProductPageComponent implements OnInit {
             }
         });
     }
-    
-    // --- Outros Métodos (Estoque, Getters) mantidos ---
-    
+        
     openStockModal(product: any) { 
         this.stockForm.reset({ quantidade: 1, tipo: TipoMovimentacao.ENTRADA, motivo: '' });
         this.showStockModal.set(true);

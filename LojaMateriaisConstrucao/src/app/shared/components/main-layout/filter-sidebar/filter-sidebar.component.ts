@@ -15,10 +15,10 @@ import { SystemStatusService } from '../../../../services/systemStatus.service';
 
 export class FilterSidebarComponent implements OnInit {
     private catalogoService = inject(CatalogoService);
-    public systemStatus = inject(SystemStatusService); // Injetando o serviço global de status
+    public systemStatus = inject(SystemStatusService);
     
     categories = signal<Categoria[]>([]);
-    isLoading = signal(false); // Estado de carregamento interno
+    isLoading = signal(false);
     
     sliderOptions: Options = {
         floor: 0,
@@ -63,7 +63,6 @@ export class FilterSidebarComponent implements OnInit {
             error: (err) => {
                 console.error('Erro ao carregar categorias', err);
                 this.isLoading.set(false);
-                // Se falhar a carga inicial das categorias por erro de rede, podemos sinalizar offline
                 if (err.status === 0) {
                     this.systemStatus.checkHealth();
                 }

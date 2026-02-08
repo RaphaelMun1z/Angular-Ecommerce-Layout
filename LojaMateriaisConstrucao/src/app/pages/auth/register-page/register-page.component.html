@@ -1,6 +1,5 @@
 <div class="min-h-screen flex bg-white font-sans text-gray-800">
     
-    <!-- LADO ESQUERDO: Imagem e Branding (Apenas Desktop) -->
     <div class="hidden lg:flex lg:w-1/2 relative bg-gray-900 text-white overflow-hidden">
         <div class="absolute inset-0">
             <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2062&auto=format&fit=crop" 
@@ -40,10 +39,8 @@
         </div>
     </div>
 
-    <!-- LADO DIREITO: Formulário ou Mensagem Offline -->
     <div class="w-full lg:w-1/2 flex flex-col relative overflow-y-auto">
         
-        <!-- Header Mobile -->
         <div class="lg:hidden p-6 flex justify-center border-b border-gray-100">
             <div class="flex items-center gap-2">
                 <div class="bg-brand-600 text-white p-1.5 rounded-lg shadow-sm">
@@ -55,7 +52,6 @@
         
         <div class="flex-1 flex items-center justify-center p-6 sm:p-12 lg:p-24 animate-fade-in">
             
-            <!-- ESTADO: SISTEMA OFFLINE -->
             @if (systemStatus.isSystemOffline()) {
                 <div class="w-full max-w-110 text-center space-y-6 animate-scale-in">
                     <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-amber-50 text-amber-500 mb-2 border border-amber-100 shadow-sm">
@@ -77,7 +73,6 @@
                 </div>
             }
 
-            <!-- ESTADO: FORMULÁRIO -->
             @else {
                 <div class="w-full max-w-110 space-y-8">
                     <div class="text-center lg:text-left space-y-2">
@@ -87,7 +82,6 @@
                     
                     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-5">
                         
-                        <!-- Nome Completo -->
                         <div class="space-y-1.5">
                             <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Nome Completo</label>
                             <div class="relative group">
@@ -100,7 +94,6 @@
                             </div>
                         </div>
 
-                        <!-- Email e CPF Grid -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="space-y-1.5">
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">E-mail</label>
@@ -116,7 +109,6 @@
                             </div>
                         </div>
 
-                        <!-- Senha Grid -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="space-y-1.5">
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Senha</label>
@@ -132,14 +124,12 @@
                             </div>
                         </div>
 
-                        <!-- Erros de Validação -->
                         @if (signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched) {
                             <p class="text-[10px] text-red-500 font-bold uppercase tracking-tight ml-1 animate-fade-in">
                                 <i class="ph-bold ph-warning-circle"></i> As senhas não coincidem.
                             </p>
                         }
 
-                        <!-- Termos -->
                         <div class="pt-2">
                             <label class="flex items-start cursor-pointer group">
                                 <div class="relative flex items-center h-5 mt-1">
@@ -152,7 +142,6 @@
                             </label>
                         </div>
                         
-                        <!-- Botão Submit -->
                         <button type="submit" 
                                 [disabled]="isLoading() || signupForm.invalid"
                                 class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-base py-4 rounded-2xl shadow-xl shadow-brand-500/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none mt-2">

@@ -21,23 +21,19 @@ export class AdminProductsPageComponent implements OnInit {
     private toastr = inject(ToastrService);
     private fb = inject(FormBuilder);
     
-    // Estado da UI
     isLoading = signal(true);
     isAdjusting = signal(false);
     searchTerm = signal('');
     activeStatusFilter = signal<'all' | 'active' | 'inactive'>('all');
     
-    // Estado do Modal de Estoque
     showStockModal = signal(false);
     selectedProduct = signal<Produto | null>(null);
     
-    // Dados Reais
     products = signal<Produto[]>([]);
     totalElements = signal(0);
     currentPage = signal(0);
     pageSize = signal(10);
 
-    // Cálculos de Paginação
     totalPages = computed(() => {
         const total = Number(this.totalElements());
         const size = Number(this.pageSize());
@@ -64,7 +60,6 @@ export class AdminProductsPageComponent implements OnInit {
         return Array.from({ length: end - start }, (_, i) => start + i);
     });
     
-    // Formulário de Ajuste
     stockForm: FormGroup = this.fb.group({
         quantidade: [1, [Validators.required, Validators.min(1)]],
         tipo: [TipoMovimentacao.ENTRADA, Validators.required],
@@ -74,8 +69,6 @@ export class AdminProductsPageComponent implements OnInit {
     ngOnInit() {
         this.loadProducts();
     }
-
-    // --- Lógica de Carregamento e Filtros ---
 
     onSearch(term: string) {
         this.searchTerm.set(term);
@@ -111,24 +104,19 @@ export class AdminProductsPageComponent implements OnInit {
             filtro.apenasAtivos = false;
         }
         
-        // Usamos 'any' aqui propositalmente para inspecionar a resposta do Spring Boot
-        // independentemente da interface definida no frontend.
         this.catalogoService.buscarProdutosComFiltro(filtro, pageable).subscribe({
             next: (response: any) => {
                 console.log('📦 Resposta Bruta do Backend:', response);
 
-                // 1. Tenta extrair o conteúdo (lista de produtos)
                 const content = response.content || response.data || [];
                 
-                // 2. Tenta extrair o total de elementos de forma inteligente
-                // O Spring Boot padrão retorna na raiz. Algumas adaptações retornam dentro de 'page'.
                 let total = 0;
                 if (typeof response.totalElements === 'number') {
-                    total = response.totalElements; // Padrão Spring Boot
+                    total = response.totalElements; 
                 } else if (response.page && typeof response.page.totalElements === 'number') {
-                    total = response.page.totalElements; // Padrão Customizado/Aninhado
+                    total = response.page.totalElements; 
                 } else if (response.pageMetadata && typeof response.pageMetadata.totalElements === 'number') {
-                    total = response.pageMetadata.totalElements; // Outro padrão
+                    total = response.pageMetadata.totalElements;
                 }
 
                 console.log(`✅ Processado -> Total: ${total}, Páginas: ${Math.ceil(total / this.pageSize())}`);
@@ -145,8 +133,6 @@ export class AdminProductsPageComponent implements OnInit {
         });
     }
     
-    // --- Lógica de Paginação Visual ---
-
     changePage(newPage: number) {
         if (newPage >= 0 && newPage < this.totalPages()) {
             this.currentPage.set(newPage);
@@ -166,9 +152,7 @@ export class AdminProductsPageComponent implements OnInit {
         this.currentPage.set(0);
         this.loadProducts();
     }
-    
-    // --- Lógica de Estoque ---
-    
+        
     openStockModal(product: Produto) {
         this.selectedProduct.set(product);
         this.stockForm.reset({ quantidade: 1, tipo: TipoMovimentacao.ENTRADA, motivo: '' });
@@ -200,9 +184,7 @@ export class AdminProductsPageComponent implements OnInit {
             complete: () => this.isAdjusting.set(false)
         });
     }
-    
-    // --- Outras Ações ---
-    
+        
     toggleStatus(product: Produto) {
         const action$ = product.ativo 
         ? this.catalogoService.desativarProduto(product.id)

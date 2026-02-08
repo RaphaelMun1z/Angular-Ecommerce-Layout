@@ -29,36 +29,25 @@ export class ProductPageComponent implements OnInit {
     private carrinhoService = inject(CarrinhoService);
     private authService = inject(AuthService);
     
-    // Injetados como public para acesso direto no HTML
     public favoritoService = inject(FavoritoService); 
     public systemStatus = inject(SystemStatusService);
     
-    // Estado do Produto
     product = signal<Produto | null>(null);
     loading = signal(true);
     
-    /**
-    * ATALHO PARA O TEMPLATE (Resolve o erro NG9: Property 'p' does not exist)
-    * Isso garante que, se o alias '; as p' do template falhar em blocos aninhados, 
-    * o Angular encontrará 'p' aqui na classe.
-    */
     get p() { return this.product(); }
     
-    // Estado Visual
     productImages = signal<string[]>([]); 
     currentImage = signal<string>('');    
     activeTab = signal<'overview' | 'specs' | 'reviews'>('overview');
     quantity = signal(1);
-    
-    // Zoom
+     
     zoomTransform = signal('scale(1)');
     zoomOrigin = signal('center center');
     
-    // Frete
     zipCode = signal('');
     shippingResult = signal<null | { type: string, days: number, price: number }[]>(null);
     
-    // Dados Extras (Mock)
     productExtras = {
         rating: 4.8,
         reviewsCount: 128,
@@ -99,9 +88,6 @@ export class ProductPageComponent implements OnInit {
         });
     }
     
-    /**
-    * Carrega os dados do produto tratando estados de offline e erro.
-    */
     loadProduct(id: string) {
         if (this.systemStatus.isSystemOffline()) {
             this.loading.set(false);
@@ -138,9 +124,6 @@ export class ProductPageComponent implements OnInit {
         });
     }
     
-    /**
-    * Tenta carregar o produto novamente (usado nos botões de erro/offline)
-    */
     retry() {
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {

@@ -21,7 +21,6 @@
     }
   </div>
 
-  <!-- Controles de Paginação -->
   @if (totalPages > 1) {
     <div class="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-100 pt-8">
       <div class="text-sm text-gray-500">
@@ -29,7 +28,6 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <!-- Botão Anterior -->
         <button 
           (click)="changePage(currentPage - 1)"
           [disabled]="currentPage === 0"
@@ -37,7 +35,6 @@
           <i class="ph-bold ph-caret-left"></i>
         </button>
 
-        <!-- Números das Páginas (Lógica simplificada) -->
         <div class="flex items-center gap-1">
           @for (p of pagesArray; track p) {
             <button 
@@ -51,7 +48,6 @@
           }
         </div>
 
-        <!-- Botão Próximo -->
         <button 
           (click)="changePage(currentPage + 1)"
           [disabled]="currentPage >= totalPages - 1"
@@ -63,7 +59,6 @@
   }
 </div>
 
-<!-- Modal de Visualização Rápida (Quick View) -->
 @if (selectedProduct(); as product) {
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in" (click)="closePopup()">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative animate-scale-in" (click)="$event.stopPropagation()">

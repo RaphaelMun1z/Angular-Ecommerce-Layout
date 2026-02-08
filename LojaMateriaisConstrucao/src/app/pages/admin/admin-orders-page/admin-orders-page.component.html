@@ -1,6 +1,5 @@
 <div class="space-y-8 animate-fade-in pb-10 max-w-[1600px] mx-auto">
     
-    <!-- Cabeçalho -->
     <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
             <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Pedidos</h1>
@@ -11,14 +10,12 @@
             <button class="p-2.5 text-gray-500 hover:text-gray-900 hover:bg-white rounded-xl transition-all cursor-pointer border border-transparent hover:border-gray-200" title="Exportar CSV">
                 <i class="ph-bold ph-download-simple text-xl"></i>
             </button>
-            <!-- Apenas visual, pois o admin geralmente não cria pedidos manuais neste fluxo -->
             <button class="bg-brand-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl hover:bg-brand-700 transition-all shadow-sm active:scale-[0.98] cursor-pointer">
                 Novo Pedido
             </button>
         </div>
     </header>
     
-    <!-- Filtros -->
     <section class="flex flex-col md:flex-row gap-4 items-center justify-between px-2">
         <div class="relative w-full md:max-w-sm group">
             <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-500 transition-colors"></i>
@@ -37,7 +34,6 @@
         </div>
     </section>
 
-    <!-- Tabela -->
     <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden relative min-h-[500px]">
         @if (isLoading()) {
             <div class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-30 flex items-center justify-center text-brand-600">
@@ -131,14 +127,11 @@
         </footer>
     </div>
 
-    <!-- Modal de Gerenciamento de Status -->
     @if (showStatusModal()) {
         <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <!-- Overlay -->
             <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity duration-200 animate-fade-in" 
                  (click)="showStatusModal.set(false)"></div>
             
-            <!-- Card -->
             <div class="relative bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-200 animate-scale-up-fast">
                 <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
                     <div>

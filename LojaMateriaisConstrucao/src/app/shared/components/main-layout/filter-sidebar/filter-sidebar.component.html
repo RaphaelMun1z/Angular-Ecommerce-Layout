@@ -1,6 +1,5 @@
 <aside class="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl lg:shadow-none lg:static lg:w-72 lg:bg-transparent lg:block z-40 transform transition-transform duration-300 ease-in-out overflow-y-auto lg:overflow-visible p-6 lg:p-0 border-r border-gray-100 lg:border-none h-full lg:h-auto">
     
-    <!-- Header Mobile -->
     <div class="flex justify-between items-center lg:hidden mb-8">
         <h2 class="text-xl font-bold text-gray-900">Filtrar</h2>
         <button type="button" (click)="close.emit()" class="text-gray-500 hover:text-red-500 p-2 hover:bg-gray-100 rounded-xl transition-colors">
@@ -10,7 +9,6 @@
     
     <div class="space-y-2 pr-4 pb-20 lg:pb-0">
         
-        <!-- ESTADO: SISTEMA OFFLINE -->
         @if (systemStatus.isSystemOffline()) {
             <div class="bg-white rounded-2xl border border-dashed border-amber-200 p-8 text-center animate-fade-in shadow-sm">
                 <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-50 text-amber-500 mb-4">
@@ -26,7 +24,6 @@
             </div>
         } 
         
-        <!-- ESTADO: CARREGANDO CATEGORIAS (Skeleton) -->
         @else if (isLoading() && categories().length === 0) {
             <div class="space-y-6 animate-pulse p-2">
                 <div class="h-8 bg-gray-200 rounded-lg w-full mb-4"></div>
@@ -39,14 +36,12 @@
             </div>
         }
 
-        <!-- ESTADO: SISTEMA ONLINE E CARREGADO -->
         @else {
             <button type="button" (click)="resetFilters()" class="w-full mb-4 py-2.5 px-4 rounded-xl border border-gray-200 text-gray-500 font-bold text-[10px] uppercase tracking-widest hover:border-brand-500 hover:text-brand-600 hover:bg-brand-50 transition-all flex items-center justify-center gap-2 group sticky top-0 bg-white/80 backdrop-blur-sm z-10 lg:static shadow-sm lg:shadow-none">
                 <i class="ph-bold ph-arrow-counter-clockwise group-hover:-rotate-180 transition-transform duration-500"></i> 
                 Limpar Todos os Filtros
             </button>
             
-            <!-- Categorias -->
             <div class="border-b border-gray-100 py-5 group/section">
                 <button type="button" (click)="toggleSection('categories')" class="w-full flex justify-between items-center text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] hover:text-brand-600 transition-colors">
                     Categorias
@@ -75,7 +70,6 @@
                 </div>
             </div>
             
-            <!-- Faixa de Preço -->
             <div class="border-b border-gray-100 py-5 group/section">
                 <button type="button" (click)="toggleSection('price')" class="w-full flex justify-between items-center text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] hover:text-brand-600 transition-colors">
                     Faixa de Preço
@@ -103,7 +97,6 @@
                 </div>
             </div>
             
-            <!-- Disponibilidade -->
             <div class="border-b border-gray-100 py-5 group/section">
                 <button type="button" (click)="toggleSection('availability')" class="w-full flex justify-between items-center text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] hover:text-brand-600 transition-colors">
                     Disponibilidade

@@ -1,5 +1,3 @@
-// --- ENUMS ---
-
 export enum StatusPedido {
     AGUARDANDO_PAGAMENTO = 'AGUARDANDO_PAGAMENTO',
     PAGO = 'PAGO',
@@ -33,8 +31,6 @@ export enum StatusEntrega {
     DEVOLVIDO = 'DEVOLVIDO',
 }
 
-// --- INTERFACES ---
-
 export interface ImagemItem {
     id: string;
     url: string;
@@ -58,8 +54,6 @@ export interface Pagamento {
     numeroParcelas: number;
     codigoTransacaoGateway?: string;
     pedidoId: string;
-
-    // Campos adicionados para integração com AbacatePay
     urlPagamento?: string;
     billingId?: string;
 }

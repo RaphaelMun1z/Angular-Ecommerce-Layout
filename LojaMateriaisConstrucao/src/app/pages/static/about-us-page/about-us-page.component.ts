@@ -10,7 +10,6 @@ import { Stat, Value } from '../../../shared/interfaces/AboutUs';
 })
 
 export class AboutUsPageComponent {
-    // Dados de Estatísticas
     stats = signal<Stat[]>([
         { value: '50k+', label: 'Clientes Atendidos' },
         { value: '15k+', label: 'Produtos no Catálogo' },
@@ -18,7 +17,6 @@ export class AboutUsPageComponent {
         { value: '4.9', label: 'Nota Média (Reviews)' }
     ]);
     
-    // Dados de Valores/Pilares
     values = signal<Value[]>([
         { 
             icon: 'ph-shield-check', 

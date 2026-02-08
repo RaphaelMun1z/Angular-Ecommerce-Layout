@@ -2,14 +2,11 @@
     <app-title-section></app-title-section>
 
     <div class="flex flex-col lg:flex-row gap-8 items-start">
-        <!-- Coluna Esquerda (Formulários) -->
         <div class="w-full lg:w-2/3 space-y-6">
-            <!-- Etapa 1: Identificação -->
             <app-identification-section
                 [userEmail]="userEmail()"
             ></app-identification-section>
 
-            <!-- Etapa 2: Endereço de Entrega -->
             <app-delivery-address-section
                 [addresses]="addresses()"
                 [selectedAddressId]="selectedAddressId()"
@@ -23,20 +20,17 @@
                 (saveAddress)="handleAddressSave($event)"
             ></app-delivery-address-section>
 
-            <!-- Etapa 3: Opções de Entrega -->
             <app-delivery-options-section
                 [hasAddressSelected]="!!selectedAddressId()"
                 [(selectedShippingMethod)]="selectedShippingMethod"
             ></app-delivery-options-section>
 
-            <!-- Etapa 4: Pagamento -->
             <app-payment-section
                 [total]="total()"
                 [(paymentMethod)]="paymentMethod"
             ></app-payment-section>
         </div>
 
-        <!-- Coluna Direita (Resumo Fixo) -->
         <div class="w-full lg:w-1/3 lg:sticky lg:top-24">
             <app-order-summary-section
                 [cartItems]="cartItems()"

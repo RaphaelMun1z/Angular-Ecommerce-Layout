@@ -13,7 +13,7 @@ import { FavoritoService } from '../../../../services/favorito.service';
 
 export class ProductCardComponent {
     private router = inject(Router);
-    public favoritoService = inject(FavoritoService); // Public para usar no HTML
+    public favoritoService = inject(FavoritoService);
     
     @Input({ required: true }) product!: Produto;
     @Input() viewMode: 'grid' | 'list' = 'grid';
@@ -40,7 +40,6 @@ export class ProductCardComponent {
         }
     }
     
-    // Nova ação para o botão de favorito
     onToggleFavorite(event: Event): void {
         event.stopPropagation();
         this.favoritoService.toggle(this.product.id);

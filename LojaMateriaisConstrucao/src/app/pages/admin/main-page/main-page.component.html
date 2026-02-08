@@ -1,4 +1,3 @@
-<!-- Controls Header -->
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
     <div>
         <h1 class="text-2xl font-bold text-gray-900">Visão Geral</h1>
@@ -7,7 +6,6 @@
         </p>
     </div>
 
-    <!-- Period Filter -->
     <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-xl p-1 shadow-sm overflow-x-auto"
         role="tablist" aria-label="Filtro de período">
 
@@ -33,7 +31,6 @@
         <p class="font-medium">Sincronizando dados com o servidor...</p>
     </div>
 } @else {
-    <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         @for (stat of stats(); track stat.title) {
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
@@ -56,10 +53,8 @@
         }
     </div>
 
-    <!-- Main Section -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
 
-        <!-- Recent Orders Table -->
         <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/20">
                 <div>
@@ -125,7 +120,6 @@
             </div>
         </div>
 
-        <!-- Quick Actions / Command Center -->
         <div class="bg-gray-900 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden flex flex-col">
             <div class="absolute top-0 right-0 w-48 h-48 bg-brand-500 rounded-full blur-[90px] opacity-20 pointer-events-none"></div>
             <div class="absolute bottom-0 left-0 w-40 h-40 bg-blue-500 rounded-full blur-[70px] opacity-20 pointer-events-none"></div>

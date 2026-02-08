@@ -68,8 +68,6 @@ export class PedidoService {
         );
     }
 
-    // --- PAGAMENTO E ENTREGA ---
-
     registrarPagamento(pedidoId: string, pagamento: PagamentoRequest) {
         return this.http.post(
             `${this.apiUrl}/pagamentos/pedido/${pedidoId}`,

@@ -1,4 +1,3 @@
-<!-- Container do Toast com animação controlada pelo serviço -->
 <div class="fixed top-4 right-4 md:top-8 md:right-8 px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 transition-all duration-500 z-[9999] transform border"
 [class.translate-x-[150%]]="!toastService.visible()"
 [class.opacity-0]="!toastService.visible()"
@@ -6,7 +5,6 @@
 [class.opacity-100]="toastService.visible()"
 [ngClass]="getThemeClasses()">
 
-<!-- Ícones Baseados no Tipo -->
 <div class="p-2 rounded-full bg-white/20">
     <i [class]="getIconClass()" class="text-xl"></i>
 </div>
@@ -16,7 +14,6 @@
     <p class="text-xs opacity-90 mt-0.5">{{ toastService.data().message }}</p>
 </div>
 
-<!-- Botão Fechar -->
 <button (click)="toastService.hide()" class="ml-2 hover:scale-110 transition-transform cursor-pointer">
     <i class="ph-bold ph-x text-sm"></i>
 </button>

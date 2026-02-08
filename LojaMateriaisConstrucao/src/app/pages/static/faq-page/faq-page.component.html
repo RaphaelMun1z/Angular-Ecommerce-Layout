@@ -1,13 +1,11 @@
 <main class="bg-gray-50/50 text-gray-800 font-sans antialiased min-h-screen relative overflow-hidden selection:bg-brand-100 selection:text-brand-900">
     
-    <!-- Elementos Decorativos de Fundo (Blobs) -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-96 bg-linear-to-b from-orange-50/60 to-transparent -z-10 pointer-events-none"></div>
     <div class="absolute top-[-10%] right-[-10%] w-125 h-125 bg-brand-100/40 rounded-full blur-[100px] -z-10 pointer-events-none opacity-60"></div>
     <div class="absolute top-[20%] left-[-10%] w-100 h-100 bg-blue-100/40 rounded-full blur-[100px] -z-10 pointer-events-none opacity-60"></div>
     
     <div class="container mx-auto px-4 pt-32 pb-24 max-w-3xl relative z-10">
         
-        <!-- Cabeçalho e Busca -->
         <div class="text-center mb-16 animate-fade-in">
             <span class="inline-block py-1 px-3 rounded-full bg-white border border-brand-100 text-brand-600 text-xs font-bold tracking-wider mb-6 shadow-sm">CENTRAL DE AJUDA</span>
             
@@ -20,10 +18,8 @@
             </p>
             
             <div class="relative max-w-xl mx-auto group">
-                <!-- Efeito de brilho atrás da busca -->
                 <div class="absolute -inset-1 rounded-2xl blur opacity-20 group-focus-within:opacity-50 transition duration-500 group-hover:opacity-30"></div>
                 
-                <!-- Input Container: Sombra removida, borda adicionada para definição -->
                 <div class="relative bg-white rounded-2xl border border-gray-100 flex items-center overflow-hidden">
                     <div class="pl-6 text-gray-400 group-focus-within:text-brand-500 transition-colors">
                         <i class="ph-bold ph-magnifying-glass text-2xl"></i>
@@ -37,7 +33,6 @@
             </div>
         </div>
         
-        <!-- Lista de FAQ -->
         <div class="space-y-4">
             
             @for (item of filteredFaqs; track item.question; let i = $index) {
@@ -50,7 +45,6 @@
                 <button class="w-full px-6 py-5 md:px-8 md:py-6 flex items-start md:items-center justify-between bg-white text-left outline-none cursor-pointer select-none" 
                 (click)="toggleAccordion(item)">
                 <div class="flex gap-5 items-start md:items-center">
-                    <!-- Ícone Toggle Customizado -->
                     <div class="w-10 h-10 rounded-full shrink-0 flex items-center justify-center transition-all duration-300 mt-1 md:mt-0"
                     [class.bg-brand-50]="isOpen(item)"
                     [class.text-brand-600]="isOpen(item)"
@@ -69,7 +63,6 @@
         </button>
         
         <div class="accordion-content bg-white" [class.active]="isOpen(item)">
-            <!-- Conteúdo com indentação alinhada ao texto do título -->
             <div class="px-6 pb-6 md:pl-22 md:pr-8 md:pb-8 pt-0">
                 <p class="text-gray-600 leading-relaxed text-base border-l-2 border-brand-100 pl-4">
                     {{ item.answer }}
@@ -92,7 +85,6 @@
 
 </div>
 
-<!-- Botão de Contato -->
 <div class="mt-16 text-center border-t border-gray-100 pt-12">
     <p class="text-gray-500 mb-6 font-medium">Ainda precisa de ajuda?</p>
     <button class="bg-gray-900 hover:bg-black text-white font-bold py-4 px-8 rounded-xl shadow-xl shadow-gray-200 transition-all inline-flex items-center gap-3 transform hover:-translate-y-1 active:translate-y-0 hover:shadow-2xl">

@@ -15,7 +15,7 @@ import { FileUploadService } from '../../../services/fileUpload.service';
 
 export class ProfilePageComponent {
     private authService = inject(AuthService);
-    private fileUploadService = inject(FileUploadService); // Injeção necessária para montar a URL
+    private fileUploadService = inject(FileUploadService); 
     
     user = signal({
         name: 'Utilizador',

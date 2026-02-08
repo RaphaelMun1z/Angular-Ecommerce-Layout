@@ -12,11 +12,9 @@ export class UsuarioService {
     private http = inject(HttpClient);
     private apiUrl = `${environment.apiUrl}`;
     
-    // Estado local para endereços
     private _enderecos = signal<Endereco[]>([]);
     public enderecos = this._enderecos.asReadonly();
     
-    // --- NOVOS MÉTODOS: PERFIL DO PRÓPRIO UTILIZADOR (/me) ---
     getMe(): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}/clientes/me`);
     }
@@ -31,10 +29,7 @@ export class UsuarioService {
     atualizarMeusDados(dados: { nome: string; telefone: string; cpf: string }): Observable<void> {
         return this.http.patch<void>(`${this.apiUrl}/clientes/me`, dados);
     }
-    
-    // --- MÉTODOS DE ADMINISTRAÇÃO (Por ID) ---
-    
-    // Usado por Admins para alterar fotos de outros utilizadores
+  
     atualizarFotoPorId(userId: string, fileName: string): Observable<any> {
         const url = `${this.apiUrl}/clientes/${userId}/avatar`;
         return this.http.patch(url, null, { params: { fileName } });
@@ -53,9 +48,7 @@ export class UsuarioService {
         
         return this.http.get<Page<Cliente>>(`${this.apiUrl}/clientes`, { params });
     }
-    
-    // --- GESTÃO DE ENDEREÇOS ---
-    
+        
     listarEnderecos(clienteId: string): Observable<Endereco[]> {
         return this.http.get<Endereco[]>(`${this.apiUrl}/enderecos/cliente/${clienteId}`).pipe(
             tap(lista => this._enderecos.set(lista))

@@ -19,29 +19,24 @@ export class AdminOrdersPageComponent implements OnInit {
     private toastr = inject(ToastrService);
     private fb = inject(FormBuilder);
     
-    // Estado da UI
     activeFilter = signal<'all' | 'PAGO' | 'PENDENTE' | 'CANCELADO'>('all');
     searchTerm = signal('');
     isLoading = signal(true);
-    isUpdating = signal(false); // Loading do modal
+    isUpdating = signal(false);
     
-    // Estado do Modal
     showStatusModal = signal(false);
     selectedOrder = signal<Pedido | null>(null);
     
-    // Dados Reais
     orders = signal<Pedido[]>([]);
     totalElements = signal(0);
     currentPage = signal(0);
     pageSize = signal(10);
     
-    // Formulário de Status
     statusForm: FormGroup = this.fb.group({
         status: ['', Validators.required],
-        notifyClient: [true] // Opção fictícia para enviar email (backend precisaria suportar)
+        notifyClient: [true] 
     });
     
-    // Lista de Status para o Select
     availableStatuses = [
         { value: 'AGUARDANDO_PAGAMENTO', label: 'Aguardando Pagamento' },
         { value: 'PAGO', label: 'Pago' },
@@ -76,9 +71,7 @@ export class AdminOrdersPageComponent implements OnInit {
             }
         });
     }
-    
-    // --- Lógica do Modal ---
-    
+        
     openStatusModal(order: Pedido) {
         this.selectedOrder.set(order);
         this.statusForm.patchValue({
@@ -94,7 +87,6 @@ export class AdminOrdersPageComponent implements OnInit {
         
         const newStatus = this.statusForm.value.status;
         
-        // Evita chamada desnecessária se não mudou
         if (newStatus === order.status) {
             this.showStatusModal.set(false);
             return;
@@ -106,7 +98,7 @@ export class AdminOrdersPageComponent implements OnInit {
             next: () => {
                 this.toastr.success(`Status do pedido #${order.id.substring(0,8)} atualizado!`);
                 this.showStatusModal.set(false);
-                this.loadOrders(); // Recarrega a lista
+                this.loadOrders();
             },
             error: (err) => {
                 console.error(err);
@@ -115,9 +107,7 @@ export class AdminOrdersPageComponent implements OnInit {
             complete: () => this.isUpdating.set(false)
         });
     }
-    
-    // --- Filtros e Paginação ---
-    
+        
     filteredOrders = computed(() => {
         let result = this.orders();
         const term = this.searchTerm().toLowerCase().trim();
@@ -149,7 +139,6 @@ export class AdminOrdersPageComponent implements OnInit {
         }
     }
     
-    // Helpers Visuais
     getPaymentBadgeClass(status: string): string {
         switch (status) {
             case 'PAGO':

@@ -1,14 +1,11 @@
 <div class="container mx-auto px-4 py-4 max-w-5xl min-h-[60vh]">
-    <!-- Cabeçalho -->
     <div class="mb-8 border-b border-gray-100 pb-4">
         <h1 class="text-3xl font-bold text-gray-900">Meus Pedidos</h1>
         <p class="text-gray-500 mt-1">Acompanhe o status e histórico das suas compras.</p>
     </div>
     
-    <!-- LOADING STATE -->
     @if (isLoading()) {
         <div class="space-y-4">
-            <!-- Skeleton loader simples -->
             @for (i of [1,2,3]; track i) {
                 <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm animate-pulse">
                     <div class="flex justify-between mb-4">
@@ -24,7 +21,6 @@
         </div>
     } 
     
-    <!-- ERROR STATE -->
     @else if (hasError()) {
         <div class="text-center py-16 bg-red-50 rounded-2xl border border-red-100">
             <div class="inline-flex bg-red-100 p-3 rounded-full mb-4">
@@ -38,7 +34,6 @@
         </div>
     }
     
-    <!-- EMPTY STATE (Sem pedidos) -->
     @else if (orders().length === 0) {
         <div class="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
             <div class="inline-flex bg-white p-4 rounded-full shadow-sm mb-4">
@@ -53,13 +48,11 @@
         </div>
     }
     
-    <!-- LISTA DE PEDIDOS -->
     @else {
         <div class="space-y-6">
             @for (order of orders(); track order.id) {
                 <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all overflow-hidden group">
                     
-                    <!-- Header do Card -->
                     <div class="p-6 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gray-50/50">
                         <div class="flex items-start gap-4">
                             <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
@@ -82,11 +75,9 @@
                     </div>
                 </div>
                 
-                <!-- Corpo do Card -->
                 <div class="p-6">
                     <div class="flex flex-col md:flex-row justify-between gap-6">
                         
-                        <!-- Resumo dos Itens (Mostra os primeiros 2) -->
                         <div class="flex-1 space-y-3">
                             <p class="text-xs font-bold text-gray-400 uppercase">Itens do pedido</p>
                             @for (item of order.itens.slice(0, 3); track $index) {
@@ -108,7 +99,6 @@
                             }
                         </div>
                         
-                        <!-- Resumo Financeiro e Ação -->
                         <div class="md:w-64 md:border-l md:border-gray-100 md:pl-6 flex flex-col justify-between gap-4">
                             <div>
                                 <p class="text-xs font-bold text-gray-400 uppercase mb-1">Valor Total</p>
