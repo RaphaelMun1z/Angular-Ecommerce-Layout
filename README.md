@@ -1,206 +1,57 @@
-![Versão Atual](https://img.shields.io/github/v/release/Nexus-Sistemas/Angular-LojaDeMateriaisParaConstrucao?include_prereleases&label=Versão&color=orange&style=for-the-badge)
+# 🦁 NITOR
 
-# 🏗️ ConstruMonte
+> **Aplicação Full-Stack de E-commerce**
 
-### E-commerce de Materiais de Construção
+Uma plataforma full-stack que une design limpo, alta performance e uma experiência de compra focada no essencial.
 
-Bem-vindo ao repositório do **ConstruMonte**, uma plataforma de e-commerce moderna e robusta desenvolvida para lojas de materiais de construção.
-O projeto utiliza uma arquitetura **full-stack** completa, escalável e alinhada a boas práticas de mercado.
+---
+
+### 🔗 Repositórios
+
+| Aplicação | URL |
+| :--- | :--- |
+| **Frontend (Angular)** | [https://github.com/RaphaelMun1z/Angular-Ecommerce-NITOR](https://github.com/RaphaelMun1z/Angular-Ecommerce-NITOR) |
+| **Backend (API)** | [https://github.com/RaphaelMun1z/Spring-ecommerce](https://github.com/RaphaelMun1z/Spring-ecommerce) |
+| **Documentação API** | [https://spring-ecommerce-xix0.onrender.com/api/swagger-ui.html](https://spring-ecommerce-xix0.onrender.com/api/swagger-ui.html) |
 
 ---
 
 ## 📸 Preview
 
-![Preview do ConstruMonte](./preview.PNG)
+![Preview da NITOR](./PreviewNITOR.png)
 
 ---
 
-## 🚀 Funcionalidades
+## 🔗 Aplicação em Produção
 
-O projeto conta com diversas funcionalidades essenciais para um e-commerce completo:
+O projeto está implantado e acessível online para testes.
 
-### 🏠 Catálogo (Home)
-
-* Listagem de produtos com **filtros dinâmicos** (Categoria, Preço, Marca, Avaliação) integrados à API
-* Alternância entre visualização **Grid** e **Lista**
-* Busca e ordenação via backend
-* **Banner rotativo (Hero Carousel)** com ofertas
-* **Quick View**: popup interativo ao passar o mouse sobre os produtos
-
-### 📦 Página do Produto
-
-* Galeria de imagens com **zoom**
-* **Cálculo de frete** (simulado)
-* Abas de navegação:
-
-  * Visão Geral
-  * Especificações
-  * Avaliações
-
-### 🛒 Carrinho de Compras
-
-* Gestão de itens persistente
-* Resumo financeiro com **cálculo de frete**
-
-### 👤 Área do Usuário
-
-* Autenticação e Autorização (**Login/Cadastro**)
-* Perfil completo com **Dashboard**
-* Histórico de pedidos com **rastreamento**
-* Gestão de endereços e dados pessoais
-
-### 📄 Institucional
-
-* Páginas de:
-
-  * Sobre Nós
-  * Política de Privacidade
-  * FAQ / Ajuda
+👉 **Acesse aqui:** [https://spring-ecommerce-xix0.onrender.com/api/swagger-ui/index.html](https://spring-ecommerce-xix0.onrender.com/api/swagger-ui/index.html)
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🧠 O Conceito da Marca
 
-### Frontend
+A identidade da NITOR foi construída sobre os pilares de **sofisticação, determinação e modernidade**.
 
-* **Angular** — Framework principal para construção da SPA
-* **TypeScript** — Linguagem base do frontend
-* **Tailwind CSS** — Estilização utilitária e responsiva
-* **Phosphor Icons** — Ícones vetoriais modernos
+### O Nome: NITOR (Latim)
+A escolha do latim traz atemporalidade. A palavra possui um duplo significado que reflete a essência do negócio:
+1.  **Esforço Intenso:** Representa o trabalho duro nos bastidores e a logística eficiente.
+2.  **Brilho & Esplendor:** O resultado desse esforço entregue ao cliente: produtos que trazem valor e "brilho" ao dia a dia.
 
-### Backend
-
-* **Java 21 (LTS)** — Linguagem robusta e performática
-* **Spring Boot** — Criação de APIs RESTful
-* **Spring Data JPA** — Persistência de dados
-* **Spring Security** — Autenticação e autorização com JWT
-
-### Banco de Dados
-
-* **PostgreSQL** — Banco de dados relacional confiável
+### A Logo: A Puma Geométrica
+Fugindo dos clichês de e-commerce, a puma foi escolhida por ser um animal que representa **foco, agilidade e determinação silenciosa**.
+* A **boca fechada** transmite seriedade e compromisso.
+* Os **traços geométricos e angulares** (junto com a fonte *Outfit* em caixa alta) reforçam a estética tecnológica, limpa e moderna da plataforma.
 
 ---
 
-## 📂 Estrutura do Projeto
+## ⚡ Tech Stack Essencial
 
-A arquitetura do projeto separa claramente as responsabilidades entre **backend** e **frontend**:
-
-```bash
-/
-├── backend/                    # API Java Spring Boot
-│   ├── src/main/java           # Código fonte
-│   │   └── com/projeto         # Pacote raiz da aplicação
-│   │       ├── config/         # Configurações (Security, CORS, Swagger)
-│   │       ├── controllers/    # Endpoints REST
-│   │       ├── models/         # Entidades JPA
-│   │       ├── repositories/   # Acesso a dados
-│   │       ├── services/       # Regras de negócio
-│   │       └── dtos/           # DTOs (Request / Response)
-│   └── src/main/resources      # Configurações e migrações
-│
-├── frontend/                   # Aplicação Angular
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── core/           # Serviços globais, guards, interceptors
-│   │   │   ├── shared/         # Componentes reutilizáveis
-│   │   │   ├── layout/         # Header, Footer, Navigation
-│   │   │   ├── features/       # Módulos de negócio
-│   │   │   ├── app.component.ts
-│   │   │   └── app.routes.ts   # Rotas da aplicação
-│   │   ├── assets/             # Imagens, fontes, i18n
-│   │   └── styles/             # Estilos globais e Tailwind
-│   ├── angular.json
-│   └── package.json
-│
-└── README.md                   # Documentação do projeto
-```
-
----
-
-## 🚀 Como Rodar o Projeto
-
-### 🔧 Pré-requisitos
-
-* **Node.js** e **npm**
-* **Java JDK 21**
-* **Maven**
-* **PostgreSQL** (instalado e em execução)
-
----
-
-### 1️⃣ Configuração do Banco de Dados
-
-Crie um banco de dados no PostgreSQL:
-
-```sql
-CREATE DATABASE construmonte_db;
-```
-
-Configure as credenciais no arquivo `application.properties` do backend.
-
----
-
-### 2️⃣ Rodando o Backend (Spring Boot)
-
-```bash
-cd backend
-mvn spring-boot:run
-```
-
-O servidor iniciará na porta **8080**.
-
----
-
-### 3️⃣ Rodando o Frontend (Angular)
-
-```bash
-cd frontend
-npm install
-ng serve
-```
-
-Acesse a aplicação em:
-👉 **[http://localhost:4200](http://localhost:4200)**
-
----
-
-## 🎨 Design System
-
-O projeto utiliza um **Design System** baseado em identidade visual do segmento de construção:
-
-* **Cor Primária (Brand):** `#ea580c` (Laranja / Tijolo)
-* **Fonte:** Inter (Google Fonts)
-
----
-
-## 🤝 Contribuição
-
-Contribuições são sempre bem-vindas! 🚀
-
-Passos para contribuir:
-
-1. Faça um **Fork** do projeto
-2. Crie uma **Branch** para sua feature
-
-   ```bash
-   git checkout -b feature/NovaFeature
-   ```
-3. Faça o **Commit**
-
-   ```bash
-   git commit -m "Adicionando nova feature"
-   ```
-4. Faça o **Push**
-
-   ```bash
-   git push origin feature/NovaFeature
-   ```
-5. Abra um **Pull Request**
+* **Frontend:** Angular 19 + Tailwind CSS v4 + Phosphor Icons
+* **Backend:** Java 21 + Spring Boot 3 + Spring Security (JWT)
+* **Database:** PostgreSQL
 
 ---
 
 Desenvolvido por **Raphael Muniz**
-
----
-
-cloudflared tunnel --url http://localhost:8080
