@@ -1,56 +1,77 @@
-# 🦁 NITOR
+# 🛒 E-commerce Modern UI
 
-> **Aplicação Full-Stack de E-commerce**
+> **Uma interface de comércio eletrônico moderna, responsiva e de alto desempenho.**
 
-Uma plataforma full-stack que une design limpo, alta performance e uma experiência de compra focada no essencial.
-
----
-
-### 🔗 Repositórios
-
-| Aplicação | URL |
-| :--- | :--- |
-| **Frontend (Angular)** | [https://github.com/RaphaelMun1z/Angular-Ecommerce-NITOR](https://github.com/RaphaelMun1z/Angular-Ecommerce-NITOR) |
-| **Backend (API)** | [https://github.com/RaphaelMun1z/Spring-ecommerce](https://github.com/RaphaelMun1z/Spring-ecommerce) |
-| **Documentação API** | [https://spring-ecommerce-xix0.onrender.com/api/swagger-ui.html](https://spring-ecommerce-xix0.onrender.com/api/swagger-ui.html) |
+Este projeto é uma solução de E-commerce (B2C) focada no Frontend, desenvolvida com a reatividade e performance do **Angular 19**. O design é limpo, agnóstico a nichos e otimizado para a melhor experiência do usuário e alta taxa de conversão.
 
 ---
 
-## 📸 Preview
+## 🚀 Tech Stack
 
-![Preview da NITOR](./PreviewNITOR.png)
+O projeto utiliza as ferramentas mais modernas do ecossistema front-end:
 
----
-
-## 🔗 Aplicação em Produção
-
-O projeto está implantado e acessível online para testes.
-
-👉 **Acesse aqui:** [https://raphaelmun1z.github.io/Angular-Ecommerce-NITOR/inicio](https://raphaelmun1z.github.io/Angular-Ecommerce-NITOR/inicio)
+* **Framework:** [Angular 19](https://angular.io/)
+* **Estilização:** [Tailwind CSS v4](https://tailwindcss.com/)
+* **Ícones:** [Phosphor Icons](https://phosphoricons.com/)
 
 ---
 
-## 🧠 O Conceito da Marca
+### 🔗 Links do Projeto
 
-A identidade da NITOR foi construída sobre os pilares de **sofisticação, determinação e modernidade**.
-
-### O Nome: NITOR (Latim)
-A escolha do latim traz atemporalidade. A palavra possui um duplo significado que reflete a essência do negócio:
-1.  **Esforço Intenso:** Representa o trabalho duro nos bastidores e a logística eficiente.
-2.  **Brilho & Esplendor:** O resultado desse esforço entregue ao cliente: produtos que trazem valor e "brilho" ao dia a dia.
-
-### A Logo: A Puma Geométrica
-Fugindo dos clichês de e-commerce, a puma foi escolhida por ser um animal que representa **foco, agilidade e determinação silenciosa**.
-* A **boca fechada** transmite seriedade e compromisso.
-* Os **traços geométricos e angulares** (junto com a fonte *Outfit* em caixa alta) reforçam a estética tecnológica, limpa e moderna da plataforma.
+| Componente | URL | Descrição |
+| :--- | :--- | :--- |
+| **Repositório** | [https://github.com/RaphaelMun1z/Angular-Ecommerce-Layout](https://github.com/RaphaelMun1z/Angular-Ecommerce-Layout) | Código fonte da aplicação |
+| **Live Demo** | [**Acessar Aplicação**](https://raphaelmun1z.github.io/Angular-Ecommerce-Layout/inicio) | Deploy em produção para testes |
 
 ---
 
-## ⚡ Tech Stack Essencial
+## ✨ Funcionalidades Principais
 
-* **Frontend:** Angular 19 + Tailwind CSS v4 + Phosphor Icons
-* **Backend:** Java 21 + Spring Boot 3 + Spring Security (JWT)
-* **Database:** PostgreSQL
+O sistema foi projetado para cobrir o fluxo visual e interativo essencial de um e-commerce moderno:
+
+* **Interface de Autenticação:** Telas de Login e Registro com tratamento visual de formulários.
+* **Catálogo Dinâmico:** Listagem de produtos em grid responsivo.
+* **Carrinho de Compras:** Gestão de estado local para adição, remoção e visualização de itens.
+* **Design Responsivo (Mobile-First):** Interface fluida que se adapta perfeitamente a Mobile, Tablet e Desktop.
+* **UI/UX Focada no Produto:** Layout limpo e minimalista para destacar as mercadorias, construído com as melhores práticas do Tailwind v4.
+
+---
+
+## 📸 Preview da Aplicação
+
+![Preview da Aplicação](./PreviewLayout.png)
+
+---
+
+## 🔧 Como Executar Localmente
+
+### Pré-requisitos
+* Node.js (versão LTS recomendada)
+* Angular CLI
+
+### Passos Rápidos
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/RaphaelMun1z/Angular-Ecommerce-Layout.git
+   ```
+
+2. **Acesse a pasta do projeto:**
+   ```bash
+   cd Angular-Ecommerce-Layout
+   ```
+
+3. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+
+4. **Inicie a aplicação:**
+   ```bash
+   ng serve
+   ```
+
+5. O servidor será iniciado localmente. Acesse no seu navegador: `http://localhost:4200`
 
 ---
 
