@@ -1,0 +1,1623 @@
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>e-shop. | Seu Mercado Eletrônico Completo</title>
+		<!-- SEO Meta Tags -->
+		<meta
+			name="description"
+			content="Encontre os melhores eletrônicos, notebooks, smartphones e gadgets no e-shop. Frete grátis e promoções exclusivas."
+		/>
+		<meta
+			name="keywords"
+			content="eletrônicos, loja de tecnologia, notebooks, smartphones, fones de ouvido"
+		/>
+
+		<!-- Google Fonts: Inter -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Tailwind CSS -->
+		<script src="https://cdn.tailwindcss.com"></script>
+
+		<!-- Phosphor Icons -->
+		<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+		<!-- Tailwind Configuration -->
+		<script>
+			tailwind.config = {
+				theme: {
+					extend: {
+						fontFamily: {
+							sans: ["Inter", "sans-serif"],
+						},
+						colors: {
+							brand: {
+								DEFAULT: "#f45b49", // Cor principal exata do layout
+								light: "#f87a6b",
+								dark: "#d94b3a",
+								50: "#fff5f4",
+							},
+						},
+					},
+				},
+			};
+		</script>
+
+		<style>
+			/* Ocultar scrollbar mantendo a funcionalidade de scroll */
+			.hide-scrollbar::-webkit-scrollbar {
+				display: none;
+			}
+			.hide-scrollbar {
+				-ms-overflow-style: none;
+				scrollbar-width: none;
+			}
+			/* Suavidade no accordion e transições */
+			html {
+				scroll-behavior: smooth;
+			}
+		</style>
+	</head>
+	<body class="font-sans text-gray-800 bg-white antialiased">
+		<!-- COMPONENTE: Header Principal -->
+		<header class="w-full bg-brand text-white">
+			<!-- SUBCOMPONENTE: Topbar -->
+			<div class="border-b border-white/20 hidden md:block">
+				<div
+					class="container mx-auto px-4 lg:px-8 py-2.5 flex justify-between items-center text-[11px] font-medium text-white/90"
+				>
+					<div class="flex items-center space-x-6">
+						<div class="flex items-center space-x-1.5">
+							<i class="ph ph-map-pin text-sm"></i>
+							<span>Av. Paulista, 1000, São Paulo, BR</span>
+						</div>
+						<div class="flex items-center space-x-1.5">
+							<i class="ph ph-phone text-sm"></i>
+							<span>+55 11 99999-9999</span>
+						</div>
+					</div>
+					<div class="flex items-center space-x-6">
+						<div
+							class="flex items-center space-x-1 cursor-pointer hover:text-white transition opacity-90 hover:opacity-100"
+						>
+							<span>BRL</span>
+							<i class="ph ph-caret-down text-[10px]"></i>
+						</div>
+						<div
+							class="flex items-center space-x-1.5 cursor-pointer hover:text-white transition opacity-90 hover:opacity-100"
+						>
+							<img
+								src="https://flagcdn.com/w20/br.png"
+								alt=""
+								class="w-3.5 h-2.5 object-cover rounded-sm"
+							/>
+							<span>Português</span>
+							<i class="ph ph-caret-down text-[10px]"></i>
+						</div>
+						<div
+							class="flex items-center space-x-3 text-sm opacity-90"
+						>
+							<a
+								href="#"
+								class="hover:text-white hover:opacity-100 transition"
+								><i class="ph-fill ph-facebook-logo"></i
+							></a>
+							<a
+								href="#"
+								class="hover:text-white hover:opacity-100 transition"
+								><i class="ph-fill ph-twitter-logo"></i
+							></a>
+							<a
+								href="#"
+								class="hover:text-white hover:opacity-100 transition"
+								><i class="ph-fill ph-instagram-logo"></i
+							></a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- SUBCOMPONENTE: Logo e Pesquisa -->
+			<div>
+				<div
+					class="container mx-auto px-4 lg:px-8 py-6 flex justify-between items-center"
+				>
+					<!-- Logo -->
+					<a
+						href="/"
+						class="text-3xl font-extrabold tracking-tighter text-white"
+					>
+						e-shop<span class="text-yellow-400">.</span>
+					</a>
+
+					<!-- Search Bar -->
+					<div class="hidden md:flex flex-1 max-w-2xl mx-12">
+						<form
+							class="flex w-full bg-white rounded-md overflow-hidden shadow-sm h-11"
+						>
+							<div
+								class="relative bg-white border-r border-gray-200 hidden lg:block text-gray-600 min-w-[170px]"
+							>
+								<select
+									class="appearance-none bg-transparent py-2.5 pl-4 pr-8 text-sm outline-none cursor-pointer w-full h-full font-medium"
+								>
+									<option>Todas Categorias</option>
+									<option>Notebooks</option>
+									<option>Smartphones</option>
+								</select>
+								<i
+									class="ph ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs"
+								></i>
+							</div>
+							<input
+								type="text"
+								placeholder="Buscar Produtos..."
+								class="flex-1 px-4 py-2.5 outline-none text-sm w-full text-gray-800 placeholder-gray-400"
+							/>
+							<button
+								type="submit"
+								class="bg-white px-5 text-gray-800 hover:text-brand transition flex items-center justify-center"
+							>
+								<i
+									class="ph ph-magnifying-glass text-lg font-bold"
+								></i>
+							</button>
+						</form>
+					</div>
+
+					<!-- Ações -->
+					<div class="flex items-center space-x-6">
+						<div
+							class="flex items-center space-x-3 cursor-pointer group"
+						>
+							<div class="relative">
+								<i
+									class="ph ph-shopping-cart text-3xl group-hover:opacity-80 transition"
+								></i>
+								<span
+									class="absolute -top-1 -right-1 bg-white text-brand text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm"
+									>2</span
+								>
+							</div>
+							<div
+								class="hidden lg:block text-[11px] leading-tight"
+							>
+								<p class="text-white/80">Carrinho</p>
+								<p class="font-bold text-sm">R$ 150,00</p>
+							</div>
+						</div>
+						<div
+							class="flex items-center space-x-3 cursor-pointer group"
+						>
+							<i
+								class="ph ph-user text-3xl group-hover:opacity-80 transition"
+							></i>
+							<div
+								class="hidden lg:block text-[11px] leading-tight"
+							>
+								<p class="text-white/80">Usuário</p>
+								<p class="font-bold text-sm">Conta</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- SUBCOMPONENTE: Barra de Navegação -->
+			<nav class="border-t border-white/20">
+				<div class="container mx-auto px-4 lg:px-8">
+					<div
+						class="flex justify-between items-center text-sm font-medium"
+					>
+						<ul class="flex items-center">
+							<li class="relative group">
+								<a
+									href="#"
+									class="flex items-center space-x-2 px-0 py-4 mr-8 hover:opacity-80 transition"
+								>
+									<i class="ph ph-list text-lg"></i>
+									<span>Todas Categorias</span>
+								</a>
+							</li>
+							<li>
+								<a
+									href="#"
+									class="px-5 py-4 inline-block hover:opacity-80 transition"
+									>Produtos
+									<i
+										class="ph ph-caret-down inline-block ml-1 text-[10px]"
+									></i
+								></a>
+							</li>
+							<li>
+								<a
+									href="#"
+									class="px-5 py-4 inline-block hover:opacity-80 transition"
+									>Blog</a
+								>
+							</li>
+							<li>
+								<a
+									href="#"
+									class="px-5 py-4 inline-block hover:opacity-80 transition"
+									>Contato</a
+								>
+							</li>
+						</ul>
+						<ul
+							class="hidden md:flex items-center space-x-8 text-xs font-bold tracking-wide"
+						>
+							<li>
+								<a href="#" class="hover:opacity-80 transition"
+									>OFERTA LIMITADA</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:opacity-80 transition"
+									>Mais Vendidos</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:opacity-80 transition"
+									>Lançamentos</a
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main>
+			<!-- COMPONENTE: Hero Section (Full Width & Viewport Height) -->
+			<section
+				class="w-full bg-[#f4f6f8] relative flex items-stretch min-h-[calc(100vh-180px)] pt-12 lg:pt-0 overflow-hidden"
+			>
+				<!-- Seta Esquerda (Posicionada na margem do ecrã) -->
+				<button
+					class="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md z-20 text-gray-400 hover:text-brand transition hidden md:flex"
+				>
+					<i class="ph ph-caret-left text-xl"></i>
+				</button>
+
+				<!-- Conteúdo Centralizado -->
+				<div
+					class="container mx-auto px-4 lg:px-16 flex flex-col md:flex-row items-stretch justify-between relative z-10 w-full flex-1"
+				>
+					<!-- Textos -->
+					<div
+						class="md:w-1/2 z-10 space-y-6 md:pr-8 flex flex-col justify-center items-start pb-12 lg:pb-0"
+					>
+						<h1
+							class="text-4xl md:text-5xl lg:text-[4rem] font-extrabold leading-[1.1] text-gray-900 tracking-tight"
+						>
+							Eleve o Nível dos<br />Seus Gadgets
+						</h1>
+						<p
+							class="text-gray-500 max-w-md text-sm lg:text-base leading-relaxed"
+						>
+							Compre a tecnologia mais recente disponível aqui no
+							e-shop. Ofertas e descontos exclusivos todos os
+							dias.
+						</p>
+						<button
+							class="bg-brand text-white px-10 py-4 rounded hover:bg-brand-dark transition font-medium shadow-lg shadow-brand/30 mt-4"
+						>
+							Comprar Agora
+						</button>
+					</div>
+
+					<!-- Imagem -->
+					<div
+						class="md:w-1/2 mt-4 md:mt-0 relative flex justify-center lg:justify-end z-10 items-end"
+					>
+						<img
+							src="i1.png"
+							alt="[Image of Smartphones]"
+							class="max-h-[400px] lg:max-h-[600px] w-auto object-contain object-bottom mix-blend-multiply drop-shadow-2xl"
+						/>
+					</div>
+				</div>
+
+				<!-- Seta Direita (Posicionada na margem do ecrã) -->
+				<button
+					class="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md z-20 text-gray-400 hover:text-brand transition hidden md:flex"
+				>
+					<i class="ph ph-caret-right text-xl"></i>
+				</button>
+			</section>
+
+			<!-- COMPONENTE: Brands Strip -->
+			<section
+				class="container mx-auto px-4 lg:px-8 py-10 mb-8 border-b border-gray-100"
+			>
+				<div
+					class="flex flex-wrap justify-center md:justify-between items-center opacity-70 grayscale hover:grayscale-0 transition duration-500 gap-8 pb-6"
+				>
+					<h4 class="text-2xl font-bold italic text-black">
+						SAMSUNG
+					</h4>
+					<h4
+						class="text-xl font-semibold text-black tracking-tight flex items-center"
+					>
+						<i class="ph-fill ph-open-ai-logo mr-1 text-2xl"></i
+						>OpenAI
+					</h4>
+					<h4 class="text-2xl font-bold text-black tracking-tighter">
+						amazon
+					</h4>
+					<h4 class="text-xl font-bold text-black flex items-center">
+						Tencent
+						<span class="ml-1 text-lg font-normal">腾讯</span>
+					</h4>
+					<h4 class="text-xl font-bold flex items-center">
+						<i class="ph-fill ph-spotify-logo mr-1 text-2xl"></i
+						>Spotify
+					</h4>
+				</div>
+			</section>
+
+			<!-- COMPONENTE: Promo Banners Grid -->
+			<section class="container mx-auto px-4 lg:px-8 py-8 mb-12">
+				<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+					<!-- Banner Grande -->
+					<div
+						class="lg:col-span-2 bg-[#f6f7f9] rounded-2xl p-8 md:p-12 relative overflow-hidden flex flex-col justify-center min-h-[350px] md:min-h-[450px]"
+					>
+						<div
+							class="z-10 relative w-full md:w-3/5 lg:w-1/2 space-y-5"
+						>
+							<h3
+								class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight"
+							>
+								Frete Grátis<br class="hidden md:block" />
+								para Todo Brasil!
+							</h3>
+							<p
+								class="text-sm text-gray-500 leading-relaxed max-w-sm"
+							>
+								Especial para pedidos acima de R$ 500,00.<br
+									class="hidden md:block"
+								/>
+								Disponível durante todo o mês de Maio e Junho.
+							</p>
+							<button
+								class="bg-brand text-white px-8 py-3 rounded-lg text-sm font-bold hover:bg-brand-dark transition shadow-lg shadow-brand/30"
+							>
+								Comprar Agora
+							</button>
+						</div>
+						<!-- Imagem das Caixas -->
+						<img
+							src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80"
+							alt=""
+							class="absolute -right-16 md:-right-8 lg:right-0 bottom-0 h-[80%] md:h-[90%] object-contain object-right-bottom mix-blend-multiply opacity-40 md:opacity-100 z-0 pointer-events-none w-auto max-w-[70%] md:max-w-[50%]"
+						/>
+					</div>
+
+					<!-- Banners Pequenos Empilhados -->
+					<div class="flex flex-col gap-6">
+						<!-- Promo 1 -->
+						<div
+							class="bg-[#f6f7f9] rounded-2xl p-6 md:p-8 relative overflow-hidden flex-1 flex flex-col justify-center min-h-[200px] md:min-h-[210px]"
+						>
+							<div class="z-10 relative w-3/5">
+								<h3
+									class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-tight"
+								>
+									Liquidação de<br />Black Friday
+								</h3>
+								<p class="text-xs text-gray-500 mb-5">
+									Até 80% de desconto.
+								</p>
+								<button
+									class="bg-brand text-white px-6 py-2.5 rounded-lg text-xs font-bold hover:bg-brand-dark transition shadow-md shadow-brand/30"
+								>
+									Ver Ofertas
+								</button>
+							</div>
+							<!-- Imagem Tablet -->
+							<img
+								src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&q=80"
+								alt="[Image of Tablet]"
+								class="absolute -right-10 md:-right-6 top-1/2 -translate-y-1/2 h-[80%] md:h-[90%] object-contain mix-blend-multiply z-0 pointer-events-none opacity-50 md:opacity-100"
+							/>
+						</div>
+
+						<!-- Promo 2 -->
+						<div
+							class="bg-[#f6f7f9] rounded-2xl p-6 md:p-8 relative overflow-hidden flex-1 flex flex-col justify-center min-h-[200px] md:min-h-[210px]"
+						>
+							<div class="z-10 relative w-3/5">
+								<h3
+									class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-tight"
+								>
+									Primeira Compra<br />20% de Desconto
+								</h3>
+								<p class="text-xs text-gray-500 mb-5">
+									Use o código PRIMEIRA20
+								</p>
+								<button
+									class="bg-brand text-white px-6 py-2.5 rounded-lg text-xs font-bold hover:bg-brand-dark transition shadow-md shadow-brand/30"
+								>
+									Usar Cupom
+								</button>
+							</div>
+							<!-- Imagem Headphones -->
+							<img
+								src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&q=80"
+								alt=""
+								class="absolute -right-8 md:-right-4 top-1/2 -translate-y-1/2 h-[75%] md:h-[85%] object-contain mix-blend-multiply z-0 pointer-events-none opacity-50 md:opacity-100"
+							/>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- COMPONENTE: Featured Products -->
+			<section class="container mx-auto px-4 lg:px-8 py-8">
+				<div class="flex justify-between items-center mb-6">
+					<h2 class="text-2xl font-bold text-gray-900">
+						Produtos em Destaque
+					</h2>
+					<a
+						href="#"
+						class="text-brand text-sm font-medium hover:underline flex items-center"
+						>Ver todos <i class="ph ph-arrow-right ml-1"></i
+					></a>
+				</div>
+
+				<div
+					class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6 relative"
+				>
+					<!-- Setas de navegação -->
+					<button
+						class="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm z-10 hover:border-brand hover:text-brand transition hidden md:flex"
+					>
+						<i class="ph ph-caret-left"></i>
+					</button>
+					<button
+						class="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm z-10 hover:border-brand hover:text-brand transition hidden md:flex"
+					>
+						<i class="ph ph-caret-right"></i>
+					</button>
+
+					<!-- Produto 1 -->
+					<article class="bg-transparent group cursor-pointer">
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<img
+								src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&q=80"
+								alt="[Image of Smartphone]"
+								class="object-contain max-h-full mix-blend-multiply transition transform group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<p
+								class="text-[10px] text-gray-400 uppercase tracking-wider mb-1"
+							>
+								CELULAR
+							</p>
+							<h3
+								class="text-sm font-semibold text-gray-800 leading-tight mb-2 group-hover:text-brand transition"
+							>
+								iPhone 13 Alta Qualidade Excelente Câmera...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph ph-star"></i>
+								</div>
+								<span class="text-xs text-gray-400">(45)</span>
+							</div>
+							<p class="font-bold text-gray-900">R$ 4.999,00</p>
+						</div>
+					</article>
+
+					<!-- Produto 2 -->
+					<article class="bg-transparent group cursor-pointer">
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<span
+								class="absolute top-2 right-2 bg-brand text-white text-[10px] font-bold px-2 py-1 rounded-full z-10"
+								>-20%</span
+							>
+							<img
+								src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&q=80"
+								alt=""
+								class="object-contain max-h-full mix-blend-multiply transition transform group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<p
+								class="text-[10px] text-gray-400 uppercase tracking-wider mb-1"
+							>
+								ÁUDIO
+							</p>
+							<h3
+								class="text-sm font-semibold text-gray-800 leading-tight mb-2 group-hover:text-brand transition"
+							>
+								Fone de Ouvido Sem Fio Mini HWX934...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i>
+								</div>
+								<span class="text-xs text-gray-400">(128)</span>
+							</div>
+							<div class="flex items-center space-x-2">
+								<p class="font-bold text-brand">R$ 259,00</p>
+								<p class="text-xs text-gray-400 line-through">
+									R$ 379,00
+								</p>
+							</div>
+						</div>
+					</article>
+
+					<!-- Produto 3 (Card Ativo/Hover) -->
+					<article
+						class="bg-white group cursor-pointer rounded-lg border border-gray-100 shadow-lg p-2 relative"
+					>
+						<span
+							class="absolute top-4 right-4 bg-brand text-white text-[10px] font-bold px-2 py-1 rounded-full z-10"
+							>-10%</span
+						>
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<img
+								src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300&q=80"
+								alt=""
+								class="object-contain max-h-full transition transform group-hover:scale-105"
+							/>
+
+							<!-- Ações Hover -->
+							<div
+								class="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition"
+							>
+								<button
+									class="w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center text-gray-600 hover:text-brand hover:border-brand shadow-sm"
+								>
+									<i class="ph ph-heart"></i>
+								</button>
+								<button
+									class="w-8 h-8 bg-brand text-white rounded-full flex items-center justify-center shadow-sm"
+								>
+									<i class="ph ph-shopping-cart"></i>
+								</button>
+								<button
+									class="w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center text-gray-600 hover:text-brand hover:border-brand shadow-sm"
+								>
+									<i class="ph ph-eye"></i>
+								</button>
+							</div>
+						</div>
+						<div class="px-2 pb-2">
+							<p
+								class="text-[10px] text-brand uppercase tracking-wider mb-1"
+							>
+								NOTEBOOK
+							</p>
+							<h3
+								class="text-sm font-semibold text-brand leading-tight mb-2 underline"
+							>
+								Notebook HP 15 polegadas Tela HD LED 2022 ...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star-half"></i>
+								</div>
+								<span class="text-xs text-gray-400">(56)</span>
+							</div>
+							<p class="font-bold text-gray-900">R$ 3.199,00</p>
+						</div>
+					</article>
+
+					<!-- Produto 4 -->
+					<article class="bg-transparent group cursor-pointer">
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<img
+								src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&q=80"
+								alt="[Image of Câmara Fotográfica]"
+								class="object-contain max-h-full mix-blend-multiply transition transform group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<p
+								class="text-[10px] text-gray-400 uppercase tracking-wider mb-1"
+							>
+								CÂMERA
+							</p>
+							<h3
+								class="text-sm font-semibold text-gray-800 leading-tight mb-2 group-hover:text-brand transition"
+							>
+								Mini Câmera Polaroid com Flash Integrado...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph ph-star"></i>
+								</div>
+								<span class="text-xs text-gray-400">(32)</span>
+							</div>
+							<p class="font-bold text-gray-900">R$ 579,00</p>
+						</div>
+					</article>
+
+					<!-- Produto 5 -->
+					<article class="bg-transparent group cursor-pointer">
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<img
+								src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=300&q=80"
+								alt="[Image of Smart TV]"
+								class="object-contain max-h-full mix-blend-multiply transition transform group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<p
+								class="text-[10px] text-gray-400 uppercase tracking-wider mb-1"
+							>
+								TELEVISÃO
+							</p>
+							<h3
+								class="text-sm font-semibold text-gray-800 leading-tight mb-2 group-hover:text-brand transition"
+							>
+								Smart TV LG OLED 4K OLED65CXPUA Nova...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i>
+								</div>
+								<span class="text-xs text-gray-400">(15)</span>
+							</div>
+							<p class="font-bold text-gray-900">R$ 5.799,00</p>
+						</div>
+					</article>
+				</div>
+			</section>
+
+			<!-- COMPONENTE: New Products -->
+			<section class="container mx-auto px-4 lg:px-8 py-8">
+				<div class="flex justify-between items-center mb-6">
+					<h2 class="text-2xl font-bold text-gray-900">
+						Lançamentos
+					</h2>
+					<a
+						href="#"
+						class="text-brand text-sm font-medium hover:underline flex items-center"
+						>Ver todos <i class="ph ph-arrow-right ml-1"></i
+					></a>
+				</div>
+
+				<div
+					class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6"
+				>
+					<!-- Reaproveitando estrutura de card de produto -->
+					<article class="bg-transparent group cursor-pointer">
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<span
+								class="absolute top-2 left-2 bg-blue-500 text-white text-[10px] font-bold px-2 py-1 rounded-full z-10"
+								>NOVO</span
+							>
+							<img
+								src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=300&q=80"
+								alt="[Image of Tablet]"
+								class="object-contain max-h-full mix-blend-multiply transition transform group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<p
+								class="text-[10px] text-gray-400 uppercase tracking-wider mb-1"
+							>
+								TABLET
+							</p>
+							<h3
+								class="text-sm font-semibold text-gray-800 leading-tight mb-2 group-hover:text-brand transition"
+							>
+								iPad Pro Chip M2 Tela de 11 Polegadas...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i>
+								</div>
+								<span class="text-xs text-gray-400">(45)</span>
+							</div>
+							<p class="font-bold text-brand">R$ 7.899,00</p>
+						</div>
+					</article>
+					<article class="bg-transparent group cursor-pointer">
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<span
+								class="absolute top-2 right-2 bg-brand text-white text-[10px] font-bold px-2 py-1 rounded-full z-10"
+								>-15%</span
+							>
+							<img
+								src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=300&q=80"
+								alt=""
+								class="object-contain max-h-full mix-blend-multiply transition transform group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<p
+								class="text-[10px] text-gray-400 uppercase tracking-wider mb-1"
+							>
+								NOTEBOOK
+							</p>
+							<h3
+								class="text-sm font-semibold text-gray-800 leading-tight mb-2 group-hover:text-brand transition"
+							>
+								MacBook Air Chip M2 2022 256GB...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star-half"></i>
+								</div>
+								<span class="text-xs text-gray-400">(12)</span>
+							</div>
+							<p class="font-bold text-gray-900">R$ 8.099,00</p>
+						</div>
+					</article>
+					<article class="bg-transparent group cursor-pointer">
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<img
+								src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=300&q=80"
+								alt="[Image of Headset]"
+								class="object-contain max-h-full mix-blend-multiply transition transform group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<p
+								class="text-[10px] text-gray-400 uppercase tracking-wider mb-1"
+							>
+								ÁUDIO
+							</p>
+							<h3
+								class="text-sm font-semibold text-gray-800 leading-tight mb-2 group-hover:text-brand transition"
+							>
+								Sony WH-1000XM5 Cancelamento de Ruído...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i>
+								</div>
+								<span class="text-xs text-gray-400">(128)</span>
+							</div>
+							<p class="font-bold text-gray-900">R$ 2.348,00</p>
+						</div>
+					</article>
+					<article class="bg-transparent group cursor-pointer">
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<img
+								src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=300&q=80"
+								alt="[Image of Smartwatch]"
+								class="object-contain max-h-full mix-blend-multiply transition transform group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<p
+								class="text-[10px] text-gray-400 uppercase tracking-wider mb-1"
+							>
+								VESTÍVEIS
+							</p>
+							<h3
+								class="text-sm font-semibold text-gray-800 leading-tight mb-2 group-hover:text-brand transition"
+							>
+								Samsung Galaxy Watch 5 Pro 45mm...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph ph-star"></i>
+								</div>
+								<span class="text-xs text-gray-400">(32)</span>
+							</div>
+							<p class="font-bold text-brand">R$ 1.299,00</p>
+						</div>
+					</article>
+					<article class="bg-transparent group cursor-pointer">
+						<div
+							class="relative bg-transparent rounded-lg aspect-square mb-3 flex items-center justify-center p-4"
+						>
+							<img
+								src="https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?w=300&q=80"
+								alt=""
+								class="object-contain max-h-full mix-blend-multiply transition transform group-hover:scale-105"
+							/>
+						</div>
+						<div>
+							<p
+								class="text-[10px] text-gray-400 uppercase tracking-wider mb-1"
+							>
+								COMPONENTES
+							</p>
+							<h3
+								class="text-sm font-semibold text-gray-800 leading-tight mb-2 group-hover:text-brand transition"
+							>
+								NVIDIA GeForce RTX 4090 24GB...
+							</h3>
+							<div class="flex items-center space-x-1 mb-2">
+								<div class="flex text-yellow-400 text-xs">
+									<i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i
+									><i class="ph-fill ph-star"></i>
+								</div>
+								<span class="text-xs text-gray-400">(15)</span>
+							</div>
+							<p class="font-bold text-gray-900">R$ 12.599,00</p>
+						</div>
+					</article>
+				</div>
+
+				<!-- Paginação Numerada -->
+				<div class="flex justify-center items-center mt-10 space-x-1">
+					<button
+						class="w-8 h-8 flex items-center justify-center rounded-md text-gray-400 hover:text-brand transition"
+					>
+						<i class="ph ph-caret-left"></i>
+					</button>
+					<button
+						class="w-8 h-8 flex items-center justify-center rounded-md bg-brand text-white font-bold text-sm shadow-md"
+					>
+						1
+					</button>
+					<button
+						class="w-8 h-8 flex items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 transition text-sm font-medium"
+					>
+						2
+					</button>
+					<button
+						class="w-8 h-8 flex items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 transition text-sm font-medium"
+					>
+						3
+					</button>
+					<button
+						class="w-8 h-8 flex items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 transition text-sm font-medium"
+					>
+						4
+					</button>
+					<button
+						class="w-8 h-8 flex items-center justify-center rounded-md text-gray-400 hover:text-brand transition"
+					>
+						<i class="ph ph-caret-right"></i>
+					</button>
+				</div>
+			</section>
+
+			<!-- COMPONENTE: Secção Mista (Special Limited Edition + Trending Items) -->
+			<section class="container mx-auto px-4 lg:px-8 py-8">
+				<div class="flex flex-col lg:flex-row gap-8">
+					<!-- Coluna Esquerda: Banner Limited Edition -->
+					<div
+						class="lg:w-1/3 xl:w-1/4 bg-gray-100 rounded-xl p-8 flex flex-col items-center justify-center text-center relative overflow-hidden"
+					>
+						<h3 class="text-xl font-bold text-gray-900 mb-2 z-10">
+							Edição<br />Especial Limitada
+						</h3>
+						<p class="text-xs text-gray-500 mb-6 z-10">
+							Designs exclusivos, garanta o seu antes que acabe!
+						</p>
+						<button
+							class="bg-brand text-white px-6 py-2 rounded text-sm hover:bg-brand-dark transition z-10"
+						>
+							Comprar Agora
+						</button>
+						<!-- Imagem Decorativa de Fundo -->
+						<img
+							src="https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=400&q=80"
+							alt=""
+							class="mt-8 object-contain mix-blend-multiply max-h-48 z-10 hover:scale-105 transition duration-500"
+						/>
+					</div>
+
+					<!-- Coluna Direita: Trending Items -->
+					<div class="lg:w-2/3 xl:w-3/4">
+						<div
+							class="flex justify-between items-center mb-6 border-b border-gray-100 pb-2"
+						>
+							<h2 class="text-xl font-bold text-gray-900">
+								Itens em Alta
+							</h2>
+							<a
+								href="#"
+								class="text-brand text-sm hover:underline flex items-center"
+								>Ver todos</a
+							>
+						</div>
+
+						<div
+							class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6"
+						>
+							<!-- Item Trending 1 (Horizontal Layout) -->
+							<article
+								class="flex items-center space-x-4 bg-transparent p-2 rounded-lg hover:shadow-md transition cursor-pointer group"
+							>
+								<div
+									class="w-24 h-24 bg-transparent rounded flex items-center justify-center flex-shrink-0"
+								>
+									<img
+										src="https://images.unsplash.com/photo-1544228863-7fb78c772e29?w=150&q=80"
+										alt=""
+										class="object-contain max-h-full mix-blend-multiply group-hover:scale-110 transition"
+									/>
+								</div>
+								<div>
+									<h3
+										class="text-sm font-semibold text-gray-800 leading-tight mb-1 group-hover:text-brand transition"
+									>
+										Teclado Sem Fio Logitech MX
+										Mechanical...
+									</h3>
+									<div
+										class="flex text-yellow-400 text-[10px] mb-2"
+									>
+										<i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i>
+									</div>
+									<p class="font-bold text-gray-900 text-sm">
+										R$ 869,99
+									</p>
+								</div>
+							</article>
+
+							<!-- Item Trending 2 -->
+							<article
+								class="flex items-center space-x-4 bg-transparent p-2 rounded-lg hover:shadow-md transition cursor-pointer group"
+							>
+								<div
+									class="w-24 h-24 bg-transparent rounded flex items-center justify-center flex-shrink-0"
+								>
+									<img
+										src="https://images.unsplash.com/photo-1527814050087-379381547994?w=150&q=80"
+										alt=""
+										class="object-contain max-h-full mix-blend-multiply group-hover:scale-110 transition"
+									/>
+								</div>
+								<div>
+									<h3
+										class="text-sm font-semibold text-gray-800 leading-tight mb-1 group-hover:text-brand transition"
+									>
+										Caixa de Som Portátil Bluetooth JBL Flip
+										6...
+									</h3>
+									<div
+										class="flex text-yellow-400 text-[10px] mb-2"
+									>
+										<i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph ph-star"></i>
+									</div>
+									<p class="font-bold text-gray-900 text-sm">
+										R$ 529,95
+									</p>
+								</div>
+							</article>
+
+							<!-- Item Trending 3 -->
+							<article
+								class="flex items-center space-x-4 bg-transparent p-2 rounded-lg hover:shadow-md transition cursor-pointer group"
+							>
+								<div
+									class="w-24 h-24 bg-transparent rounded flex items-center justify-center flex-shrink-0"
+								>
+									<img
+										src="https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=150&q=80"
+										alt=""
+										class="object-contain max-h-full mix-blend-multiply group-hover:scale-110 transition"
+									/>
+								</div>
+								<div>
+									<h3
+										class="text-sm font-semibold text-gray-800 leading-tight mb-1 group-hover:text-brand transition"
+									>
+										Mouse Sem Fio Razer DeathAdder V3 Pro...
+									</h3>
+									<div
+										class="flex text-yellow-400 text-[10px] mb-2"
+									>
+										<i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star-half"></i>
+									</div>
+									<p class="font-bold text-gray-900 text-sm">
+										R$ 749,99
+									</p>
+								</div>
+							</article>
+
+							<!-- Item Trending 4 -->
+							<article
+								class="flex items-center space-x-4 bg-transparent p-2 rounded-lg hover:shadow-md transition cursor-pointer group"
+							>
+								<div
+									class="w-24 h-24 bg-transparent rounded flex items-center justify-center flex-shrink-0 relative"
+								>
+									<span
+										class="absolute top-1 left-1 bg-brand text-white text-[8px] font-bold px-1.5 py-0.5 rounded-sm z-10"
+										>PROMO</span
+									>
+									<img
+										src="https://images.unsplash.com/photo-1628234857095-d2fc05d67b09?w=150&q=80"
+										alt=""
+										class="object-contain max-h-full mix-blend-multiply group-hover:scale-110 transition"
+									/>
+								</div>
+								<div>
+									<h3
+										class="text-sm font-semibold text-gray-800 leading-tight mb-1 group-hover:text-brand transition"
+									>
+										Monitor Curvo Ultrawide LG 34
+										Polegadas...
+									</h3>
+									<div
+										class="flex text-yellow-400 text-[10px] mb-2"
+									>
+										<i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i
+										><i class="ph-fill ph-star"></i>
+									</div>
+									<div class="flex items-center space-x-2">
+										<p class="font-bold text-brand text-sm">
+											R$ 2.399,00
+										</p>
+										<p
+											class="text-[10px] text-gray-400 line-through"
+										>
+											R$ 3.499,00
+										</p>
+									</div>
+								</div>
+							</article>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- COMPONENTE: Horizontal Promo Banner (Drone) -->
+			<section class="container mx-auto px-4 lg:px-8 py-8">
+				<div
+					class="bg-gray-100 rounded-xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between relative overflow-hidden"
+				>
+					<div class="z-10 md:w-1/2 space-y-4">
+						<h2 class="text-3xl font-bold text-gray-900">
+							Economize Muito em Itens Selecionados
+						</h2>
+						<p class="text-gray-500 text-sm max-w-sm">
+							Capture seus melhores momentos com drones de alta
+							qualidade. Até 30% de desconto neste fim de semana.
+						</p>
+						<button
+							class="bg-brand text-white px-6 py-2 rounded text-sm hover:bg-brand-dark transition mt-2"
+						>
+							Ver Produtos
+						</button>
+					</div>
+					<div
+						class="mt-8 md:mt-0 md:w-1/2 flex justify-end z-10 relative"
+					>
+						<img
+							src="https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=600&q=80"
+							alt="[Image of Drone]"
+							class="max-h-64 object-contain mix-blend-multiply transform hover:scale-105 transition duration-500"
+						/>
+					</div>
+				</div>
+			</section>
+
+			<!-- COMPONENTE: FAQ Section -->
+			<section class="container mx-auto px-4 lg:px-8 py-16">
+				<div class="max-w-3xl mx-auto">
+					<div class="text-center mb-10">
+						<h2 class="text-2xl font-bold text-gray-900 mb-2">
+							Perguntas Frequentes
+						</h2>
+						<p class="text-gray-500 text-sm">
+							Encontre respostas para as dúvidas mais comuns sobre
+							nossos produtos e serviços.
+						</p>
+					</div>
+
+					<div class="space-y-4">
+						<!-- FAQ Item 1 -->
+						<div
+							class="border border-gray-100 bg-white rounded-lg p-4 shadow-sm cursor-pointer hover:border-brand transition group"
+						>
+							<div class="flex justify-between items-center">
+								<h4
+									class="font-medium text-gray-800 group-hover:text-brand transition"
+								>
+									<i
+										class="ph-fill ph-caret-right text-brand mr-2 text-xs"
+									></i
+									>Quais métodos de pagamento vocês aceitam?
+								</h4>
+							</div>
+						</div>
+						<!-- FAQ Item 2 -->
+						<div
+							class="border border-gray-100 bg-white rounded-lg p-4 shadow-sm cursor-pointer hover:border-brand transition group"
+						>
+							<div class="flex justify-between items-center">
+								<h4
+									class="font-medium text-gray-800 group-hover:text-brand transition"
+								>
+									<i
+										class="ph-fill ph-caret-right text-brand mr-2 text-xs"
+									></i
+									>Quanto tempo demora para o produto ser
+									enviado?
+								</h4>
+							</div>
+						</div>
+						<!-- FAQ Item 3 (Ativo/Aberto) -->
+						<div
+							class="border border-brand bg-brand-50 rounded-lg p-4 shadow-sm"
+						>
+							<div class="flex justify-between items-center mb-3">
+								<h4 class="font-medium text-brand">
+									<i
+										class="ph-fill ph-caret-down text-brand mr-2 text-xs"
+									></i
+									>Vocês fazem envio internacional?
+								</h4>
+							</div>
+							<div
+								class="pl-6 text-sm text-gray-600 leading-relaxed border-l-2 border-brand/20 ml-1"
+							>
+								Sim, oferecemos envio internacional para mais de
+								100 países. As taxas de envio e os prazos de
+								entrega variam dependendo do destino. Você pode
+								calcular os custos na etapa de finalização da
+								compra antes do pagamento.
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- COMPONENTE: Tech Talk (Blog) -->
+			<section
+				class="container mx-auto px-4 lg:px-8 py-12 border-t border-gray-100"
+			>
+				<!-- Cabeçalho Tech Talk -->
+				<div class="flex justify-between items-end mb-8">
+					<div>
+						<h2 class="text-3xl font-bold text-gray-900 mb-2">
+							Papo Tech
+						</h2>
+						<p class="text-gray-500 text-sm">
+							Fique atualizado com as últimas tendências, análises
+							e dicas dos nossos especialistas.
+						</p>
+					</div>
+					<a
+						href="#"
+						class="text-brand text-sm font-medium hover:underline flex items-center transition"
+						>Ver Todos <i class="ph ph-arrow-right ml-1"></i
+					></a>
+				</div>
+
+				<!-- Grelha Tech Talk -->
+				<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+					<!-- Post Principal (Esquerda - Ocupa 7 colunas) -->
+					<article
+						class="lg:col-span-7 group cursor-pointer flex flex-col"
+					>
+						<div class="relative rounded-xl overflow-hidden mb-6">
+							<img
+								src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80"
+								alt=""
+								class="w-full object-cover transform group-hover:scale-105 transition duration-500 lg:aspect-[16/8] aspect-[16/9]"
+							/>
+						</div>
+						<h3
+							class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-brand transition leading-tight"
+						>
+							Nossas Escolhas dos 10 Melhores Gadgets em 2023
+						</h3>
+						<p
+							class="text-gray-500 text-sm mb-6 leading-relaxed pr-4"
+						>
+							Descubra os equipamentos tecnológicos mais
+							inovadores que vão dominar o mercado neste ano.
+							Lista feita especialmente por nossos especialistas
+							em tecnologia.
+						</p>
+						<div class="flex items-center text-xs mt-auto">
+							<span
+								class="bg-brand text-white font-bold px-3 py-1.5 rounded-md mr-4"
+								>Gadgets</span
+							>
+							<span class="text-gray-500"
+								>Damian Growth <span class="mx-2">|</span> 12 de
+								Abril, 2023</span
+							>
+						</div>
+					</article>
+
+					<!-- Posts Secundários Empilhados (Direita - Ocupa 5 colunas) -->
+					<div class="lg:col-span-5 flex flex-col">
+						<!-- Post Secundário 1 -->
+						<article
+							class="group cursor-pointer py-4 border-b border-gray-100 first:pt-0"
+						>
+							<span
+								class="bg-brand text-white text-[10px] font-bold px-2.5 py-1 rounded-md mb-3 inline-block"
+								>Análise</span
+							>
+							<h3
+								class="text-lg font-bold text-gray-900 mb-2 group-hover:text-brand transition leading-snug"
+							>
+								Alta Qualidade vs Preço: Por que investir em uma
+								Smart TV?
+							</h3>
+							<p class="text-xs text-gray-400">
+								15 de Abril, 2023
+							</p>
+						</article>
+
+						<!-- Post Secundário 2 -->
+						<article
+							class="group cursor-pointer py-6 border-b border-gray-100"
+						>
+							<span
+								class="bg-brand text-white text-[10px] font-bold px-2.5 py-1 rounded-md mb-3 inline-block"
+								>Dicas</span
+							>
+							<h3
+								class="text-lg font-bold text-gray-900 mb-2 group-hover:text-brand transition leading-snug"
+							>
+								Como Escolher o Notebook Ideal: Nosso
+								Especialista Conta
+							</h3>
+							<p class="text-xs text-gray-400">
+								12 de Abril, 2023
+							</p>
+						</article>
+
+						<!-- Post Secundário 3 -->
+						<article class="group cursor-pointer py-6">
+							<span
+								class="bg-brand text-white text-[10px] font-bold px-2.5 py-1 rounded-md mb-3 inline-block"
+								>Tendências</span
+							>
+							<h3
+								class="text-lg font-bold text-gray-900 mb-2 group-hover:text-brand transition leading-snug"
+							>
+								O Futuro das Casas Inteligentes: Um Olhar Sobre
+								a Tecnologia
+							</h3>
+							<p class="text-xs text-gray-400">
+								2 de Abril, 2023
+							</p>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<!-- COMPONENTE: Newsletter e Updates -->
+			<section class="container mx-auto px-4 lg:px-8 py-12 mb-8">
+				<div
+					class="bg-[#f8f9f7] rounded-2xl flex flex-col md:flex-row items-stretch overflow-hidden"
+				>
+					<div
+						class="p-8 md:p-16 md:w-1/2 flex flex-col justify-center"
+					>
+						<h2 class="text-3xl font-bold text-gray-900 mb-4">
+							Receba Nossas Novidades
+						</h2>
+						<p class="text-gray-500 text-sm mb-8">
+							Navegue pela nossa ampla seleção de eletrônicos e
+							descubra produtos perfeitos para o seu dia a dia.
+						</p>
+
+						<form class="flex flex-col sm:flex-row gap-4">
+							<input
+								type="email"
+								placeholder="Digite seu melhor e-mail..."
+								class="flex-1 px-4 py-3 rounded outline-none border border-gray-200 focus:border-brand transition text-sm"
+							/>
+							<button
+								type="submit"
+								class="bg-brand text-white px-8 py-3 rounded hover:bg-brand-dark transition font-medium"
+							>
+								Inscrever-se
+							</button>
+						</form>
+					</div>
+					<div class="md:w-1/2 relative min-h-[300px]">
+						<img
+							src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80"
+							alt=""
+							class="absolute inset-0 w-full h-full object-cover"
+						/>
+						<!-- Gradiente de transição para integrar a imagem ao fundo esquerdo -->
+						<div
+							class="absolute inset-0 bg-gradient-to-r from-[#f8f9f7] via-[#f8f9f7]/50 to-transparent"
+						></div>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<!-- COMPONENTE: Footer -->
+		<footer class="bg-white pt-16 border-t border-gray-100">
+			<div class="container mx-auto px-4 lg:px-8">
+				<div
+					class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12"
+				>
+					<!-- Coluna 1: Logo e Contato -->
+					<div class="lg:col-span-2 space-y-6">
+						<a
+							href="/"
+							class="text-3xl font-extrabold tracking-tighter text-gray-900 inline-block mb-4"
+						>
+							e-shop<span class="text-brand">.</span>
+						</a>
+						<div class="space-y-3 text-sm text-gray-500">
+							<p class="flex items-center">
+								<i
+									class="ph ph-phone mr-3 text-lg text-gray-400"
+								></i>
+								+55 11 99999-9999
+							</p>
+							<p class="flex items-center">
+								<i
+									class="ph ph-envelope-simple mr-3 text-lg text-gray-400"
+								></i>
+								contato@eshop.com.br
+							</p>
+							<p class="flex items-start">
+								<i
+									class="ph ph-map-pin mr-3 text-lg text-gray-400 mt-0.5"
+								></i>
+								Av. Paulista, 1000, São Paulo, BR
+							</p>
+						</div>
+					</div>
+
+					<!-- Coluna 2: Links -->
+					<div>
+						<h5 class="font-bold text-gray-900 mb-4">Links</h5>
+						<ul class="space-y-3 text-sm text-gray-500">
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Lista de Produtos</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Rastrear Pedido</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Guia de Desejos</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Carrinho de Compras</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Nosso Blog</a
+								>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Coluna 3: Support -->
+					<div>
+						<h5 class="font-bold text-gray-900 mb-4">Suporte</h5>
+						<ul class="space-y-3 text-sm text-gray-500">
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Sobre Nós</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Privacidade</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Política de Devolução</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Central de Ajuda</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Nossas Lojas</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Fale Conosco</a
+								>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Coluna 4: Categories -->
+					<div>
+						<h5 class="font-bold text-gray-900 mb-4">Categorias</h5>
+						<ul class="space-y-3 text-sm text-gray-500">
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Computadores e Notebooks</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Tablets e Acessórios</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Acessórios PC Gamer</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Áudio e Fones de Ouvido</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>Câmeras e Fotografia</a
+								>
+							</li>
+							<li>
+								<a href="#" class="hover:text-brand transition"
+									>TV e Home Theater</a
+								>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Coluna 5: Payments & Social -->
+					<div>
+						<h5 class="font-bold text-gray-900 mb-4">Pagamentos</h5>
+						<div class="flex items-center space-x-2 mb-8">
+							<div
+								class="w-10 h-6 bg-gray-100 border border-gray-200 rounded flex items-center justify-center text-[10px] font-bold text-blue-800"
+							>
+								VISA
+							</div>
+							<div
+								class="w-10 h-6 bg-gray-100 border border-gray-200 rounded flex items-center justify-center text-[10px] font-bold text-red-500"
+							>
+								MC
+							</div>
+							<div
+								class="w-10 h-6 bg-gray-100 border border-gray-200 rounded flex items-center justify-center text-[10px] font-bold text-green-600"
+							>
+								PIX
+							</div>
+						</div>
+
+						<h5 class="font-bold text-gray-900 mb-4">Siga-nos</h5>
+						<ul class="space-y-3 text-sm text-gray-500">
+							<li>
+								<a
+									href="#"
+									class="hover:text-brand transition flex items-center"
+									><i
+										class="ph-fill ph-twitter-logo mr-2"
+									></i>
+									Twitter</a
+								>
+							</li>
+							<li>
+								<a
+									href="#"
+									class="hover:text-brand transition flex items-center"
+									><i
+										class="ph-fill ph-instagram-logo mr-2"
+									></i>
+									Instagram</a
+								>
+							</li>
+							<li>
+								<a
+									href="#"
+									class="hover:text-brand transition flex items-center"
+									><i
+										class="ph-fill ph-facebook-logo mr-2"
+									></i>
+									Facebook</a
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Bottom Bar -->
+				<div
+					class="border-t border-gray-100 py-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400"
+				>
+					<p>&copy; 2023 e-shop. Todos os direitos reservados.</p>
+					<div class="flex space-x-4 mt-4 md:mt-0">
+						<a href="#" class="hover:text-gray-600"
+							>Política de Privacidade</a
+						>
+						<a href="#" class="hover:text-gray-600"
+							>Termos e Condições</a
+						>
+						<a href="#" class="hover:text-gray-600">Mapa do Site</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
