@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, inject, signal } from '@angular/core';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router';
 })
 export class MyAccountAreaComponent {
     public authService = inject(AuthService);
+    private elementRef = inject(ElementRef); // Necessário para detectar cliques fora do menu
     
     isMenuOpen = signal(false);
     
@@ -29,15 +30,21 @@ export class MyAccountAreaComponent {
             return u.avatar;
         }
         const identifier = this.userName();
-        return `https://ui-avatars.com/api/?name=${identifier}&background=0f172a&color=fff&size=128`;
+        // A cor de fundo do Avatar placeholder agora usa a cor da sua marca (f45b49)
+        return `https://ui-avatars.com/api/?name=${identifier}&background=f45b49&color=fff&size=128`;
     });
     
     toggleMenu() {
         this.isMenuOpen.update(v => !v);
     }
     
-    onMouseEnter() { this.isMenuOpen.set(true); }
-    onMouseLeave() { this.isMenuOpen.set(false); }
+    // Fecha o popup ao clicar em qualquer lugar fora deste componente
+    @HostListener('document:click', ['$event'])
+    closeMenuOnClickOutside(event: Event) {
+        if (!this.elementRef.nativeElement.contains(event.target)) {
+            this.isMenuOpen.set(false);
+        }
+    }
     
     logout() {
         this.authService.logout();
@@ -45,6 +52,6 @@ export class MyAccountAreaComponent {
     }
     
     handleImageError(event: any) {
-        event.target.src = `https://ui-avatars.com/api/?name=${this.userName()}&background=0f172a&color=fff&size=128`;
+        event.target.src = `https://ui-avatars.com/api/?name=${this.userName()}&background=f45b49&color=fff&size=128`;
     }
 }

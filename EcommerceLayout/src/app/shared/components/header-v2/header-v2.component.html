@@ -1,0 +1,223 @@
+<header class="w-full bg-brand text-white relative z-40">
+    <!-- SUBCOMPONENTE: Topbar -->
+    <div class="border-b border-white/20 hidden md:block">
+        <div class="container mx-auto px-4 lg:px-8 py-2.5 flex justify-between items-center text-[11px] font-medium text-white/90">
+            <div class="flex items-center space-x-6">
+                <div class="flex items-center space-x-1.5">
+                    <i class="ph ph-map-pin text-sm"></i>
+                    <span>Av. Paulista, 1000, São Paulo, BR</span>
+                </div>
+                <div class="flex items-center space-x-1.5">
+                    <i class="ph ph-phone text-sm"></i>
+                    <span>+55 11 99999-9999</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="flex items-center space-x-1 cursor-pointer hover:text-white transition opacity-90 hover:opacity-100">
+                    <span>BRL</span>
+                    <i class="ph ph-caret-down text-[10px]"></i>
+                </div>
+                <div class="flex items-center space-x-1.5 cursor-pointer hover:text-white transition opacity-90 hover:opacity-100">
+                    <img src="https://flagcdn.com/w20/br.png" alt="Bandeira do Brasil" class="w-3.5 h-2.5 object-cover rounded-sm" />
+                    <span>Português</span>
+                    <i class="ph ph-caret-down text-[10px]"></i>
+                </div>
+                <div class="flex items-center space-x-3 text-sm opacity-90">
+                    <a href="#" class="hover:text-white hover:opacity-100 transition"><i class="ph-fill ph-facebook-logo"></i></a>
+                    <a href="#" class="hover:text-white hover:opacity-100 transition"><i class="ph-fill ph-twitter-logo"></i></a>
+                    <a href="#" class="hover:text-white hover:opacity-100 transition"><i class="ph-fill ph-instagram-logo"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBCOMPONENTE: Logo e Pesquisa -->
+    <div>
+        <div class="container mx-auto px-4 lg:px-8 py-6 flex justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="md:hidden">
+                    <app-logo-menu-mobile-trigger></app-logo-menu-mobile-trigger>
+                </div>
+
+                <a routerLink="/" class="text-3xl font-extrabold tracking-tighter text-white cursor-pointer">
+                    e-shop<span class="text-yellow-400">.</span>
+                </a>
+            </div>
+
+            <div class="hidden md:flex flex-1 max-w-2xl mx-12">
+                <app-central-search-bar class="w-full"></app-central-search-bar>
+            </div>
+
+            <div class="flex items-center space-x-4 sm:space-x-6">
+                <button (click)="openMobileSearch()" class="md:hidden text-white hover:text-white/80 transition-colors p-1">
+                    <i class="ph ph-magnifying-glass text-2xl"></i>
+                </button>
+
+                <app-wrapper-cart></app-wrapper-cart>
+
+                @if (authService.isAuthenticated()) {
+                    <app-my-account-area></app-my-account-area>
+                } @else {
+                    <a routerLink="/login" class="flex items-center gap-2 text-white hover:text-white/80 transition-all font-medium text-sm cursor-pointer group">
+                        <i class="ph ph-user text-3xl group-hover:opacity-80 transition"></i>
+                        <div class="hidden lg:block text-[11px] leading-tight">
+                            <p class="text-white/80">Visitante</p>
+                            <p class="font-bold text-sm">Entrar</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBCOMPONENTE: Barra de Navegação -->
+    <nav class="border-t border-white/20 hidden md:block">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="flex justify-between items-center text-sm font-medium">
+                <ul class="flex items-center">
+                    
+                    <!-- MENU: Todas Categorias (MEGA MENU ELABORADO) -->
+                    <li class="relative">
+                        <button 
+                            (click)="toggleCategoryMenu($event)" 
+                            class="flex items-center space-x-2 px-0 py-4 mr-8 hover:opacity-80 transition cursor-pointer outline-none"
+                            [class.opacity-80]="isCategoryMenuOpen()"
+                        >
+                            <i class="ph ph-list text-lg"></i>
+                            <span>Todas Categorias</span>
+                        </button>
+
+                        <!-- MEGA MENU: Dropdown largo com múltiplas colunas -->
+                        @if (isCategoryMenuOpen()) {
+                            <div class="absolute top-[100%] left-0 w-[800px] bg-white text-gray-800 shadow-2xl rounded-b-2xl border border-gray-100 z-50 animate-fade-in overflow-hidden cursor-default">
+                                <div class="p-8 grid grid-cols-3 gap-8">
+                                    
+                                    <!-- Coluna 1: Eletrónica -->
+                                    <div>
+                                        <h3 class="text-brand font-extrabold flex items-center gap-2 mb-4 border-b border-gray-100 pb-2 uppercase text-xs tracking-wider">
+                                            <i class="ph-fill ph-desktop"></i> Informática e Eletrónica
+                                        </h3>
+                                        <ul class="space-y-3">
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'portateis'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2"><i class="ph ph-caret-right text-[10px] opacity-0 transition-all"></i> Portáteis e PCs</a></li>
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'telemoveis'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2"><i class="ph ph-caret-right text-[10px] opacity-0 transition-all"></i> Telemóveis e Tablets</a></li>
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'tvs'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2"><i class="ph ph-caret-right text-[10px] opacity-0 transition-all"></i> Smart TVs e Áudio</a></li>
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'wearables'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2"><i class="ph ph-caret-right text-[10px] opacity-0 transition-all"></i> Smartwatches</a></li>
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'hardware'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2"><i class="ph ph-caret-right text-[10px] opacity-0 transition-all"></i> Componentes PC</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Coluna 2: Casa e Lifestyle -->
+                                    <div>
+                                        <h3 class="text-brand font-extrabold flex items-center gap-2 mb-4 border-b border-gray-100 pb-2 uppercase text-xs tracking-wider">
+                                            <i class="ph-fill ph-house"></i> Casa e Desporto
+                                        </h3>
+                                        <ul class="space-y-3">
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'eletrodomesticos'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2">Eletrodomésticos</a></li>
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'decoracao'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2">Móveis e Decoração</a></li>
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'desporto'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2">Artigos de Desporto</a></li>
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'calcado'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2">Moda e Calçado</a></li>
+                                            <li><a routerLink="/produtos" [queryParams]="{categoria: 'beleza'}" class="text-gray-500 hover:text-brand transition-colors flex items-center gap-2">Saúde e Beleza</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Coluna 3: Banner Promocional -->
+                                    <div class="relative rounded-xl overflow-hidden group cursor-pointer" routerLink="/produtos" [queryParams]="{filtro: 'promocao'}">
+                                        <!-- Placeholder colorido que simula uma imagem -->
+                                        <div class="absolute inset-0 bg-gradient-to-br from-brand to-brand-dark opacity-90 group-hover:opacity-100 transition-opacity"></div>
+                                        <div class="relative z-10 p-6 flex flex-col justify-between h-full text-white">
+                                            <div>
+                                                <span class="bg-yellow-400 text-gray-900 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest mb-2 inline-block">Flash Sale</span>
+                                                <h4 class="text-xl font-black leading-tight mt-2 mb-1">Promoção<br>de Verão</h4>
+                                                <p class="text-xs text-white/80">Até 50% de desconto em telemóveis.</p>
+                                            </div>
+                                            <div class="mt-4 flex items-center text-sm font-bold gap-1 group-hover:gap-2 transition-all">
+                                                Ver Ofertas <i class="ph-bold ph-arrow-right"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="bg-gray-50 p-4 border-t border-gray-100 text-center text-sm">
+                                    <a routerLink="/categorias" class="text-brand font-bold hover:underline">Ver todas as 32 categorias disponíveis</a>
+                                </div>
+                            </div>
+                        }
+                    </li>
+
+                    <!-- MENU: Produtos (MENU COM DESTAQUES) -->
+                    <li class="relative">
+                        <button 
+                            (click)="toggleProductMenu($event)" 
+                            class="px-5 py-4 flex items-center hover:opacity-80 transition cursor-pointer outline-none"
+                            [class.opacity-80]="isProductMenuOpen()"
+                        >
+                            <span>Produtos</span>
+                            <i class="ph ph-caret-down inline-block ml-1 text-[10px] transition-transform" [class.rotate-180]="isProductMenuOpen()"></i>
+                        </button>
+
+                        <!-- DROPDOWN: Produtos em Destaque -->
+                        @if (isProductMenuOpen()) {
+                            <div class="absolute top-[100%] left-0 w-[450px] bg-white text-gray-800 shadow-2xl rounded-b-2xl border border-gray-100 z-50 animate-fade-in overflow-hidden cursor-default">
+                                <div class="grid grid-cols-5 h-full">
+                                    <!-- Links Rápidos -->
+                                    <div class="col-span-2 bg-gray-50 p-5 border-r border-gray-100 flex flex-col justify-center">
+                                        <h3 class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-3">Descobrir</h3>
+                                        <ul class="space-y-3">
+                                            <li><a routerLink="/produtos" class="font-medium text-gray-600 hover:text-brand transition-colors block">Novos Lançamentos</a></li>
+                                            <li><a routerLink="/produtos" class="font-medium text-gray-600 hover:text-brand transition-colors block">Mais Vendidos</a></li>
+                                            <li><a routerLink="/produtos" class="font-medium text-brand flex items-center gap-2 transition-colors block"><i class="ph-fill ph-tag"></i> Em Oferta</a></li>
+                                            <li><a routerLink="/marcas" class="font-medium text-gray-600 hover:text-brand transition-colors block mt-4 pt-4 border-t border-gray-200">Ver Marcas</a></li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <!-- Produto em Destaque -->
+                                    <div class="col-span-3 p-5 flex flex-col justify-center">
+                                        <h3 class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-3">Produto do Mês</h3>
+                                        <a routerLink="/produto/mock-id" class="group block border border-transparent hover:border-gray-100 rounded-lg transition-all hover:shadow-sm p-2 -ml-2">
+                                            <div class="flex items-center gap-4">
+                                                <!-- Quadrado cinzento simulando imagem do produto -->
+                                                <div class="w-20 h-20 bg-gray-100 rounded flex items-center justify-center text-gray-300 group-hover:scale-105 transition-transform">
+                                                    <i class="ph ph-headphones text-3xl"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-bold text-gray-800 text-sm leading-tight group-hover:text-brand transition-colors">Auscultadores Wireless Noise Cancelling</h4>
+                                                    <div class="flex items-center gap-2 mt-2">
+                                                        <span class="text-brand font-black">R$ 599,00</span>
+                                                        <span class="text-xs text-gray-400 line-through">R$ 899,00</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </li>
+
+                    <li><a routerLink="/blog" class="px-5 py-4 inline-block hover:opacity-80 transition cursor-pointer">Blog</a></li>
+                    <li><a routerLink="/contato" class="px-5 py-4 inline-block hover:opacity-80 transition cursor-pointer">Contato</a></li>
+                </ul>
+
+                <!-- Links da direita -->
+                <ul class="flex items-center space-x-8 text-xs font-bold tracking-wide">
+                    <li><a routerLink="/produtos" [queryParams]="{ filtro: 'ofertas' }" class="hover:opacity-80 transition text-yellow-400 cursor-pointer">OFERTA LIMITADA</a></li>
+                    <li><a routerLink="/produtos" [queryParams]="{ sort: 'mais_vendidos' }" class="hover:opacity-80 transition cursor-pointer">Mais Vendidos</a></li>
+                    <li><a routerLink="/produtos" [queryParams]="{ sort: 'lancamentos' }" class="hover:opacity-80 transition cursor-pointer">Lançamentos</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- OVERLAY DE BUSCA MOBILE -->
+@if (isMobileSearchOpen()) {
+    <div class="fixed inset-0 bg-black/50 z-[60] md:hidden animate-fade-in" (click)="closeMobileSearch()"></div>
+    <div class="fixed top-0 left-0 w-full bg-white z-[70] p-4 shadow-md md:hidden animate-slide-down flex items-center gap-4">
+        <button (click)="closeMobileSearch()" class="text-gray-500 p-2 hover:bg-gray-100 rounded-full shrink-0">
+            <i class="ph ph-arrow-left text-2xl"></i>
+        </button>
+        <div class="flex-1 text-gray-800">
+            <app-central-search-bar></app-central-search-bar>
+        </div>
+    </div>
+}

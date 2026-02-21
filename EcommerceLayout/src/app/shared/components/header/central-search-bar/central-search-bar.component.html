@@ -1,22 +1,52 @@
-<div class="flex w-full relative group">
-    
-    <button (click)="onSearch()" class="absolute inset-y-0 left-0 pl-4 flex items-center cursor-pointer text-gray-400 group-focus-within:text-brand-500 hover:text-brand-600 transition-colors">
-        <i class="ph ph-magnifying-glass text-xl"></i>
-    </button>
-    
-    <input 
-        type="text" 
-        id="search-input" 
-        [ngModel]="searchTerm()"
-        (ngModelChange)="searchTerm.set($event)"
-        (keyup.enter)="onSearch()"
-        placeholder="Busque por produtos, marcas ou categorias..." 
-        class="w-full pl-12 pr-4 py-3 bg-gray-100 border border-transparent rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white focus:border-transparent transition-all outline-none text-sm font-medium placeholder-gray-400"
+<form 
+    (ngSubmit)="onSearch()" 
+    class="flex w-full bg-white rounded-md overflow-hidden shadow-sm h-11 relative"
+>
+    <!-- Dropdown de Categorias (Visual do Header V2) -->
+    <div class="relative bg-white border-r border-gray-200 hidden lg:block text-gray-600 min-w-[170px]">
+        <select class="appearance-none bg-transparent py-2.5 pl-4 pr-8 text-sm outline-none cursor-pointer w-full h-full font-medium focus:ring-0">
+            <option value="">Todas Categorias</option>
+            <option value="notebooks">Notebooks</option>
+            <option value="smartphones">Smartphones</option>
+        </select>
+        <i class="ph ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs"></i>
+    </div>
+
+    <!-- Container do Input (flex-1 para ocupar o restante do espaço) -->
+    <div class="flex-1 relative flex items-center">
+        <!-- 
+            Nota: Ao usar ngModel dentro de uma tag <form>, 
+            é obrigatório definir o atributo "name" 
+        -->
+        <input 
+            type="text" 
+            name="searchInput"
+            id="search-input" 
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)"
+            placeholder="Busque por produtos, marcas ou categorias..." 
+            class="w-full h-full px-4 outline-none text-sm text-gray-800 placeholder-gray-400 bg-transparent"
+        >
+        
+        <!-- Botão Limpar (Só aparece se tiver texto) -->
+        @if (searchTerm()) {
+            <button 
+                type="button" 
+                (click)="clearSearch()" 
+                class="absolute right-3 flex items-center text-gray-400 hover:text-red-500 transition-colors z-10 p-1"
+                aria-label="Limpar busca"
+            >
+                <i class="ph-fill ph-x-circle text-lg"></i>
+            </button>
+        }
+    </div>
+
+    <!-- Botão de Busca (Substitui o ícone fixo na esquerda do modelo antigo) -->
+    <button 
+        type="submit" 
+        class="bg-brand text-white px-5 hover:bg-brand-dark transition-colors flex items-center justify-center focus:outline-none"
+        aria-label="Buscar"
     >
-    
-    @if (searchTerm()) {
-        <button (click)="searchTerm.set(''); onSearch()" class="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-red-500 transition-colors">
-            <i class="ph-bold ph-x-circle text-lg"></i>
-        </button>
-    }
-</div>
+        <i class="ph ph-magnifying-glass text-lg font-bold"></i>
+    </button>
+</form>

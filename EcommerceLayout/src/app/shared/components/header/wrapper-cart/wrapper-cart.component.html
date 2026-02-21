@@ -1,14 +1,30 @@
-<div class="relative group cursor-pointer py-2" id="cart-container" routerLink="carrinho">
-    <div class="relative p-2 hover:bg-gray-100 rounded-full transition-colors">
-        <i class="ph ph-shopping-cart text-2xl text-gray-700 group-hover:text-brand-600 transition-colors" id="cart-icon"></i>
+<div class="relative flex items-center space-x-3 cursor-pointer group py-2" id="cart-container" routerLink="carrinho">
+    
+    <!-- Ícone e Badge -->
+    <div class="relative flex items-center justify-center p-1">
+        <!-- Ícone branco para contrastar com o header vermelho -->
+        <i class="ph ph-shopping-cart text-3xl text-white group-hover:opacity-80 transition-opacity" id="cart-icon"></i>
         
+        <!-- Badge invertido (Fundo branco, texto da marca/vermelho) -->
         <span id="cart-badge" 
-              class="absolute top-0 right-0 bg-brand-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full transition-transform duration-300 border-2 border-white shadow-sm"
+              class="absolute -top-1 -right-2 bg-white text-brand text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full transition-transform duration-300 shadow-sm"
               [class.scale-0]="carrinhoService.quantidadeItens() === 0"
               [class.scale-100]="carrinhoService.quantidadeItens() > 0">
             {{ carrinhoService.quantidadeItens() }}
         </span>
     </div>
     
+    <!-- Textos do Carrinho (Design V2) -->
+    <div class="hidden lg:block text-[11px] leading-tight">
+        <p class="text-white/80">Carrinho</p>
+        <p class="font-bold text-sm text-white group-hover:opacity-80 transition-opacity">
+            <!-- DICA: Se o seu carrinhoService tiver o valor total, você pode colocar aqui. 
+                 Exemplo: {{ carrinhoService.valorTotal() | currency:'BRL' }} 
+                 Por enquanto, deixei um texto genérico: -->
+            Meus Itens
+        </p>
+    </div>
+    
+    <!-- Popup do Carrinho (Mantido e funcionando via hover pelo CSS da sua classe "group") -->
     <app-shopping-cart-popup></app-shopping-cart-popup>
 </div>

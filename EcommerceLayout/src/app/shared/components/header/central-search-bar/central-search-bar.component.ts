@@ -7,18 +7,23 @@ import { Router } from '@angular/router';
     selector: 'app-central-search-bar',
     imports: [CommonModule, FormsModule],
     templateUrl: './central-search-bar.component.html',
-    styleUrl: './central-search-bar.component.css'
+    styleUrl: './central-search-bar.component.css',
 })
 export class CentralSearchBarComponent {
     private router = inject(Router);
-    
+
     searchTerm = signal('');
-    
+
     onSearch() {
         const termo = this.searchTerm().trim();
-        
-        this.router.navigate(['/inicio'], { 
-            queryParams: termo ? { termo } : {} 
+
+        this.router.navigate(['/inicio'], {
+            queryParams: termo ? { termo } : {},
         });
+    }
+
+    clearSearch() {
+        this.searchTerm.set('');
+        this.onSearch();
     }
 }
