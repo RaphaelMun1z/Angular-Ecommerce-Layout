@@ -1,0 +1,141 @@
+<section class="lg:px-8 py-8">
+    <!-- flex-stretch garante que as duas colunas tentem ter a mesma altura -->
+    <div class="flex flex-col lg:flex-row gap-8 items-stretch">
+        
+        <!-- Coluna Esquerda: Banner Limited Edition (Estático) -->
+        <div class="lg:w-1/3 xl:w-1/4 bg-gray-100 rounded-xl p-8 flex flex-col items-center justify-center text-center relative overflow-hidden">
+            <h3 class="text-xl font-bold text-gray-900 mb-2 z-10">
+                Edição<br />Especial Limitada
+            </h3>
+            <p class="text-xs text-gray-500 mb-6 z-10">
+                Designs exclusivos, garanta o seu antes que acabe!
+            </p>
+            <button class="bg-brand text-white px-6 py-2 rounded text-sm hover:bg-brand-dark transition z-10">
+                Comprar Agora
+            </button>
+            <!-- Imagem Decorativa de Fundo -->
+            <img
+                src="/i6.webp"
+                alt=""
+                class="mt-8 object-contain mix-blend-multiply max-h-48 z-10 hover:scale-105 transition duration-500 p-4"
+            />
+        </div>
+
+        <!-- Coluna Direita: Trending Items (Dinâmico) -->
+        <div class="lg:w-2/3 xl:w-3/4 flex flex-col">
+            <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-2">
+                <h2 class="text-xl font-bold text-gray-900">Itens em Alta</h2>
+                <a href="#" class="text-brand text-sm hover:underline flex items-center"
+                    >Ver todos <i class="ph ph-arrow-right ml-1"></i>
+                </a>
+            </div>
+
+            <!-- Ajuste do grid: aumentamos o gap vertical (gap-y-8 e xl:gap-y-10) e forçamos ele a usar o espaço restante (flex-1) -->
+            <div class="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 xl:gap-y-10 content-between">
+                
+                <!-- 1. ESTADO DE CARREGAMENTO (Skeletons horizontais) -->
+                @if (loading) {
+                    @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+                        <article class="flex items-center space-x-4 bg-transparent p-4 rounded-xl border border-transparent animate-pulse">
+                            <!-- Quadrado da Imagem -->
+                            <div class="w-24 h-24 bg-gray-200 rounded flex items-center justify-center flex-shrink-0"></div>
+                            
+                            <!-- Linhas de Texto -->
+                            <div class="flex-1">
+                                <div class="h-3.5 bg-gray-200 rounded w-full mb-2"></div>
+                                <div class="h-3.5 bg-gray-200 rounded w-3/4 mb-3"></div>
+                                <!-- Estrelas fake -->
+                                <div class="flex gap-1.5 mb-3">
+                                    <div class="w-2.5 h-2.5 bg-gray-200 rounded-full"></div>
+                                    <div class="w-2.5 h-2.5 bg-gray-200 rounded-full"></div>
+                                    <div class="w-2.5 h-2.5 bg-gray-200 rounded-full"></div>
+                                    <div class="w-2.5 h-2.5 bg-gray-200 rounded-full"></div>
+                                    <div class="w-2.5 h-2.5 bg-gray-200 rounded-full"></div>
+                                </div>
+                                <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                            </div>
+                        </article>
+                    }
+                }
+
+                <!-- 2. ESTADO DE ERRO -->
+                @if (error && !loading) {
+                    <div class="col-span-full flex flex-col items-center justify-center py-12 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+                            <i class="ph ph-warning-circle text-3xl text-red-500"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-1">Não foi possível carregar os itens em alta</h3>
+                        <p class="text-sm text-gray-500 mb-6 text-center max-w-sm">
+                            Ocorreu um problema ao se conectar com o servidor. Verifique sua conexão ou tente novamente.
+                        </p>
+                        <button 
+                            (click)="carregarItensEmAlta()"
+                            class="px-6 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:border-brand hover:text-brand transition shadow-sm"
+                        >
+                            <i class="ph ph-arrows-clockwise mr-1"></i> Tentar Novamente
+                        </button>
+                    </div>
+                }
+
+                <!-- 3. ESTADO DE SUCESSO -->
+                @if (!loading && !error) {
+                    <!-- Loop Renderizando os Itens em Alta -->
+                    @for (produto of itensEmAlta; track produto.id) {
+                        <article 
+                            (click)="goToProduct(produto.id)" 
+                            class="flex items-center space-x-4 bg-transparent p-4 rounded-xl border border-transparent hover:border-gray-100 hover:bg-white hover:shadow-lg transition cursor-pointer group"
+                        >
+                            <div class="w-24 h-24 bg-transparent rounded flex items-center justify-center flex-shrink-0 relative">
+                                <!-- Badge de Promoção Dinâmico -->
+                                @if (getDesconto(produto)) {
+                                    <span class="absolute top-1 left-1 bg-brand text-white text-[8px] font-bold px-1.5 py-0.5 rounded-sm z-10">
+                                        -{{ getDesconto(produto) }}%
+                                    </span>
+                                }
+                                
+                                <img
+                                    [src]="getMainImage(produto)"
+                                    [alt]="produto.titulo"
+                                    class="object-contain max-h-full mix-blend-multiply group-hover:scale-110 transition"
+                                />
+                            </div>
+                            
+                            <div class="flex-1">
+                                <!-- line-clamp-2 ajuda a manter os itens da lista alinhados mesmo com textos grandes -->
+                                <h3 class="text-sm font-semibold text-gray-800 leading-tight mb-1 group-hover:text-brand transition line-clamp-2">
+                                    {{ produto.titulo }}
+                                </h3>
+                                
+                                <!-- Avaliações (Estático como no modelo) -->
+                                <div class="flex text-yellow-400 text-[10px] mb-2">
+                                    <i class="ph-fill ph-star"></i>
+                                    <i class="ph-fill ph-star"></i>
+                                    <i class="ph-fill ph-star"></i>
+                                    <i class="ph-fill ph-star"></i>
+                                    <i class="ph-fill ph-star-half"></i>
+                                </div>
+                                
+                                <!-- Preços Dinâmicos -->
+                                @if (produto.precoPromocional) {
+                                    <div class="flex items-center space-x-2">
+                                        <p class="font-bold text-brand text-sm">
+                                            {{ produto.precoPromocional | currency:'BRL' }}
+                                        </p>
+                                        <p class="text-[10px] text-gray-400 line-through">
+                                            {{ produto.preco | currency:'BRL' }}
+                                        </p>
+                                    </div>
+                                } @else {
+                                    <p class="font-bold text-gray-900 text-sm">
+                                        {{ produto.preco | currency:'BRL' }}
+                                    </p>
+                                }
+                            </div>
+                        </article>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

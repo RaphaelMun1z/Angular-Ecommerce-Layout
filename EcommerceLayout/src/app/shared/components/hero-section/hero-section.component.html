@@ -1,0 +1,55 @@
+<section
+    class="w-full bg-[#f4f6f8] relative flex items-stretch min-h-[calc(100vh-180px)] pt-12 lg:pt-0 overflow-hidden"
+>
+    <!-- Seta Esquerda (Posicionada na margem do ecrã) -->
+    <button
+        class="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md z-20 text-gray-400 hover:text-brand transition hidden md:flex"
+    >
+        <i class="ph ph-caret-left text-xl"></i>
+    </button>
+
+    <!-- Conteúdo Centralizado -->
+    <div
+        class="container mx-auto px-4 lg:px-16 flex flex-col md:flex-row items-stretch justify-between relative z-10 w-full flex-1"
+    >
+        <!-- Textos -->
+        <div
+            class="md:w-1/2 z-10 space-y-6 md:pr-8 flex flex-col justify-center items-start pb-12 lg:pb-0"
+        >
+            <h1
+                class="text-4xl md:text-5xl lg:text-[4rem] font-extrabold leading-[1.1] text-gray-900 tracking-tight"
+            >
+                Eleve o Nível dos<br />Seus Gadgets
+            </h1>
+            <p
+                class="text-gray-500 max-w-md text-sm lg:text-base leading-relaxed"
+            >
+                Compre a tecnologia mais recente disponível aqui no e-shop.
+                Ofertas e descontos exclusivos todos os dias.
+            </p>
+            <button
+                class="bg-brand text-white px-10 py-4 rounded hover:bg-brand-dark transition font-medium shadow-lg shadow-brand/30 mt-4"
+            >
+                Comprar Agora
+            </button>
+        </div>
+
+        <!-- Imagem -->
+        <div
+            class="md:w-1/2 mt-4 md:mt-0 relative flex justify-center lg:justify-end z-10 items-end"
+        >
+            <img
+                src="/i1.png"
+                alt="[Image of Smartphones]"
+                class="max-h-[400px] lg:max-h-[600px] w-auto object-contain object-bottom mix-blend-multiply drop-shadow-2xl"
+            />
+        </div>
+    </div>
+
+    <!-- Seta Direita (Posicionada na margem do ecrã) -->
+    <button
+        class="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md z-20 text-gray-400 hover:text-brand transition hidden md:flex"
+    >
+        <i class="ph ph-caret-right text-xl"></i>
+    </button>
+</section>

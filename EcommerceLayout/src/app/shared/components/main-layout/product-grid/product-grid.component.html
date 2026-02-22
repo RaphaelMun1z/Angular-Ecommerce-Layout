@@ -6,12 +6,7 @@
     }">
     
     @for (product of products; track product.id) {
-      <app-product-card
-        [product]="product"
-        [viewMode]="viewMode"
-        (addToCart)="handleAddToCart($event)"
-        (showQuickView)="openPopup(product)">
-      </app-product-card>
+      <app-product-card [product]="product"></app-product-card>
     } @empty {
       <div class="col-span-full py-20 text-center text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-300">
         <i class="ph ph-magnifying-glass text-4xl mb-2 text-gray-400"></i>

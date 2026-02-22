@@ -8,9 +8,8 @@ import { FavoritoService } from '../../../../services/favorito.service';
     selector: 'app-product-card',
     imports: [CommonModule],
     templateUrl: './product-card.component.html',
-    styleUrl: './product-card.component.css'
+    styleUrl: './product-card.component.css',
 })
-
 export class ProductCardComponent {
     private router = inject(Router);
     public favoritoService = inject(FavoritoService);
@@ -18,12 +17,22 @@ export class ProductCardComponent {
     @Input({ required: true }) product!: Produto;
     @Input() viewMode: 'grid' | 'list' = 'grid';
     
-    @Output() addToCart = new EventEmitter<Produto>();
+    get isNovo(): boolean {
+        return (this.product as any).isNovo || false;
+    }
+
+    get desconto(): number | null {
+        return (this.product as any).desconto || null;
+    }
+
+    get isDestaque(): boolean {
+        return this.isNovo || !!this.desconto || (this.product as any).destaque;
+    }
     
     get mainImage(): string {
         const imagens = this.product.imagens;
         if (!imagens || imagens.length === 0) {
-            return '';
+            return '/placeholder-image.png'; 
         }
         const imagemPrincipal = imagens.find(img => img.principal);
         if (imagemPrincipal) {
@@ -31,13 +40,6 @@ export class ProductCardComponent {
         }
         const imagensOrdenadas = [...imagens].sort((a, b) => a.ordem - b.ordem);
         return imagensOrdenadas[0].url;
-    }
-    
-    onAddToCart(event: Event): void {
-        event.stopPropagation();
-        if (this.product.estoque > 0) {
-            this.addToCart.emit(this.product);
-        }
     }
     
     onToggleFavorite(event: Event): void {

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastComponent } from './shared/components/popup/toast/toast.component';
-import { FooterComponent } from "./shared/components/layout/footer/footer.component";
+import { FooterV2Component } from './shared/components/layout/footer-v2/footer-v2.component';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, ToastComponent, FooterComponent],
+    imports: [RouterOutlet, ToastComponent, FooterV2Component],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })

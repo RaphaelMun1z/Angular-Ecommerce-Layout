@@ -1,0 +1,98 @@
+<section class="lg:px-8 mb-12 pb-8">
+    <!-- Grade dividida em 2 colunas iguais (50% / 50%) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Banner Grande (Esquerda - 50%) - 1:1 Quadrado -->
+        <div
+            class="bg-[#f6f7f9] rounded-2xl p-8 md:p-10 lg:p-12 relative overflow-hidden flex flex-col justify-start aspect-square"
+        >
+            <!-- Texto e botão no superior esquerdo (garantido pelo justify-start no container pai) -->
+            <div class="z-10 relative w-full space-y-4 md:space-y-5 mt-2">
+                <h3
+                    class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight"
+                >
+                    Frete Grátis<br class="hidden md:block" />
+                    para Todo Brasil!
+                </h3>
+                <p class="text-sm text-gray-500 leading-relaxed max-w-sm">
+                    Especial para pedidos acima de R$ 500,00.<br
+                        class="hidden md:block"
+                    />
+                    Disponível durante todo o mês de Maio e Junho.
+                </p>
+                <button
+                    class="bg-brand text-white px-8 py-3 rounded-lg text-sm font-bold hover:bg-brand-dark transition shadow-lg shadow-brand/30 w-max"
+                >
+                    Comprar Agora
+                </button>
+            </div>
+            
+            <!-- Imagem das Caixas - Travada e espalhada no Bottom (bottom-0) -->
+            <img
+                src="/i5.png"
+                alt=""
+                class="absolute inset-x-0 bottom-0 w-full h-[55%] md:h-[60%] object-contain object-bottom mix-blend-multiply opacity-60 md:opacity-100 z-0 pointer-events-none transform scale-150"
+            />
+        </div>
+
+        <!-- Banners Pequenos Empilhados (Direita - 50%) -->
+        <div class="flex flex-col gap-6">
+            
+            <!-- Promo 1 -->
+            <div
+                class="bg-[#f6f7f9] rounded-2xl p-6 md:p-8 relative overflow-hidden flex-1 flex flex-col justify-center min-h-[200px] md:min-h-[210px]"
+            >
+                <!-- Ajuste da largura do texto para preencher melhor a tela -->
+                <div class="z-10 relative w-1/2 md:w-3/5 lg:w-1/2">
+                    <h3
+                        class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-tight"
+                    >
+                        Liquidação de<br />Black Friday
+                    </h3>
+                    <p class="text-xs text-gray-500 mb-5">
+                        Até 80% de desconto.
+                    </p>
+                    <button
+                        class="bg-brand text-white px-6 py-2.5 rounded-lg text-xs font-bold hover:bg-brand-dark transition shadow-md shadow-brand/30"
+                    >
+                        Ver Ofertas
+                    </button>
+                </div>
+                <!-- Imagem Tablet -->
+                <img
+                    src="i4.png"
+                    alt=""
+                    class="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 h-[80%] md:h-[90%] object-contain mix-blend-multiply z-0 pointer-events-none opacity-50 md:opacity-100"
+                />
+            </div>
+
+            <!-- Promo 2 -->
+            <div
+                class="bg-[#f6f7f9] rounded-2xl p-6 md:p-8 relative overflow-hidden flex-1 flex flex-col justify-center min-h-[200px] md:min-h-[210px]"
+            >
+                <div class="z-10 relative w-1/2 md:w-3/5 lg:w-1/2">
+                    <h3
+                        class="text-xl md:text-2xl font-bold text-gray-900 mb-2 leading-tight"
+                    >
+                        Primeira Compra<br />20% de Desconto
+                    </h3>
+                    <p class="text-xs text-gray-500 mb-5">
+                        Use o código PRIMEIRA20
+                    </p>
+                    <button
+                        class="bg-brand text-white px-6 py-2.5 rounded-lg text-xs font-bold hover:bg-brand-dark transition shadow-md shadow-brand/30"
+                    >
+                        Usar Cupom
+                    </button>
+                </div>
+                <!-- Imagem Headphones -->
+                <img
+                    src="i3.webp"
+                    alt=""
+                    class="absolute -right-4 md:-right-4 top-1/2 -translate-y-1/2 h-[75%] md:h-[85%] object-contain mix-blend-multiply z-0 pointer-events-none opacity-50 md:opacity-100 mr-[100px]"
+                />
+            </div>
+            
+        </div>
+    </div>
+</section>

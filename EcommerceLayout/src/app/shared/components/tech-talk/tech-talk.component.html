@@ -1,0 +1,77 @@
+<section class="container mx-auto px-4 lg:px-8 py-12 border-t border-gray-100">
+    <!-- Cabeçalho Tech Talk -->
+    <div class="flex justify-between items-end mb-8">
+        <div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Papo Tech</h2>
+            <p class="text-gray-500 text-sm">
+                Fique atualizado com as últimas tendências, análises e dicas dos
+                nossos especialistas.
+            </p>
+        </div>
+        <a
+            href="#"
+            class="text-brand text-sm font-medium hover:underline flex items-center transition"
+            >Ver Todos <i class="ph ph-arrow-right ml-1"></i
+        ></a>
+    </div>
+
+    <!-- Grelha Tech Talk com items-stretch para igualar as alturas -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+        
+        <!-- Post Principal (Esquerda - Ocupa 7 colunas) -->
+        <!-- h-full para forçar que o card preencha o container -->
+        <article class="lg:col-span-7 group cursor-pointer flex flex-col h-full">
+            <div class="relative rounded-xl overflow-hidden mb-6 flex-shrink-0">
+                <img
+                    [src]="featuredPost.imageUrl"
+                    [alt]="featuredPost.title"
+                    class="w-full object-cover transform group-hover:scale-105 transition duration-500 lg:aspect-[16/8] aspect-[16/9]"
+                />
+            </div>
+            
+            <!-- flex-grow para empurrar o autor/data para o rodapé se sobrar espaço -->
+            <div class="flex flex-col flex-grow justify-between">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-brand transition leading-tight">
+                        {{ featuredPost.title }}
+                    </h3>
+                    <p class="text-gray-500 text-sm mb-6 leading-relaxed pr-4">
+                        {{ featuredPost.excerpt }}
+                    </p>
+                </div>
+                <div class="flex items-center text-xs mt-auto">
+                    <span class="bg-brand text-white font-bold px-3 py-1.5 rounded-md mr-4">
+                        {{ featuredPost.category }}
+                    </span>
+                    <span class="text-gray-500">
+                        {{ featuredPost.author }} <span class="mx-2">|</span> {{ featuredPost.date }}
+                    </span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Posts Secundários Empilhados (Direita - Ocupa 5 colunas) -->
+        <!-- h-full garante que a coluna tenha a mesma altura da imagem/post da esquerda -->
+        <div class="lg:col-span-5 flex flex-col h-full">
+            
+            <!-- Iteração sobre os posts secundários -->
+            @for (post of secondaryPosts; track post.id) {
+                <!-- flex-1 faz com que cada artigo ocupe uma porção igual da altura total disponível -->
+                <article
+                    class="group cursor-pointer flex flex-col justify-center flex-1 border-b border-gray-100 py-6 first:pt-0 last:border-b-0 last:pb-0"
+                >
+                    <div>
+                        <span class="bg-brand text-white text-[10px] font-bold px-2.5 py-1 rounded-md mb-3 inline-block">
+                            {{ post.category }}
+                        </span>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-brand transition leading-snug">
+                            {{ post.title }}
+                        </h3>
+                        <p class="text-xs text-gray-400">{{ post.date }}</p>
+                    </div>
+                </article>
+            }
+
+        </div>
+    </div>
+</section>

@@ -29,6 +29,7 @@ import { MyFavoriteProductsComponent } from "./shared/components/profile/my-favo
 import { MyOrdersComponent } from "./shared/components/profile/my-orders/my-orders.component";
 import { MyPersonalDataComponent } from "./shared/components/profile/my-personal-data/my-personal-data.component";
 import { OrderFailedPageComponent } from "./pages/operation/order-failed-page/order-failed-page.component";
+import { SearchPageComponent } from "./pages/search-page/search-page.component";
 
 export const routes: Routes = [
     {
@@ -41,6 +42,7 @@ export const routes: Routes = [
         component: LayoutWithHeaderComponent,
         children: [
             { path: 'inicio', component: HomePageComponent },
+			{ path: 'produtos', component: SearchPageComponent },
             { path: 'produto/:id', component: ProductPageComponent },
             { path: 'carrinho', component: CartPageComponent },
             { path: 'faq', component: FaqPageComponent },

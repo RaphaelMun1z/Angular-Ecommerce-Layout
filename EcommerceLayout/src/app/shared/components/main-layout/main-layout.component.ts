@@ -1,17 +1,22 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FilterSidebarComponent } from "./filter-sidebar/filter-sidebar.component";
-import { HeroCarouselComponent } from "./hero-carousel/hero-carousel.component";
-import { GridHeaderComponent } from "./grid-header/grid-header.component";
-import { ProductGridComponent } from './product-grid/product-grid.component';
-import { EmptyStateComponent } from "./empty-state/empty-state.component";
 import { Produto, ProdutoFiltro } from '../../../models/catalogo.models';
 import { CatalogoService } from '../../../services/catalogo.service';
 import { PageableParams } from '../../../models/shared.models';
 import { ActivatedRoute } from '@angular/router';
+import { HeroSectionComponent } from "../hero-section/hero-section.component";
+import { BrandsStripComponent } from "../brands-strip/brands-strip.component";
+import { PromoBannersGridComponent } from "../promo-banners-grid/promo-banners-grid.component";
+import { FeaturedProductsComponent } from "../featured-products/featured-products.component";
+import { NewProductsComponent } from "../new-products/new-products.component";
+import { MixedSectionComponent } from "../mixed-section/mixed-section.component";
+import { HorizontalPromoBannerComponent } from "../horizontal-promo-banner/horizontal-promo-banner.component";
+import { FAQSectionComponent } from "../faqsection/faqsection.component";
+import { TechTalkComponent } from "../tech-talk/tech-talk.component";
+import { NewsletterComponent } from "../newsletter/newsletter.component";
 
 @Component({
     selector: 'app-main-layout',
-    imports: [FilterSidebarComponent, HeroCarouselComponent, GridHeaderComponent, ProductGridComponent, EmptyStateComponent],
+    imports: [HeroSectionComponent, BrandsStripComponent, PromoBannersGridComponent, FeaturedProductsComponent, NewProductsComponent, MixedSectionComponent, HorizontalPromoBannerComponent, FAQSectionComponent, TechTalkComponent, NewsletterComponent],
     templateUrl: './main-layout.component.html',
     styleUrl: './main-layout.component.css'
 })
