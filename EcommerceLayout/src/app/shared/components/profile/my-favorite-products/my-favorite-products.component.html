@@ -1,64 +1,106 @@
 <div class="animate-fade-in space-y-6">
-    
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-6">
+    <div
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-6"
+    >
         <div class="flex items-center gap-3">
             <div class="bg-red-50 p-2 rounded-xl text-red-500">
                 <i class="ph-fill ph-heart text-2xl"></i>
             </div>
             <div>
-                <h1 class="text-xl font-bold text-gray-900">Lista de Desejos</h1>
+                <h1 class="text-xl font-bold text-gray-900">
+                    Lista de Desejos
+                </h1>
                 <p class="text-sm text-gray-500 flex items-center gap-2">
-                    Você salvou 
-                    <span class="font-bold text-gray-900">{{ favorites().length }}</span> 
-                    {{ favorites().length === 1 ? 'item' : 'itens' }}
+                    Você salvou
+                    <span class="font-bold text-gray-900">{{
+                        favorites().length
+                    }}</span>
+                    {{ favorites().length === 1 ? "item" : "itens" }}
                 </p>
             </div>
         </div>
-        
+
         @if (favorites().length > 0) {
-            <button (click)="clearAll()" class="group flex items-center gap-2 px-4 py-2 text-sm font-bold text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all cursor-pointer border-none bg-transparent outline-none">
-                <i class="ph-bold ph-trash group-hover:scale-110 transition-transform"></i>
+            <button
+                (click)="clearAll()"
+                class="group flex items-center gap-2 px-4 py-2 text-sm font-bold text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all cursor-pointer border-none bg-transparent outline-none"
+            >
+                <i
+                    class="ph-bold ph-trash group-hover:scale-110 transition-transform"
+                ></i>
                 Limpar Lista
             </button>
         }
     </div>
-    
+
     @if (isLoading()) {
-        <div class="py-32 flex flex-col items-center justify-center text-gray-400 bg-white rounded-3xl border border-gray-100">
+        <div
+            class="py-32 flex flex-col items-center justify-center text-gray-400 bg-white rounded-3xl border border-gray-100"
+        >
             <div class="relative">
-                <div class="absolute inset-0 bg-brand-100 rounded-full blur-xl opacity-50 animate-pulse"></div>
-                <i class="ph-duotone ph-spinner animate-spin text-4xl mb-4 text-brand-600 relative z-10"></i>
+                <div
+                    class="absolute inset-0 bg-brand-100 rounded-full blur-xl opacity-50 animate-pulse"
+                ></div>
+                <i
+                    class="ph-duotone ph-spinner animate-spin text-4xl mb-4 text-brand-600 relative z-10"
+                ></i>
             </div>
-            <p class="font-medium text-sm text-gray-500">Sincronizando seus favoritos...</p>
+            <p class="font-medium text-sm text-gray-500">
+                Sincronizando seus favoritos...
+            </p>
         </div>
     } @else {
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
             @for (item of favorites(); track item.id; let i = $index) {
-                <div class="relative group animate-slide-up" [style.animation-delay]="i * 50 + 'ms'">
-                    
-                    <div class="absolute inset-0 border-2 border-red-50 rounded-2xl pointer-events-none z-10 transition-colors group-hover:border-red-200"></div>
+                <div
+                    class="relative group animate-slide-up"
+                    [style.animation-delay]="i * 50 + 'ms'"
+                >
+                    <div
+                        class="absolute inset-0 border-2 border-red-50 rounded-2xl pointer-events-none z-10 transition-colors group-hover:border-red-200"
+                    ></div>
 
                     <app-product-card
                         [product]="mapToProduto(item)"
                         [viewMode]="'grid'"
-                        (addToCart)="addToCart($event)"
-                        class="block h-full">
+                        class="block h-full"
+                    >
                     </app-product-card>
 
-                    <button (click)="removeFavorite(item)" 
-                            class="absolute top-3 right-3 z-20 w-9 h-9 bg-white text-gray-400 border border-gray-100 rounded-full shadow-sm flex items-center justify-center hover:bg-red-500 hover:text-white hover:border-red-500 transition-all cursor-pointer"
-                            title="Remover dos favoritos">
+                    <button
+                        (click)="removeFavorite(item)"
+                        class="absolute top-3 right-3 z-20 w-9 h-9 bg-white text-gray-400 border border-gray-100 rounded-full shadow-sm flex items-center justify-center hover:bg-red-500 hover:text-white hover:border-red-500 transition-all cursor-pointer"
+                        title="Remover dos favoritos"
+                    >
                         <i class="ph-bold ph-trash text-lg"></i>
                     </button>
                 </div>
             } @empty {
-                <div class="col-span-full py-24 text-center bg-white rounded-3xl border border-dashed border-gray-200">
-                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                        <i class="ph-duotone ph-heart-break text-4xl text-gray-300"></i>
+                <div
+                    class="col-span-full py-24 text-center bg-white rounded-3xl border border-dashed border-gray-200"
+                >
+                    <div
+                        class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm"
+                    >
+                        <i
+                            class="ph-duotone ph-heart-break text-4xl text-gray-300"
+                        ></i>
                     </div>
-                    <h2 class="text-xl font-bold text-gray-900 mb-2">Sua lista está vazia</h2>
-                    <p class="text-sm text-gray-500 mb-8 max-w-xs mx-auto leading-relaxed">Salve os itens que você mais gosta para facilitar sua próxima compra.</p>
-                    <button routerLink="/inicio" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold uppercase tracking-widest py-3.5 px-8 rounded-xl transition-all shadow-lg shadow-brand-500/20 hover:-translate-y-0.5 cursor-pointer border-none outline-none">
+                    <h2 class="text-xl font-bold text-gray-900 mb-2">
+                        Sua lista está vazia
+                    </h2>
+                    <p
+                        class="text-sm text-gray-500 mb-8 max-w-xs mx-auto leading-relaxed"
+                    >
+                        Salve os itens que você mais gosta para facilitar sua
+                        próxima compra.
+                    </p>
+                    <button
+                        routerLink="/inicio"
+                        class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold uppercase tracking-widest py-3.5 px-8 rounded-xl transition-all shadow-lg shadow-brand-500/20 hover:-translate-y-0.5 cursor-pointer border-none outline-none"
+                    >
                         Explorar Catálogo
                     </button>
                 </div>
