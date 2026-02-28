@@ -115,27 +115,44 @@ export class PersonalDataFormComponent implements OnInit {
             }
         });
     }
-    
+	
     onAvatarSelected(event: any) {
         const file: File = event.target.files[0];
-        if (!file || !file.type.startsWith('image/')) return;
+        if (!file || !file.type.startsWith('image/')) {
+             this.toastService.warning('Arquivo inválido', 'Selecione uma imagem.');
+             return;
+        }
         
         this.isUploading.set(true);
+
         this.fileUploadService.upload(file).subscribe({
-            next: (response: any) => {
-                const body = response instanceof HttpResponse ? response.body : response;
-                if (body && body.fileName) {
-                    this.usuarioService.atualizarMeuAvatar(body.fileName).subscribe({
-                        next: () => {
-                            this.authService.updateUser({ avatar: body.url });
-                            this.toastService.success('Foto Atualizada', 'Seu perfil foi atualizado.');
-                            this.isUploading.set(false);
-                        },
-                        error: () => this.isUploading.set(false)
-                    });
+            next: (event) => {
+                if (event instanceof HttpResponse) {
+                    const response = event.body as any;
+
+                    if (response && response.url) {
+                        const novaUrl = response.url;
+
+                        this.usuarioService.atualizarMeuAvatar(novaUrl).subscribe({
+                            next: () => {
+                                this.authService.updateUser({ avatar: novaUrl });
+                                
+                                this.user.update(u => ({ ...u, avatar: novaUrl }));
+
+                                this.toastService.success('Foto Atualizada', 'Seu perfil foi atualizado.');
+                                this.isUploading.set(false);
+                            },
+                            error: (err) => {
+                                console.error(err);
+                                this.toastService.error('Erro', 'Erro ao salvar foto no perfil.');
+                                this.isUploading.set(false);
+                            }
+                        });
+                    }
                 }
             },
-            error: () => {
+            error: (err) => {
+                console.error(err);
                 this.toastService.error('Erro', 'Falha no upload da imagem.');
                 this.isUploading.set(false);
             }

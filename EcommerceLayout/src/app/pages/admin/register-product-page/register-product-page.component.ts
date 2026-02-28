@@ -1,11 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+    ReactiveFormsModule,
+    FormBuilder,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Categoria, ProdutoRequest } from '../../../models/catalogo.models';
 import { CatalogoService } from '../../../services/catalogo.service';
-import { TipoMovimentacao, MovimentacaoEstoqueRequest } from '../../../models/estoque.models';
+import {
+    TipoMovimentacao,
+    MovimentacaoEstoqueRequest,
+} from '../../../models/estoque.models';
 import { EstoqueService } from '../../../services/estoque.service';
 import { FileUploadService } from '../../../services/fileUpload.service';
 import { HttpResponse } from '@angular/common/http';
@@ -14,9 +22,8 @@ import { HttpResponse } from '@angular/common/http';
     selector: 'app-register-product-page',
     imports: [CommonModule, ReactiveFormsModule, RouterModule],
     templateUrl: './register-product-page.component.html',
-    styleUrl: './register-product-page.component.css'
+    styleUrl: './register-product-page.component.css',
 })
-
 export class RegisterProductPageComponent implements OnInit {
     private fb = inject(FormBuilder);
     private catalogoService = inject(CatalogoService);
@@ -24,8 +31,8 @@ export class RegisterProductPageComponent implements OnInit {
     private fileUploadService = inject(FileUploadService);
     private toastr = inject(ToastrService);
     private router = inject(Router);
-    private route = inject(ActivatedRoute); 
-    
+    private route = inject(ActivatedRoute);
+
     isLoading = signal(false);
     isAdjustingStock = signal(false);
     isUploading = signal(false);
@@ -33,9 +40,9 @@ export class RegisterProductPageComponent implements OnInit {
     showStockModal = signal(false);
     productId = signal<string | null>(null);
     categorias = signal<Categoria[]>([]);
-    
+
     images = signal<string[]>([]);
-    
+
     productForm: FormGroup = this.fb.group({
         codigoControle: ['', [Validators.required, Validators.minLength(3)]],
         titulo: ['', [Validators.required, Validators.minLength(3)]],
@@ -46,19 +53,19 @@ export class RegisterProductPageComponent implements OnInit {
         ativo: [true, Validators.required],
         categoriaId: ['', Validators.required],
         pesoKg: [null],
-        dimensoes: ['']
+        dimensoes: [''],
     });
-    
+
     stockForm: FormGroup = this.fb.group({
         quantidade: [1, [Validators.required, Validators.min(1)]],
         tipo: [TipoMovimentacao.ENTRADA, Validators.required],
-        motivo: ['', [Validators.required, Validators.minLength(5)]]
+        motivo: ['', [Validators.required, Validators.minLength(5)]],
     });
-    
+
     ngOnInit() {
         this.carregarCategorias();
-        
-        this.route.queryParams.subscribe(params => {
+
+        this.route.queryParams.subscribe((params) => {
             const id = params['id'];
             if (id) {
                 this.productId.set(id);
@@ -67,13 +74,15 @@ export class RegisterProductPageComponent implements OnInit {
             }
         });
     }
-    
+
     carregarCategorias() {
-        this.catalogoService.listarCategoriasAtivas({ page: 0, size: 100 }).subscribe({
-            next: (page) => this.categorias.set(page.content)
-        });
+        this.catalogoService
+            .listarCategoriasAtivas({ page: 0, size: 100 })
+            .subscribe({
+                next: (page) => this.categorias.set(page.content),
+            });
     }
-    
+
     carregarDadosProduto(id: string) {
         this.isLoading.set(true);
         this.catalogoService.obterProduto(id).subscribe({
@@ -88,93 +97,93 @@ export class RegisterProductPageComponent implements OnInit {
                     ativo: produto.ativo,
                     categoriaId: produto.categoria?.id,
                     pesoKg: produto.pesoKg,
-                    dimensoes: produto.dimensoes
+                    dimensoes: produto.dimensoes,
                 });
-                
+
                 if (produto.imagens && produto.imagens.length > 0) {
                     const urls = produto.imagens
-                    .sort((a, b) => a.ordem - b.ordem)
-                    .map(img => img.url);
-                    
+                        .sort((a, b) => a.ordem - b.ordem)
+                        .map((img) => img.url);
+
                     this.images.set(urls);
                 }
-                
+
                 this.isLoading.set(false);
             },
             error: () => {
                 this.toastr.error('Erro ao carregar dados do produto.');
                 this.router.navigate(['/dashboard-admin/produtos']);
-            }
+            },
         });
     }
-    
+
     onFileSelected(event: any) {
         const files: FileList = event.target.files;
         if (files && files.length > 0) {
             this.isUploading.set(true);
             let uploadCount = 0;
             const totalFiles = files.length;
-            
+
             for (let i = 0; i < totalFiles; i++) {
                 const file = files[i];
-                
+
                 if (!file.type.startsWith('image/')) {
-                    this.toastr.warning(`Arquivo ${file.name} ignorado (não é imagem).`);
+                    this.toastr.warning(
+                        `Arquivo ${file.name} ignorado (não é imagem).`,
+                    );
                     uploadCount++;
                     this.checkUploadComplete(uploadCount, totalFiles);
                     continue;
                 }
-                
+
                 this.fileUploadService.upload(file).subscribe({
-                    next: (response: any) => {
-                        let finalUrl = '';
-                        
-                        if (response instanceof HttpResponse) {
-                            if (response.body && response.body.url) {
-                                finalUrl = response.body.url;
+                    next: (event) => {
+                        if (event instanceof HttpResponse) {
+                            const response = event.body as any;
+
+                            if (response && response.url) {
+                                this.images.update((imgs) => [
+                                    ...imgs,
+                                    response.url,
+                                ]);
                             }
-                        } 
-                        else if (response.url && response.fileName) {
-                            finalUrl = response.url;
-                        }
-                        
-                        if (finalUrl) {
-                            this.images.update(imgs => [...imgs, finalUrl]);
+
                             uploadCount++;
                             this.checkUploadComplete(uploadCount, totalFiles);
                         }
                     },
-                    error: () => {
+                    error: (err) => {
+                        console.error(err);
                         this.toastr.error(`Erro ao enviar ${file.name}`);
                         uploadCount++;
                         this.checkUploadComplete(uploadCount, totalFiles);
-                    }
+                    },
                 });
             }
         }
     }
-    
+
     private checkUploadComplete(current: number, total: number) {
         if (current === total) {
             this.isUploading.set(false);
             this.toastr.success('Processamento de imagens concluído!');
         }
     }
-    
+
     removeImage(index: number) {
-        this.images.update(imgs => imgs.filter((_, i) => i !== index));
+        this.images.update((imgs) => imgs.filter((_, i) => i !== index));
     }
-    
+
     onSubmit() {
         if (this.productForm.invalid) {
             this.productForm.markAllAsTouched();
             this.toastr.warning('Preencha todos os campos obrigatórios.');
             return;
         }
-        
+
         this.isLoading.set(true);
         const formValue = this.productForm.value;
-        
+
         const request: ProdutoRequest = {
             codigoControle: formValue.codigoControle,
             titulo: formValue.titulo,
@@ -186,64 +195,85 @@ export class RegisterProductPageComponent implements OnInit {
             categoriaId: formValue.categoriaId,
             pesoKg: formValue.pesoKg,
             dimensoes: formValue.dimensoes,
-            imagens: this.images() 
+            imagens: this.images(),
         };
-        
-        const operation$ = this.isEditing() && this.productId()
-        ? this.catalogoService.atualizarProduto(this.productId()!, request)
-        : this.catalogoService.salvarProduto(request);
-        
+
+        const operation$ =
+            this.isEditing() && this.productId()
+                ? this.catalogoService.atualizarProduto(
+                      this.productId()!,
+                      request,
+                  )
+                : this.catalogoService.salvarProduto(request);
+
         operation$.subscribe({
             next: () => {
-                this.toastr.success(`Produto ${this.isEditing() ? 'atualizado' : 'cadastrado'} com sucesso!`);
+                this.toastr.success(
+                    `Produto ${this.isEditing() ? 'atualizado' : 'cadastrado'} com sucesso!`,
+                );
                 this.router.navigate(['/dashboard-admin/produtos']);
             },
             error: (err) => {
-                this.toastr.error(err.error?.message || 'Erro ao processar solicitação.');
+                this.toastr.error(
+                    err.error?.message || 'Erro ao processar solicitação.',
+                );
                 this.isLoading.set(false);
-            }
+            },
         });
     }
-        
-    openStockModal(product: any) { 
-        this.stockForm.reset({ quantidade: 1, tipo: TipoMovimentacao.ENTRADA, motivo: '' });
+
+    openStockModal(product: any) {
+        this.stockForm.reset({
+            quantidade: 1,
+            tipo: TipoMovimentacao.ENTRADA,
+            motivo: '',
+        });
         this.showStockModal.set(true);
     }
-    
+
     confirmStockAdjustment() {
         if (this.stockForm.invalid || !this.productId()) {
             this.stockForm.markAllAsTouched();
             return;
         }
-        
+
         this.isAdjustingStock.set(true);
         const val = this.stockForm.value;
         const request: MovimentacaoEstoqueRequest = {
             produtoId: this.productId()!,
             quantidade: val.quantidade,
             tipo: val.tipo,
-            motivo: val.motivo
+            motivo: val.motivo,
         };
-        
+
         this.estoqueService.registrarMovimentacao(request).subscribe({
             next: () => {
                 this.toastr.success('Estoque atualizado com sucesso!');
-                this.stockForm.reset({ quantidade: 1, tipo: TipoMovimentacao.ENTRADA, motivo: '' });
+                this.stockForm.reset({
+                    quantidade: 1,
+                    tipo: TipoMovimentacao.ENTRADA,
+                    motivo: '',
+                });
                 this.showStockModal.set(false);
                 this.carregarDadosProduto(this.productId()!);
             },
-            error: (err) => this.toastr.error(err.error?.message || 'Erro ao ajustar estoque.'),
-            complete: () => this.isAdjustingStock.set(false)
+            error: (err) =>
+                this.toastr.error(
+                    err.error?.message || 'Erro ao ajustar estoque.',
+                ),
+            complete: () => this.isAdjustingStock.set(false),
         });
     }
-    
-    get enumTipo() { return TipoMovimentacao; }
-    
+
+    get enumTipo() {
+        return TipoMovimentacao;
+    }
+
     isFieldInvalid(fieldName: string): boolean {
         const field = this.productForm.get(fieldName);
         return !!(field && field.invalid && (field.dirty || field.touched));
     }
-    
+
     isStockFieldInvalid(fieldName: string): boolean {
         const field = this.stockForm.get(fieldName);
         return !!(field && field.invalid && (field.dirty || field.touched));

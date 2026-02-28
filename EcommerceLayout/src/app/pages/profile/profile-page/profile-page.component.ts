@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { provideNgxMask } from 'ngx-mask';
 import { AuthService } from '../../../core/auth/auth.service';
-import { FileUploadService } from '../../../services/fileUpload.service';
 
 @Component({
     selector: 'app-profile-page',
@@ -12,10 +11,8 @@ import { FileUploadService } from '../../../services/fileUpload.service';
     templateUrl: './profile-page.component.html',
     styleUrl: './profile-page.component.css'
 })
-
 export class ProfilePageComponent {
     private authService = inject(AuthService);
-    private fileUploadService = inject(FileUploadService); 
     
     user = signal({
         name: 'Utilizador',
@@ -28,15 +25,9 @@ export class ProfilePageComponent {
             const currentUser = this.authService.currentUser();
             
             if (currentUser) {
-                let avatarUrl = '';
-                
-                if (currentUser.avatar) {
-                    avatarUrl = currentUser.avatar.startsWith('http') 
+                const avatarUrl = currentUser.avatar 
                     ? currentUser.avatar 
-                    : this.fileUploadService.getPreviewUrl(currentUser.avatar);
-                } else {
-                    avatarUrl = `https://ui-avatars.com/api/?name=${currentUser.email}&background=0f172a&color=fff&size=128`;
-                }
+                    : `https://ui-avatars.com/api/?name=${currentUser.email}&background=0f172a&color=fff&size=128`;
                 
                 this.user.update(u => ({
                     ...u,

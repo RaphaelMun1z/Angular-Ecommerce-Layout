@@ -1,79 +1,112 @@
-<div class="space-y-8 animate-fade-in pb-10 max-w-[1600px] mx-auto">
+<div class="space-y-6 animate-fade-in pb-10">
     
+    <!-- Cabeçalho da Página -->
     <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Catálogo de Produtos</h1>
+            <h1 class="text-[26px] font-bold text-gray-900 tracking-tight">Catálogo de Produtos</h1>
             <p class="text-sm text-gray-500 mt-0.5">Gestão completa de inventário e especificações</p>
         </div>
         
-        <div class="flex items-center gap-2">
-            <button routerLink="/dashboard-admin/relatorios-administrativos" class="p-2.5 text-gray-500 hover:text-gray-900 hover:bg-white rounded-xl transition-all cursor-pointer border border-transparent hover:border-gray-200" title="Relatórios">
-                <i class="ph-bold ph-chart-bar text-xl"></i>
+        <div class="flex items-center gap-3">
+            <button routerLink="/dashboard-admin/relatorios-administrativos" class="flex items-center justify-center w-11 h-11 text-gray-500 bg-white border border-gray-200 hover:text-gray-900 hover:bg-gray-50 rounded-full transition-colors cursor-pointer" title="Relatórios">
+                <i class="ph ph-chart-bar text-xl"></i>
             </button>
-            <button routerLink="/dashboard-admin/registrar-product" class="bg-brand-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl hover:bg-brand-700 transition-all shadow-sm active:scale-[0.98] cursor-pointer flex items-center gap-2">
-                <i class="ph-bold ph-plus"></i>
+            <button routerLink="/dashboard-admin/registrar-product" class="bg-[#5252FF] text-white text-sm font-medium px-6 py-2.5 rounded-full hover:bg-[#4040E6] transition-all shadow-lg shadow-[#5252FF]/20 active:scale-[0.98] cursor-pointer flex items-center gap-2">
+                <i class="ph ph-plus text-lg"></i>
                 Novo Produto
             </button>
         </div>
     </header>
     
+    <!-- Barra de Ferramentas (Busca e Filtros) -->
     <section class="flex flex-col md:flex-row gap-4 items-center justify-between px-2">
-        <div class="relative w-full md:max-w-sm group">
-            <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-500 transition-colors"></i>
+        <!-- Campo de Busca -->
+        <div class="relative w-full md:w-80 group">
+            <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5252FF] transition-colors text-lg"></i>
             <input type="text" 
                    [ngModel]="searchTerm()" 
                    (ngModelChange)="onSearch($event)" 
                    placeholder="Buscar por nome, SKU ou categoria..." 
-                   class="w-full pl-10 pr-4 py-2 bg-transparent border-b border-gray-200 focus:border-brand-500 transition-all outline-none text-sm text-gray-700 placeholder:text-gray-400">
+                   class="w-full pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#5252FF]/20 focus:border-[#5252FF] transition-all text-[14px] text-gray-700 placeholder:text-gray-400 shadow-sm">
         </div>
         
-        <div class="flex items-center gap-1 overflow-x-auto scrollbar-hide w-full md:w-auto">
-            <button (click)="applyFilter('all')" [ngClass]="activeStatusFilter() === 'all' ? 'text-brand-600 bg-brand-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Todos</button>
-            <button (click)="applyFilter('active')" [ngClass]="activeStatusFilter() === 'active' ? 'text-green-600 bg-green-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Ativos</button>
-            <button (click)="applyFilter('inactive')" [ngClass]="activeStatusFilter() === 'inactive' ? 'text-red-600 bg-red-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Inativos</button>
+        <!-- Filtros Rápidos Segmentados -->
+        <div class="flex items-center p-1 bg-white border border-gray-200 rounded-full overflow-x-auto scrollbar-hide w-full md:w-auto shadow-sm">
+            <button (click)="applyFilter('all')" 
+                    [ngClass]="activeStatusFilter() === 'all' ? 'bg-gray-100 text-gray-900 shadow-sm border-gray-200/50' : 'text-gray-500 hover:text-gray-800 border-transparent hover:bg-gray-50'" 
+                    class="px-5 py-1.5 rounded-full text-[13px] font-medium transition-all cursor-pointer whitespace-nowrap border">
+                Todos
+            </button>
+            <button (click)="applyFilter('active')" 
+                    [ngClass]="activeStatusFilter() === 'active' ? 'bg-emerald-50 text-emerald-700 shadow-sm border-emerald-100' : 'text-gray-500 hover:text-gray-800 border-transparent hover:bg-gray-50'" 
+                    class="px-5 py-1.5 rounded-full text-[13px] font-medium transition-all cursor-pointer whitespace-nowrap border">
+                Ativos
+            </button>
+            <button (click)="applyFilter('inactive')" 
+                    [ngClass]="activeStatusFilter() === 'inactive' ? 'bg-gray-100 text-gray-700 shadow-sm border-gray-200' : 'text-gray-500 hover:text-gray-800 border-transparent hover:bg-gray-50'" 
+                    class="px-5 py-1.5 rounded-full text-[13px] font-medium transition-all cursor-pointer whitespace-nowrap border">
+                Inativos
+            </button>
         </div>
     </section>
 
-    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden relative min-h-[500px] shadow-sm flex flex-col">
+    <!-- Tabela Principal -->
+    <div class="bg-white rounded-[24px] border border-gray-100 overflow-hidden relative min-h-[500px] shadow-sm flex flex-col">
+        
         @if (isLoading()) {
-            <div class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-30 flex items-center justify-center text-brand-600">
-                <i class="ph ph-spinner animate-spin text-3xl"></i>
+            <div class="absolute inset-0 bg-white/70 backdrop-blur-[2px] z-30 flex items-center justify-center text-[#5252FF]">
+                <i class="ph ph-spinner animate-spin text-4xl"></i>
             </div>
         }
 
         <div class="overflow-x-auto flex-1">
-            <table class="w-full text-left border-collapse">
+            <table class="w-full text-left border-collapse min-w-[900px]">
                 <thead>
-                    <tr class="text-[10px] text-gray-400 uppercase tracking-widest border-b border-gray-50 font-bold bg-gray-50/30">
-                        <th class="px-6 py-4">Produto / SKU</th>
-                        <th class="px-6 py-4">Categoria</th>
-                        <th class="px-6 py-4">Preços (Base / Promo)</th>
-                        <th class="px-6 py-4">Estoque</th>
-                        <th class="px-6 py-4">Especificações</th>
-                        <th class="px-6 py-4">Status</th>
-                        <th class="px-6 py-4 text-center w-24">Ações</th>
+                    <tr class="border-b border-gray-100 bg-white">
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap">
+                            Produto <i class="ph-bold ph-arrows-down-up ml-1 inline-block align-middle text-[10px]"></i>
+                        </th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap">
+                            Categoria <i class="ph-bold ph-arrows-down-up ml-1 inline-block align-middle text-[10px]"></i>
+                        </th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap">
+                            Preços <i class="ph-bold ph-arrows-down-up ml-1 inline-block align-middle text-[10px]"></i>
+                        </th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap">
+                            Estoque <i class="ph-bold ph-arrows-down-up ml-1 inline-block align-middle text-[10px]"></i>
+                        </th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap">
+                            Especificações
+                        </th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap text-center">
+                            Status <i class="ph-bold ph-arrows-down-up ml-1 inline-block align-middle text-[10px]"></i>
+                        </th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap text-center w-24">
+                            Ações
+                        </th>
                     </tr>
                 </thead>
-                <tbody class="text-sm divide-y divide-gray-50">
+                <tbody class="divide-y divide-gray-50">
                     @for (product of products(); track product.id) {
                         <tr class="hover:bg-gray-50/50 transition-colors group">
                             
-                            <td class="px-6 py-5">
+                            <!-- Coluna Produto e SKU -->
+                            <td class="py-4 px-6">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden relative group-hover:border-brand-200 transition-colors">
+                                    <div class="w-12 h-12 rounded-[14px] bg-[#F4F5F7] border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden relative transition-colors">
                                         @if (product.imagens && product.imagens.length > 0) {
-                                            <img [src]="product.imagens[0].url" [alt]="product.titulo" class="w-full h-full object-contain p-0.5">
+                                            <img [src]="product.imagens[0].url" [alt]="product.titulo" class="w-full h-full object-contain p-0.5 mix-blend-multiply">
                                         } @else {
-                                            <img [src]="'https://ui-avatars.com/api/?name=' + product.titulo + '&background=f3f4f6&color=4b5563&size=128&font-size=0.4&length=2'" 
-                                                 [alt]="product.titulo" class="w-full h-full object-cover opacity-80 mix-blend-multiply">
+                                            <img [src]="'https://ui-avatars.com/api/?name=' + product.titulo + '&background=e5e7eb&color=6b7280&size=128&font-size=0.4&length=2'" 
+                                                 [alt]="product.titulo" class="w-full h-full object-cover opacity-70">
                                         }
                                     </div>
                                     <div class="flex flex-col min-w-0">
-                                        <span class="font-bold text-gray-900 truncate max-w-[220px]" [title]="product.titulo">
+                                        <span class="font-medium text-[14px] text-gray-900 truncate max-w-[220px]" [title]="product.titulo">
                                             {{ product.titulo }}
                                         </span>
-                                        <div class="flex items-center gap-2 mt-0.5">
-                                            <span class="text-[10px] font-mono text-gray-500 bg-gray-100 px-1.5 rounded border border-gray-200">
+                                        <div class="flex items-center gap-2 mt-1">
+                                            <span class="text-[11px] font-mono text-gray-500 bg-white px-1.5 py-0.5 rounded border border-gray-200">
                                                 {{ product.codigoControle }}
                                             </span>
                                         </div>
@@ -81,78 +114,87 @@
                                 </div>
                             </td>
                             
-                            <td class="px-6 py-4">
-                                <span class="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded-md uppercase tracking-wider">
+                            <!-- Categoria -->
+                            <td class="py-4 px-6">
+                                <span class="text-[13px] font-medium text-gray-600">
                                     {{ product.categoria?.nome || 'Sem Categoria' }}
                                 </span>
                             </td>
 
-                            <td class="px-6 py-4">
+                            <!-- Preços (CORRIGIDO: Removido 'pt-BR' do pipe de moeda para não crachar a renderização) -->
+                            <td class="py-4 px-6">
                                 <div class="flex flex-col">
-                                    <span class="font-bold text-gray-900">{{ product.preco | currency:'BRL' }}</span>
+                                    <span class="font-semibold text-[14px] text-gray-900">{{ product.preco | currency:'BRL' }}</span>
                                     @if (product.precoPromocional) {
-                                        <span class="text-[10px] text-brand-600 font-bold">{{ product.precoPromocional | currency:'BRL' }}</span>
+                                        <span class="text-[11px] text-[#5252FF] font-semibold mt-0.5">Promo: {{ product.precoPromocional | currency:'BRL' }}</span>
                                     }
                                 </div>
                             </td>
 
-                            <td class="px-6 py-4">
+                            <!-- Estoque -->
+                            <td class="py-4 px-6">
                                 <div class="flex items-center gap-3">
                                     <div class="flex flex-col">
-                                        <span class="font-bold text-sm" [ngClass]="product.estoque < 5 ? 'text-red-600' : 'text-gray-900'">
-                                            {{ product.estoque }} <span class="text-[10px] text-gray-400 font-normal">un</span>
+                                        <span class="font-semibold text-[14px]" [ngClass]="product.estoque < 5 ? 'text-[#FF4747]' : 'text-gray-900'">
+                                            {{ product.estoque }} <span class="text-[11px] text-gray-400 font-normal">un</span>
                                         </span>
                                         @if (product.estoque < 5) {
-                                            <span class="text-[9px] font-bold text-red-500 uppercase tracking-tight">Crítico</span>
+                                            <span class="text-[10px] font-bold text-[#FF4747] uppercase tracking-tight mt-0.5">Crítico</span>
                                         }
                                     </div>
-                                    <button (click)="openStockModal(product)" class="p-1.5 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors cursor-pointer border border-transparent hover:border-brand-100" title="Ajustar Estoque Manualmente">
-                                        <i class="ph-bold ph-faders"></i>
+                                    <!-- Botão de Ajuste -->
+                                    <button (click)="openStockModal(product)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-[#5252FF] hover:bg-[#5252FF]/10 transition-colors cursor-pointer ml-2" title="Ajustar Estoque">
+                                        <i class="ph ph-faders text-[16px]"></i>
                                     </button>
                                 </div>
                             </td>
 
-                            <td class="px-6 py-4">
-                                <div class="text-[10px] text-gray-500 space-y-0.5">
-                                    <p class="flex items-center gap-1">
-                                        <i class="ph-bold ph-scales text-gray-300"></i>
+                            <!-- Especificações -->
+                            <td class="py-4 px-6">
+                                <div class="text-[12px] text-gray-500 space-y-1">
+                                    <p class="flex items-center gap-1.5">
+                                        <i class="ph ph-scales text-gray-400"></i>
                                         {{ product.pesoKg ? product.pesoKg + ' kg' : '-' }}
                                     </p>
-                                    <p class="flex items-center gap-1">
-                                        <i class="ph-bold ph-ruler text-gray-300"></i>
+                                    <p class="flex items-center gap-1.5">
+                                        <i class="ph ph-ruler text-gray-400"></i>
                                         {{ product.dimensoes || '-' }}
                                     </p>
                                 </div>
                             </td>
 
-                            <td class="px-6 py-4">
-                                <span [ngClass]="product.ativo ? 'text-green-600 bg-green-50 border-green-100' : 'text-gray-400 bg-gray-50 border-gray-100'" 
-                                      class="px-2 py-0.5 rounded-md text-[10px] font-bold border uppercase inline-flex items-center gap-1.5">
-                                    <span class="w-1.5 h-1.5 rounded-full" [ngClass]="product.ativo ? 'bg-green-500' : 'bg-gray-400'"></span>
+                            <!-- Status -->
+                            <td class="py-4 px-6 text-center">
+                                <span [ngClass]="product.ativo ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-gray-50 text-gray-500 border-gray-200'" 
+                                      class="inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide border">
                                     {{ product.ativo ? 'Ativo' : 'Inativo' }}
                                 </span>
                             </td>
 
-                            <td class="px-6 py-4 text-center">
-                                <div class="flex items-center justify-end gap-1 transition-all duration-200 translate-x-2">
+                            <!-- Ações -->
+                            <td class="py-4 px-6">
+                                <div class="flex items-center justify-center gap-1.5">
+                                    <!-- Toggle Status -->
                                     <button (click)="toggleStatus(product)" 
-                                            class="p-2 rounded-lg transition-colors cursor-pointer"
+                                            class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 transition-colors flex items-center justify-center cursor-pointer"
                                             [title]="product.ativo ? 'Desativar' : 'Ativar'"
-                                            [ngClass]="product.ativo ? 'text-gray-400 hover:text-amber-600 hover:bg-amber-50' : 'text-gray-400 hover:text-green-600 hover:bg-green-50'">
-                                        <i [class]="product.ativo ? 'ph-bold ph-power' : 'ph-bold ph-play'"></i>
+                                            [ngClass]="product.ativo ? 'hover:text-amber-500 hover:border-amber-200 hover:bg-amber-50' : 'hover:text-emerald-500 hover:border-emerald-200 hover:bg-emerald-50'">
+                                        <i [class]="product.ativo ? 'ph ph-power text-[16px]' : 'ph ph-play text-[16px]'"></i>
                                     </button>
                                     
+                                    <!-- Edit -->
                                     <button [routerLink]="['/dashboard-admin/registrar-product']" 
                                             [queryParams]="{id: product.id}" 
-                                            class="p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors cursor-pointer" 
-                                            title="Editar Detalhes">
-                                        <i class="ph-bold ph-pencil-simple"></i>
+                                            class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 hover:text-[#5252FF] hover:border-[#5252FF]/30 hover:bg-[#5252FF]/5 flex items-center justify-center transition-colors cursor-pointer" 
+                                            title="Editar">
+                                        <i class="ph ph-pencil-simple text-[16px]"></i>
                                     </button>
 
+                                    <!-- Delete -->
                                     <button (click)="deleteProduct(product)" 
-                                            class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer" 
-                                            title="Excluir Produto">
-                                        <i class="ph-bold ph-trash"></i>
+                                            class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 hover:text-[#FF4747] hover:border-[#FF4747]/30 hover:bg-[#FF4747]/5 flex items-center justify-center transition-colors cursor-pointer" 
+                                            title="Excluir">
+                                        <i class="ph ph-trash text-[16px]"></i>
                                     </button>
                                 </div>
                             </td>
@@ -162,11 +204,11 @@
                             <tr>
                                 <td colspan="7" class="px-6 py-24 text-center">
                                     <div class="flex flex-col items-center justify-center text-gray-400">
-                                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-3">
+                                        <div class="w-16 h-16 bg-gray-50 border border-gray-100 rounded-full flex items-center justify-center mb-3">
                                             <i class="ph-duotone ph-package text-3xl opacity-50"></i>
                                         </div>
                                         <p class="text-sm font-medium">Nenhum produto encontrado.</p>
-                                        <button routerLink="/dashboard-admin/registrar-product" class="mt-2 text-brand-600 text-xs font-bold hover:underline cursor-pointer">Cadastrar novo item</button>
+                                        <button routerLink="/dashboard-admin/registrar-product" class="mt-2 text-[#5252FF] text-[13px] font-medium hover:underline cursor-pointer">Cadastrar novo item</button>
                                     </div>
                                 </td>
                             </tr>
@@ -176,151 +218,154 @@
             </table>
         </div>
         
-        <footer class="px-6 py-4 border-t border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
+        <!-- Rodapé / Paginação Modelo Ecooma -->
+        <footer class="px-6 py-5 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
             
-            <div class="flex items-center gap-3 text-xs text-gray-500 order-2 sm:order-1">
-                <span>Mostrar</span>
-                <select [ngModel]="pageSize()" (ngModelChange)="updatePageSize($event)" class="bg-gray-50 border border-gray-200 text-gray-900 text-xs rounded-lg focus:ring-brand-500 focus:border-brand-500 block p-1.5 outline-none cursor-pointer">
+            <div class="flex items-center gap-3 text-[13px] text-gray-500 font-medium order-2 sm:order-1">
+                <span>Mostrando</span>
+                <select [ngModel]="pageSize()" (ngModelChange)="updatePageSize($event)" class="bg-white border border-gray-200 text-gray-900 text-[13px] font-medium rounded-lg focus:ring-[#5252FF]/20 focus:border-[#5252FF] block p-1.5 outline-none cursor-pointer shadow-sm">
                     <option [value]="5">5</option>
                     <option [value]="10">10</option>
                     <option [value]="20">20</option>
                     <option [value]="50">50</option>
                 </select>
-                <span>por página</span>
+                <span>de {{ totalElements() }} entradas</span>
             </div>
 
-            <div class="flex items-center gap-1 order-1 sm:order-2">
+            <div class="flex items-center gap-2 order-1 sm:order-2">
                 <button (click)="changePage(currentPage() - 1)" 
                         [disabled]="currentPage() === 0 || isLoading()" 
-                        class="px-3 py-1.5 rounded-lg text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors text-xs font-bold cursor-pointer">
-                    Anterior
+                        class="px-4 py-2 text-[13px] font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-colors cursor-pointer shadow-sm">
+                    Ant.
                 </button>
 
                  @for (page of visiblePages(); track page) {
                     <button (click)="goToPage(page)"
-                            [class.bg-brand-600]="page === currentPage()"
-                            [class.text-white]="page === currentPage()"
-                            [class.text-gray-600]="page !== currentPage()"
-                            [class.hover:bg-gray-100]="page !== currentPage()"
-                            class="w-8 h-8 rounded-lg text-xs font-bold transition-all flex items-center justify-center cursor-pointer">
+                            [ngClass]="page === currentPage() ? 
+                                'bg-[#5252FF] text-white shadow-md shadow-[#5252FF]/20 border-transparent' : 
+                                'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
+                            class="w-9 h-9 border rounded-xl text-[13px] font-medium transition-all flex items-center justify-center cursor-pointer shadow-sm">
                         {{ page + 1 }}
                     </button>
                  }
 
                 <button (click)="changePage(currentPage() + 1)" 
                         [disabled]="currentPage() >= (totalPages() - 1) || isLoading()" 
-                        class="px-3 py-1.5 rounded-lg text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors text-xs font-bold cursor-pointer">
-                    Próxima
+                        class="px-4 py-2 text-[13px] font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-colors cursor-pointer shadow-sm">
+                    Próx.
                 </button>
-            </div>
-            
-            <div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest order-3">
-                Total de {{ totalElements() }} itens
             </div>
         </footer>
     </div>
 </div>
 
+<!-- Modal de Ajuste de Estoque -->
 @if (showStockModal()) {
     <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity duration-300 animate-fade-in" 
+        <div class="absolute inset-0 bg-[#0B0B0F]/60 backdrop-blur-sm transition-opacity duration-300 animate-fade-in" 
              (click)="showStockModal.set(false)"></div>
         
-        <div class="relative bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden transform transition-all duration-300 animate-scale-up-fast z-10 flex flex-col max-h-[90vh]">
+        <div class="relative bg-white w-full max-w-md rounded-[32px] shadow-2xl overflow-hidden transform transition-all duration-300 animate-scale-up-fast z-10 flex flex-col max-h-[90vh] border border-white/20">
             
+            <!-- Cabeçalho Modal -->
             <div class="px-8 pt-8 pb-0 flex justify-between items-start">
                 <div>
-                    <h3 class="font-extrabold text-2xl text-gray-900">Ajustar Estoque</h3>
-                    <p class="text-sm text-gray-500 mt-1">Atualize a quantidade disponível.</p>
+                    <h3 class="font-bold text-[22px] text-gray-900 tracking-tight">Ajustar Estoque</h3>
+                    <p class="text-[13px] text-gray-500 mt-1">Atualize a quantidade física disponível.</p>
                 </div>
-                <button (click)="showStockModal.set(false)" class="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-400 hover:text-gray-700 flex items-center justify-center transition-colors cursor-pointer">
-                    <i class="ph-bold ph-x text-lg"></i>
+                <button (click)="showStockModal.set(false)" class="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-500 flex items-center justify-center transition-colors cursor-pointer border border-gray-200/50">
+                    <i class="ph ph-x text-lg"></i>
                 </button>
             </div>
 
             <form [formGroup]="stockForm" (ngSubmit)="confirmStockAdjustment()" class="p-8 flex flex-col gap-6 overflow-y-auto">
                 
-                <div class="flex items-center gap-4 p-4 bg-gray-50/80 rounded-2xl border border-gray-100">
-                    <div class="w-16 h-16 bg-white rounded-xl border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center relative">
+                <!-- Card do Produto Selecionado -->
+                <div class="flex items-center gap-4 p-4 bg-[#F8F9FA] rounded-[20px] border border-gray-100">
+                    <div class="w-14 h-14 bg-white rounded-[14px] border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center relative shadow-sm">
                         @if (selectedProduct()?.imagens && selectedProduct()?.imagens!.length > 0) {
-                            <img [src]="selectedProduct()?.imagens![0].url" [alt]="selectedProduct()?.titulo" class="w-full h-full object-contain p-1">
+                            <img [src]="selectedProduct()?.imagens![0].url" [alt]="selectedProduct()?.titulo" class="w-full h-full object-contain p-1 mix-blend-multiply">
                         } @else {
-                            <img [src]="'https://ui-avatars.com/api/?name=' + selectedProduct()?.titulo + '&background=f3f4f6&color=4b5563&size=128&font-size=0.4&length=2'" 
+                            <img [src]="'https://ui-avatars.com/api/?name=' + selectedProduct()?.titulo + '&background=e5e7eb&color=6b7280&size=128&font-size=0.4&length=2'" 
                                  [alt]="selectedProduct()?.titulo" 
-                                 class="w-full h-full object-cover opacity-80 mix-blend-multiply">
+                                 class="w-full h-full object-cover opacity-80">
                         }
                     </div>
                     <div class="flex-1 min-w-0">
-                        <h4 class="font-bold text-gray-900 text-sm leading-tight line-clamp-2 mb-1.5" [title]="selectedProduct()?.titulo">
+                        <h4 class="font-semibold text-gray-900 text-[14px] leading-tight line-clamp-2 mb-1.5" [title]="selectedProduct()?.titulo">
                             {{ selectedProduct()?.titulo }}
                         </h4>
                         <div class="flex items-center gap-3">
-                            <span class="text-[10px] font-mono text-gray-500 bg-white px-1.5 py-0.5 rounded border border-gray-200">
+                            <span class="text-[10px] font-mono text-gray-500 bg-white px-2 py-0.5 rounded border border-gray-200">
                                 {{ selectedProduct()?.codigoControle }}
                             </span>
-                            <span class="text-xs font-bold flex items-center gap-1" [ngClass]="(selectedProduct()?.estoque || 0) < 5 ? 'text-red-600' : 'text-gray-600'">
-                                <i class="ph-fill ph-package"></i> {{ selectedProduct()?.estoque }} un atuais
+                            <span class="text-[12px] font-medium flex items-center gap-1.5" [ngClass]="(selectedProduct()?.estoque || 0) < 5 ? 'text-[#FF4747]' : 'text-gray-600'">
+                                <i class="ph-fill ph-package"></i> {{ selectedProduct()?.estoque }} atuais
                             </span>
                         </div>
                     </div>
                 </div>
 
+                <!-- Entra/Saída Radios -->
                 <div class="grid grid-cols-2 gap-3">
                     <label class="cursor-pointer relative group">
                         <input type="radio" formControlName="tipo" [value]="enumTipo.ENTRADA" class="peer sr-only">
-                        <div class="p-4 rounded-2xl border-2 border-gray-100 bg-white text-center hover:border-gray-200 peer-checked:border-green-500 peer-checked:bg-green-50/50 transition-all h-full flex flex-col items-center justify-center gap-2">
-                            <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xl mb-1 peer-checked:scale-110 transition-transform">
-                                <i class="ph-bold ph-arrow-down-left"></i>
+                        <div class="p-4 rounded-[20px] border border-gray-200 bg-white text-center hover:border-gray-300 peer-checked:border-emerald-500 peer-checked:bg-emerald-50/50 peer-checked:shadow-sm transition-all h-full flex flex-col items-center justify-center gap-2">
+                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-1 peer-checked:scale-110 transition-transform">
+                                <i class="ph ph-arrow-down-left"></i>
                             </div>
-                            <span class="font-bold text-sm text-gray-600 peer-checked:text-green-700">Entrada</span>
+                            <span class="font-medium text-[14px] text-gray-600 peer-checked:text-emerald-700">Entrada</span>
                         </div>
                     </label>
                     <label class="cursor-pointer relative group">
                         <input type="radio" formControlName="tipo" [value]="enumTipo.SAIDA" class="peer sr-only">
-                        <div class="p-4 rounded-2xl border-2 border-gray-100 bg-white text-center hover:border-gray-200 peer-checked:border-red-500 peer-checked:bg-red-50/50 transition-all h-full flex flex-col items-center justify-center gap-2">
-                            <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xl mb-1 peer-checked:scale-110 transition-transform">
-                                <i class="ph-bold ph-arrow-up-right"></i>
+                        <div class="p-4 rounded-[20px] border border-gray-200 bg-white text-center hover:border-gray-300 peer-checked:border-[#FF4747] peer-checked:bg-red-50/50 peer-checked:shadow-sm transition-all h-full flex flex-col items-center justify-center gap-2">
+                            <div class="w-10 h-10 rounded-full bg-red-100 text-[#FF4747] flex items-center justify-center text-xl mb-1 peer-checked:scale-110 transition-transform">
+                                <i class="ph ph-arrow-up-right"></i>
                             </div>
-                            <span class="font-bold text-sm text-gray-600 peer-checked:text-red-700">Saída</span>
+                            <span class="font-medium text-[14px] text-gray-600 peer-checked:text-[#FF4747]">Saída</span>
                         </div>
                     </label>
                 </div>
 
+                <!-- Quantidade -->
                 <div class="relative">
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Quantidade</label>
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1">Quantidade</label>
                     <div class="relative flex items-center">
-                        <button type="button" (click)="stockForm.get('quantidade')?.setValue((stockForm.get('quantidade')?.value || 0) - 1)" class="absolute left-2 w-10 h-10 rounded-xl bg-white shadow-sm border border-gray-200 text-gray-500 hover:text-brand-600 hover:border-brand-500 transition-all flex items-center justify-center z-10 disabled:opacity-50 cursor-pointer" [disabled]="stockForm.get('quantidade')?.value <= 1">
-                            <i class="ph-bold ph-minus"></i>
+                        <button type="button" (click)="stockForm.get('quantidade')?.setValue((stockForm.get('quantidade')?.value || 0) - 1)" class="absolute left-2 w-10 h-10 rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:text-[#5252FF] hover:border-[#5252FF]/30 transition-all flex items-center justify-center z-10 disabled:opacity-50 cursor-pointer" [disabled]="stockForm.get('quantidade')?.value <= 1">
+                            <i class="ph ph-minus text-lg"></i>
                         </button>
-                        <input type="number" formControlName="quantidade" class="w-full bg-gray-50 border-transparent focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 rounded-2xl py-4 px-14 text-center font-bold text-xl text-gray-900 outline-none transition-all placeholder:text-gray-300 appearance-none">
-                        <button type="button" (click)="stockForm.get('quantidade')?.setValue((stockForm.get('quantidade')?.value || 0) + 1)" class="absolute right-2 w-10 h-10 rounded-xl bg-white shadow-sm border border-gray-200 text-gray-500 hover:text-brand-600 hover:border-brand-500 transition-all flex items-center justify-center z-10 cursor-pointer">
-                            <i class="ph-bold ph-plus"></i>
+                        <input type="number" formControlName="quantidade" class="w-full bg-gray-50 border border-gray-100 focus:bg-white focus:border-[#5252FF] focus:ring-4 focus:ring-[#5252FF]/10 rounded-[20px] py-3.5 px-14 text-center font-bold text-[18px] text-gray-900 outline-none transition-all placeholder:text-gray-300 appearance-none shadow-inner shadow-gray-500/5">
+                        <button type="button" (click)="stockForm.get('quantidade')?.setValue((stockForm.get('quantidade')?.value || 0) + 1)" class="absolute right-2 w-10 h-10 rounded-full bg-white shadow-sm border border-gray-200 text-gray-600 hover:text-[#5252FF] hover:border-[#5252FF]/30 transition-all flex items-center justify-center z-10 cursor-pointer">
+                            <i class="ph ph-plus text-lg"></i>
                         </button>
                     </div>
                 </div>
 
+                <!-- Motivo -->
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Justificativa <span class="text-red-500">*</span></label>
+                    <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1">Justificativa <span class="text-[#FF4747]">*</span></label>
                     <div class="relative">
-                        <i class="ph-bold ph-pencil-simple absolute top-4 left-4 text-gray-400"></i>
-                        <textarea formControlName="motivo" rows="3" placeholder="Descreva o motivo do ajuste (ex: recebimento NF 123)..." 
-                                  class="w-full bg-gray-50 border-transparent focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 rounded-2xl pl-12 pr-4 py-3.5 text-sm font-medium text-gray-900 outline-none transition-all resize-none placeholder:text-gray-400"></textarea>
+                        <i class="ph ph-pencil-simple absolute top-4 left-4 text-gray-400 text-lg"></i>
+                        <textarea formControlName="motivo" rows="3" placeholder="Descreva o motivo (ex: recebimento NF 123)..." 
+                                  class="w-full bg-gray-50 border border-gray-100 focus:bg-white focus:border-[#5252FF] focus:ring-4 focus:ring-[#5252FF]/10 rounded-[20px] pl-12 pr-4 py-3.5 text-[14px] text-gray-900 outline-none transition-all resize-none placeholder:text-gray-400 shadow-inner shadow-gray-500/5"></textarea>
                     </div>
                     @if (stockForm.get('motivo')?.invalid && stockForm.get('motivo')?.touched) {
-                        <p class="text-xs text-red-500 mt-2 font-bold flex items-center gap-1 animate-fade-in">
-                            <i class="ph-bold ph-warning-circle"></i> Mínimo de 5 caracteres necessário.
+                        <p class="text-[11px] text-[#FF4747] mt-2 font-medium flex items-center gap-1.5 animate-fade-in">
+                            <i class="ph-fill ph-warning-circle"></i> Mínimo de 5 caracteres.
                         </p>
                     }
                 </div>
 
-                <div class="pt-4 flex gap-3">
-                    <button type="button" (click)="showStockModal.set(false)" class="flex-1 py-4 rounded-xl font-bold text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-all cursor-pointer">
+                <!-- Ações do Modal -->
+                <div class="pt-2 flex gap-3">
+                    <button type="button" (click)="showStockModal.set(false)" class="flex-1 py-3.5 rounded-full font-medium text-[14px] text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 hover:text-gray-900 transition-all cursor-pointer">
                         Cancelar
                     </button>
                     <button type="submit" [disabled]="isAdjusting() || stockForm.invalid" 
-                            class="flex-[2] bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-brand-600 hover:shadow-lg hover:shadow-brand-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
-                        @if (isAdjusting()) { <i class="ph-bold ph-spinner animate-spin text-lg"></i> }
-                        @else { <i class="ph-bold ph-check text-lg"></i> }
+                            class="flex-[1.5] bg-[#5252FF] text-white py-3.5 rounded-full font-medium text-[14px] hover:bg-[#4040E6] hover:shadow-lg hover:shadow-[#5252FF]/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                        @if (isAdjusting()) { <i class="ph ph-spinner animate-spin text-lg"></i> }
+                        @else { <i class="ph ph-check text-lg"></i> }
                         Confirmar Ajuste
                     </button>
                 </div>

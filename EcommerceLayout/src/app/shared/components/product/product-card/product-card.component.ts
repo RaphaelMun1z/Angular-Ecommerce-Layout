@@ -13,10 +13,10 @@ import { FavoritoService } from '../../../../services/favorito.service';
 export class ProductCardComponent {
     private router = inject(Router);
     public favoritoService = inject(FavoritoService);
-    
+
     @Input({ required: true }) product!: Produto;
     @Input() viewMode: 'grid' | 'list' = 'grid';
-    
+
     get isNovo(): boolean {
         return (this.product as any).isNovo || false;
     }
@@ -28,25 +28,25 @@ export class ProductCardComponent {
     get isDestaque(): boolean {
         return this.isNovo || !!this.desconto || (this.product as any).destaque;
     }
-    
+
     get mainImage(): string {
         const imagens = this.product.imagens;
         if (!imagens || imagens.length === 0) {
-            return '/placeholder-image.png'; 
+            return '/placeholder-image.png';
         }
-        const imagemPrincipal = imagens.find(img => img.principal);
+        const imagemPrincipal = imagens.find((img) => img.principal);
         if (imagemPrincipal) {
             return imagemPrincipal.url;
         }
         const imagensOrdenadas = [...imagens].sort((a, b) => a.ordem - b.ordem);
         return imagensOrdenadas[0].url;
     }
-    
+
     onToggleFavorite(event: Event): void {
         event.stopPropagation();
         this.favoritoService.toggle(this.product.id);
     }
-    
+
     onCardClick(): void {
         this.router.navigate(['/produto', this.product.id]);
     }
