@@ -48,6 +48,18 @@ export class UsuarioService {
         
         return this.http.get<Page<Cliente>>(`${this.apiUrl}/clientes`, { params });
     }
+
+    // --- MÉTODOS DE ADMINISTRAÇÃO ---
+
+    obterCliente(id: string): Observable<Cliente> {
+        return this.http.get<Cliente>(`${this.apiUrl}/clientes/${id}`);
+    }
+
+    atualizarCliente(id: string, payload: any): Observable<Cliente> {
+        return this.http.put<Cliente>(`${this.apiUrl}/clientes/${id}`, payload);
+    }
+
+    // ---------------------------------------------------------
         
     listarEnderecos(clienteId: string): Observable<Endereco[]> {
         return this.http.get<Endereco[]>(`${this.apiUrl}/enderecos/cliente/${clienteId}`).pipe(

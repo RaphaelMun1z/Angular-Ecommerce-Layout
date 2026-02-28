@@ -28,9 +28,30 @@ export class AdminOrdersPageComponent implements OnInit {
     selectedOrder = signal<Pedido | null>(null);
     
     orders = signal<Pedido[]>([]);
+    
+    // Paginação
     totalElements = signal(0);
     currentPage = signal(0);
     pageSize = signal(10);
+    
+    // Computed Signals para a Paginação Avançada
+    totalPages = computed(() => Math.max(1, Math.ceil(this.totalElements() / this.pageSize())));
+    
+    visiblePages = computed(() => {
+        const total = this.totalPages();
+        const current = this.currentPage();
+        const maxVisible = 5; // Quantidade máxima de botões de página a mostrar
+        
+        let start = Math.max(0, current - Math.floor(maxVisible / 2));
+        let end = Math.min(total, start + maxVisible);
+
+        // Ajusta se estivermos nas últimas páginas
+        if (end - start < maxVisible) {
+            start = Math.max(0, end - maxVisible);
+        }
+
+        return Array.from({ length: end - start }, (_, i) => start + i);
+    });
     
     statusForm: FormGroup = this.fb.group({
         status: ['', Validators.required],
@@ -131,14 +152,31 @@ export class AdminOrdersPageComponent implements OnInit {
         this.activeFilter.set(filter);
     }
     
+    // --- LÓGICA DE PAGINAÇÃO ---
+
+    updatePageSize(newSize: any) {
+        this.pageSize.set(Number(newSize));
+        this.currentPage.set(0); // Retorna para a primeira página ao mudar a quantidade
+        this.loadOrders();
+    }
+
+    goToPage(page: number) {
+        if (page >= 0 && page < this.totalPages() && page !== this.currentPage()) {
+            this.currentPage.set(page);
+            this.loadOrders();
+        }
+    }
+
     changePage(delta: number) {
         const next = this.currentPage() + delta;
-        if (next >= 0 && (next * this.pageSize() < this.totalElements())) {
+        if (next >= 0 && next < this.totalPages()) {
             this.currentPage.set(next);
             this.loadOrders();
         }
     }
     
+    // --- CLASSES DE BADGE ---
+
     getPaymentBadgeClass(status: string): string {
         switch (status) {
             case 'PAGO':
@@ -151,7 +189,7 @@ export class AdminOrdersPageComponent implements OnInit {
     
     getFulfillmentBadgeClass(status: string): string {
         switch (status) {
-            case 'ENTREGUE': return 'bg-brand-50 text-brand-700 border-brand-200';
+            case 'ENTREGUE': return 'bg-[#5252FF]/10 text-[#5252FF] border-[#5252FF]/20';
             case 'ENVIADO': return 'bg-purple-50 text-purple-700 border-purple-200';
             case 'EM_PREPARACAO': return 'bg-blue-50 text-blue-700 border-blue-200';
             default: return 'bg-gray-100 text-gray-500 border-gray-200';

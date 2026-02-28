@@ -14,14 +14,16 @@ import { AnaliticoService } from '../../../services/analitico.service';
 export class MainPageComponent implements OnInit {
     private analiticoService = inject(AnaliticoService);
 
-    periods = ['Hoje', '7 Dias', 'Este Mês'];
-    activePeriod = signal('Este Mês');
-
+    // Variáveis de Estado (Signals)
     stats = signal<StatCard[]>([]);
     recentOrders = signal<Pedido[]>([]);
     isLoading = signal(true);
 
-    // Mock dados locais para manter o Gráfico de Barras visual (Já que não vem da API)
+    // Inicia com os últimos 30 dias por padrão
+    dataInicio = signal<string>(this.calcularDataOffet(-30));
+    dataFim = signal<string>(this.calcularDataOffet(0));
+
+    // Array mockado temporariamente enquanto não vem da API
     chartData = signal([
         { label: 'Jan', profit: 45, loss: 30 },
         { label: 'Fev', profit: 60, loss: 25 },
@@ -35,28 +37,59 @@ export class MainPageComponent implements OnInit {
         this.loadDashboardData();
     }
 
-    setPeriod(period: string) {
-        this.activePeriod.set(period);
+    // Handlers para o evento de change dos inputs de data do HTML
+    onDataInicioChange(event: Event) {
+        const input = event.target as HTMLInputElement;
+        this.dataInicio.set(input.value);
+    }
+
+    onDataFimChange(event: Event) {
+        const input = event.target as HTMLInputElement;
+        this.dataFim.set(input.value);
+    }
+
+    // Ação ao clicar no botão "Aplicar"
+    aplicarFiltro() {
+        if (!this.dataInicio() || !this.dataFim()) {
+            return;
+        }
+
+        // Verifica se data de início é maior que a data de fim
+        if (new Date(this.dataInicio()) > new Date(this.dataFim())) {
+            alert('A data de início não pode ser maior que a data de fim.');
+            return;
+        }
+
         this.loadDashboardData();
     }
 
     loadDashboardData() {
         this.isLoading.set(true);
-        this.analiticoService.obterVisaoGeral().subscribe({
-            next: (data) => {
-                this.stats.set(data.stats);
-                this.recentOrders.set(data.recentOrders);
-                this.isLoading.set(false);
-            },
-            error: (err) => {
-                console.error('Erro ao carregar dados do dashboard', err);
-                this.isLoading.set(false);
-            },
-        });
+
+        // Atualize seu AnaliticoService para receber esses dois parâmetros!
+        this.analiticoService
+            .obterVisaoGeral(this.dataInicio(), this.dataFim())
+            .subscribe({
+                next: (data) => {
+                    this.stats.set(data.stats);
+                    this.recentOrders.set(data.recentOrders);
+                    this.isLoading.set(false);
+                },
+                error: (err) => {
+                    console.error('Erro ao carregar dados do dashboard', err);
+                    this.isLoading.set(false);
+                },
+            });
+    }
+
+    // Método Utilitário para formatar datas em `YYYY-MM-DD` com compensação de dias
+    private calcularDataOffet(dias: number): string {
+        const d = new Date();
+        d.setDate(d.getDate() + dias);
+        return d.toISOString().split('T')[0];
     }
 
     getStatusClass(status: string) {
-        // Exatamente como seu método antigo, que gera classes do tailwind.
         const base =
             'px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wide font-bold border ';
 

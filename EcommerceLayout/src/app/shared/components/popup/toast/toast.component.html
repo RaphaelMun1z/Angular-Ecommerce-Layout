@@ -1,20 +1,29 @@
-<div class="fixed top-4 right-4 md:top-8 md:right-8 px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 transition-all duration-500 z-[9999] transform border"
-[class.translate-x-[150%]]="!toastService.visible()"
-[class.opacity-0]="!toastService.visible()"
-[class.translate-x-0]="toastService.visible()"
-[class.opacity-100]="toastService.visible()"
-[ngClass]="getThemeClasses()">
+<div class="fixed top-4 right-4 md:top-8 md:right-8 w-[calc(100%-2rem)] md:w-max min-w-[320px] max-w-[400px] p-4 rounded-[20px] flex items-start gap-4 transition-all duration-500 z-[9999] transform border"
+     [class.translate-x-[150%]]="!toastService.visible()"
+     [class.opacity-0]="!toastService.visible()"
+     [class.translate-x-0]="toastService.visible()"
+     [class.opacity-100]="toastService.visible()"
+     [ngClass]="getThemeClasses()">
 
-<div class="p-2 rounded-full bg-white/20">
-    <i [class]="getIconClass()" class="text-xl"></i>
-</div>
+    <!-- Contêiner do Ícone (Estilo Squircle da imagem) -->
+    <div class="w-11 h-11 rounded-[10px] flex items-center justify-center shrink-0 border"
+         [ngClass]="getIconBoxClasses()">
+        <i [class]="getIconClass()" class="text-[22px]"></i>
+    </div>
 
-<div class="min-w-[180px]">
-    <h4 class="font-bold text-sm leading-tight">{{ toastService.data().title }}</h4>
-    <p class="text-xs opacity-90 mt-0.5">{{ toastService.data().message }}</p>
-</div>
-
-<button (click)="toastService.hide()" class="ml-2 hover:scale-110 transition-transform cursor-pointer">
-    <i class="ph-bold ph-x text-sm"></i>
-</button>
+    <!-- Conteúdo (Título e Mensagem) -->
+    <div class="flex-1 min-w-[200px] pt-0.5">
+        <div class="flex items-start justify-between gap-3">
+            <h4 class="font-semibold text-[14px] leading-tight tracking-tight">{{ toastService.data().title }}</h4>
+            
+            <!-- Botão Fechar -->
+            <button (click)="toastService.hide()" class="shrink-0 opacity-40 hover:opacity-100 transition-opacity cursor-pointer -mt-0.5 -mr-1">
+                <i class="ph ph-x text-sm"></i>
+            </button>
+        </div>
+        
+        <p class="text-[13px] opacity-70 mt-1 leading-snug pr-2 font-medium">
+            {{ toastService.data().message }}
+        </p>
+    </div>
 </div>

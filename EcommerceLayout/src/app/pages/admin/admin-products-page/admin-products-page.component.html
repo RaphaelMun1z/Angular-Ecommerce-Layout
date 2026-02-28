@@ -53,12 +53,6 @@
     <!-- Tabela Principal -->
     <div class="bg-white rounded-[24px] border border-gray-100 overflow-hidden relative min-h-[500px] shadow-sm flex flex-col">
         
-        @if (isLoading()) {
-            <div class="absolute inset-0 bg-white/70 backdrop-blur-[2px] z-30 flex items-center justify-center text-[#5252FF]">
-                <i class="ph ph-spinner animate-spin text-4xl"></i>
-            </div>
-        }
-
         <div class="overflow-x-auto flex-1">
             <table class="w-full text-left border-collapse min-w-[900px]">
                 <thead>
@@ -87,120 +81,175 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
-                    @for (product of products(); track product.id) {
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            
-                            <!-- Coluna Produto e SKU -->
-                            <td class="py-4 px-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-[14px] bg-[#F4F5F7] border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden relative transition-colors">
-                                        @if (product.imagens && product.imagens.length > 0) {
-                                            <img [src]="product.imagens[0].url" [alt]="product.titulo" class="w-full h-full object-contain p-0.5 mix-blend-multiply">
-                                        } @else {
-                                            <img [src]="'https://ui-avatars.com/api/?name=' + product.titulo + '&background=e5e7eb&color=6b7280&size=128&font-size=0.4&length=2'" 
-                                                 [alt]="product.titulo" class="w-full h-full object-cover opacity-70">
-                                        }
-                                    </div>
-                                    <div class="flex flex-col min-w-0">
-                                        <span class="font-medium text-[14px] text-gray-900 truncate max-w-[220px]" [title]="product.titulo">
-                                            {{ product.titulo }}
-                                        </span>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <span class="text-[11px] font-mono text-gray-500 bg-white px-1.5 py-0.5 rounded border border-gray-200">
-                                                {{ product.codigoControle }}
-                                            </span>
+                    
+                    @if (isLoading()) {
+                        <!-- ESTADO SKELETON: Linhas fantasmas na tabela -->
+                        @for (i of [1, 2, 3, 4, 5]; track i) {
+                            <tr class="animate-pulse bg-white">
+                                <!-- Skeleton Produto -->
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-[14px] bg-gray-100 shrink-0"></div>
+                                        <div class="flex flex-col gap-2 w-full">
+                                            <div class="h-4 w-32 bg-gray-200 rounded-full"></div>
+                                            <div class="h-3 w-16 bg-gray-100 rounded-full"></div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            
-                            <!-- Categoria -->
-                            <td class="py-4 px-6">
-                                <span class="text-[13px] font-medium text-gray-600">
-                                    {{ product.categoria?.nome || 'Sem Categoria' }}
-                                </span>
-                            </td>
+                                </td>
+                                <!-- Skeleton Categoria -->
+                                <td class="py-4 px-6">
+                                    <div class="h-4 w-24 bg-gray-100 rounded-full"></div>
+                                </td>
+                                <!-- Skeleton Preços -->
+                                <td class="py-4 px-6">
+                                    <div class="flex flex-col gap-2">
+                                        <div class="h-4 w-20 bg-gray-200 rounded-full"></div>
+                                        <div class="h-3 w-16 bg-gray-100 rounded-full"></div>
+                                    </div>
+                                </td>
+                                <!-- Skeleton Estoque -->
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center gap-3">
+                                        <div class="h-4 w-10 bg-gray-200 rounded-full"></div>
+                                        <div class="w-8 h-8 rounded-full bg-gray-100 shrink-0"></div>
+                                    </div>
+                                </td>
+                                <!-- Skeleton Especificações -->
+                                <td class="py-4 px-6">
+                                    <div class="flex flex-col gap-2">
+                                        <div class="h-3 w-16 bg-gray-100 rounded-full"></div>
+                                        <div class="h-3 w-24 bg-gray-100 rounded-full"></div>
+                                    </div>
+                                </td>
+                                <!-- Skeleton Status -->
+                                <td class="py-4 px-6">
+                                    <div class="h-6 w-16 bg-gray-100 rounded-full mx-auto"></div>
+                                </td>
+                                <!-- Skeleton Ações -->
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center justify-center gap-1.5">
+                                        <div class="w-[34px] h-[34px] rounded-lg bg-gray-100"></div>
+                                        <div class="w-[34px] h-[34px] rounded-lg bg-gray-100"></div>
+                                        <div class="w-[34px] h-[34px] rounded-lg bg-gray-100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    } @else {
+                        <!-- Linhas com Dados Reais -->
+                        @for (product of products(); track product.id) {
+                            <tr class="hover:bg-gray-50/50 transition-colors group">
+                                
+                                <!-- Coluna Produto e SKU -->
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-[14px] bg-[#F4F5F7] border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden relative transition-colors">
+                                            @if (product.imagens && product.imagens.length > 0) {
+                                                <img [src]="product.imagens[0].url" [alt]="product.titulo" class="w-full h-full object-contain p-0.5 mix-blend-multiply">
+                                            } @else {
+                                                <img [src]="'https://ui-avatars.com/api/?name=' + product.titulo + '&background=e5e7eb&color=6b7280&size=128&font-size=0.4&length=2'" 
+                                                     [alt]="product.titulo" class="w-full h-full object-cover opacity-70">
+                                            }
+                                        </div>
+                                        <div class="flex flex-col min-w-0">
+                                            <span class="font-medium text-[14px] text-gray-900 truncate max-w-[220px]" [title]="product.titulo">
+                                                {{ product.titulo }}
+                                            </span>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-[11px] font-mono text-gray-500 bg-white px-1.5 py-0.5 rounded border border-gray-200">
+                                                    {{ product.codigoControle }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <!-- Categoria -->
+                                <td class="py-4 px-6">
+                                    <span class="text-[13px] font-medium text-gray-600">
+                                        {{ product.categoria?.nome || 'Sem Categoria' }}
+                                    </span>
+                                </td>
 
-                            <!-- Preços (CORRIGIDO: Removido 'pt-BR' do pipe de moeda para não crachar a renderização) -->
-                            <td class="py-4 px-6">
-                                <div class="flex flex-col">
-                                    <span class="font-semibold text-[14px] text-gray-900">{{ product.preco | currency:'BRL' }}</span>
-                                    @if (product.precoPromocional) {
-                                        <span class="text-[11px] text-[#5252FF] font-semibold mt-0.5">Promo: {{ product.precoPromocional | currency:'BRL' }}</span>
-                                    }
-                                </div>
-                            </td>
-
-                            <!-- Estoque -->
-                            <td class="py-4 px-6">
-                                <div class="flex items-center gap-3">
+                                <!-- Preços -->
+                                <td class="py-4 px-6">
                                     <div class="flex flex-col">
-                                        <span class="font-semibold text-[14px]" [ngClass]="product.estoque < 5 ? 'text-[#FF4747]' : 'text-gray-900'">
-                                            {{ product.estoque }} <span class="text-[11px] text-gray-400 font-normal">un</span>
-                                        </span>
-                                        @if (product.estoque < 5) {
-                                            <span class="text-[10px] font-bold text-[#FF4747] uppercase tracking-tight mt-0.5">Crítico</span>
+                                        <span class="font-semibold text-[14px] text-gray-900">{{ product.preco | currency:'BRL' }}</span>
+                                        @if (product.precoPromocional) {
+                                            <span class="text-[11px] text-[#5252FF] font-semibold mt-0.5">Promo: {{ product.precoPromocional | currency:'BRL' }}</span>
                                         }
                                     </div>
-                                    <!-- Botão de Ajuste -->
-                                    <button (click)="openStockModal(product)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-[#5252FF] hover:bg-[#5252FF]/10 transition-colors cursor-pointer ml-2" title="Ajustar Estoque">
-                                        <i class="ph ph-faders text-[16px]"></i>
-                                    </button>
-                                </div>
-                            </td>
+                                </td>
 
-                            <!-- Especificações -->
-                            <td class="py-4 px-6">
-                                <div class="text-[12px] text-gray-500 space-y-1">
-                                    <p class="flex items-center gap-1.5">
-                                        <i class="ph ph-scales text-gray-400"></i>
-                                        {{ product.pesoKg ? product.pesoKg + ' kg' : '-' }}
-                                    </p>
-                                    <p class="flex items-center gap-1.5">
-                                        <i class="ph ph-ruler text-gray-400"></i>
-                                        {{ product.dimensoes || '-' }}
-                                    </p>
-                                </div>
-                            </td>
+                                <!-- Estoque -->
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex flex-col">
+                                            <span class="font-semibold text-[14px]" [ngClass]="product.estoque < 5 ? 'text-[#FF4747]' : 'text-gray-900'">
+                                                {{ product.estoque }} <span class="text-[11px] text-gray-400 font-normal">un</span>
+                                            </span>
+                                            @if (product.estoque < 5) {
+                                                <span class="text-[10px] font-bold text-[#FF4747] uppercase tracking-tight mt-0.5">Crítico</span>
+                                            }
+                                        </div>
+                                        <!-- Botão de Ajuste -->
+                                        <button (click)="openStockModal(product)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-[#5252FF] hover:bg-[#5252FF]/10 transition-colors cursor-pointer ml-2" title="Ajustar Estoque">
+                                            <i class="ph ph-faders text-[16px]"></i>
+                                        </button>
+                                    </div>
+                                </td>
 
-                            <!-- Status -->
-                            <td class="py-4 px-6 text-center">
-                                <span [ngClass]="product.ativo ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-gray-50 text-gray-500 border-gray-200'" 
-                                      class="inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide border">
-                                    {{ product.ativo ? 'Ativo' : 'Inativo' }}
-                                </span>
-                            </td>
+                                <!-- Especificações -->
+                                <td class="py-4 px-6">
+                                    <div class="text-[12px] text-gray-500 space-y-1">
+                                        <p class="flex items-center gap-1.5">
+                                            <i class="ph ph-scales text-gray-400"></i>
+                                            {{ product.pesoKg ? product.pesoKg + ' kg' : '-' }}
+                                        </p>
+                                        <p class="flex items-center gap-1.5">
+                                            <i class="ph ph-ruler text-gray-400"></i>
+                                            {{ product.dimensoes || '-' }}
+                                        </p>
+                                    </div>
+                                </td>
 
-                            <!-- Ações -->
-                            <td class="py-4 px-6">
-                                <div class="flex items-center justify-center gap-1.5">
-                                    <!-- Toggle Status -->
-                                    <button (click)="toggleStatus(product)" 
-                                            class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 transition-colors flex items-center justify-center cursor-pointer"
-                                            [title]="product.ativo ? 'Desativar' : 'Ativar'"
-                                            [ngClass]="product.ativo ? 'hover:text-amber-500 hover:border-amber-200 hover:bg-amber-50' : 'hover:text-emerald-500 hover:border-emerald-200 hover:bg-emerald-50'">
-                                        <i [class]="product.ativo ? 'ph ph-power text-[16px]' : 'ph ph-play text-[16px]'"></i>
-                                    </button>
-                                    
-                                    <!-- Edit -->
-                                    <button [routerLink]="['/dashboard-admin/registrar-product']" 
-                                            [queryParams]="{id: product.id}" 
-                                            class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 hover:text-[#5252FF] hover:border-[#5252FF]/30 hover:bg-[#5252FF]/5 flex items-center justify-center transition-colors cursor-pointer" 
-                                            title="Editar">
-                                        <i class="ph ph-pencil-simple text-[16px]"></i>
-                                    </button>
+                                <!-- Status -->
+                                <td class="py-4 px-6 text-center">
+                                    <span [ngClass]="product.ativo ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-gray-50 text-gray-500 border-gray-200'" 
+                                          class="inline-flex items-center justify-center px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide border">
+                                        {{ product.ativo ? 'Ativo' : 'Inativo' }}
+                                    </span>
+                                </td>
 
-                                    <!-- Delete -->
-                                    <button (click)="deleteProduct(product)" 
-                                            class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 hover:text-[#FF4747] hover:border-[#FF4747]/30 hover:bg-[#FF4747]/5 flex items-center justify-center transition-colors cursor-pointer" 
-                                            title="Excluir">
-                                        <i class="ph ph-trash text-[16px]"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    } @empty {
-                        @if (!isLoading()) {
+                                <!-- Ações -->
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center justify-center gap-1.5">
+                                        <!-- Toggle Status -->
+                                        <button (click)="toggleStatus(product)" 
+                                                class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 transition-colors flex items-center justify-center cursor-pointer"
+                                                [title]="product.ativo ? 'Desativar' : 'Ativar'"
+                                                [ngClass]="product.ativo ? 'hover:text-amber-500 hover:border-amber-200 hover:bg-amber-50' : 'hover:text-emerald-500 hover:border-emerald-200 hover:bg-emerald-50'">
+                                            <i [class]="product.ativo ? 'ph ph-power text-[16px]' : 'ph ph-play text-[16px]'"></i>
+                                        </button>
+                                        
+                                        <!-- Edit -->
+                                        <button [routerLink]="['/dashboard-admin/registrar-product']" 
+                                                [queryParams]="{id: product.id}" 
+                                                class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 hover:text-[#5252FF] hover:border-[#5252FF]/30 hover:bg-[#5252FF]/5 flex items-center justify-center transition-colors cursor-pointer" 
+                                                title="Editar">
+                                            <i class="ph ph-pencil-simple text-[16px]"></i>
+                                        </button>
+
+                                        <!-- Delete -->
+                                        <button (click)="deleteProduct(product)" 
+                                                class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 hover:text-[#FF4747] hover:border-[#FF4747]/30 hover:bg-[#FF4747]/5 flex items-center justify-center transition-colors cursor-pointer" 
+                                                title="Excluir">
+                                            <i class="ph ph-trash text-[16px]"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        } @empty {
                             <tr>
                                 <td colspan="7" class="px-6 py-24 text-center">
                                     <div class="flex flex-col items-center justify-center text-gray-400">

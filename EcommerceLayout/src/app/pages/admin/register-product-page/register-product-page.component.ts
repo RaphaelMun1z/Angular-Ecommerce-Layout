@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {
     ReactiveFormsModule,
     FormBuilder,
@@ -17,6 +17,7 @@ import {
 import { EstoqueService } from '../../../services/estoque.service';
 import { FileUploadService } from '../../../services/fileUpload.service';
 import { HttpResponse } from '@angular/common/http';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-register-product-page',
@@ -24,7 +25,7 @@ import { HttpResponse } from '@angular/common/http';
     templateUrl: './register-product-page.component.html',
     styleUrl: './register-product-page.component.css',
 })
-export class RegisterProductPageComponent implements OnInit {
+export class RegisterProductPageComponent implements OnInit, OnDestroy {
     private fb = inject(FormBuilder);
     private catalogoService = inject(CatalogoService);
     private estoqueService = inject(EstoqueService);
@@ -32,30 +33,52 @@ export class RegisterProductPageComponent implements OnInit {
     private toastr = inject(ToastrService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
+    private destroy$ = new Subject<void>();
 
+    // Chave do LocalStorage
+    private readonly DRAFT_KEY = 'admin_product_draft';
+
+    // Estados e Modais
     isLoading = signal(false);
     isAdjustingStock = signal(false);
     isUploading = signal(false);
     isEditing = signal(false);
     showStockModal = signal(false);
+    
     productId = signal<string | null>(null);
     categorias = signal<Categoria[]>([]);
-
     images = signal<string[]>([]);
 
+    // Estados do Wizard
+    currentStep = signal(1);
+
+    steps = [
+        { id: 1, title: 'Informações Gerais', desc: 'Nome e descrição que o cliente verá.', icon: 'ph-text-t' },
+        { id: 2, title: 'Galeria de Mídia', desc: 'Fotos ajudam a converter mais vendas.', icon: 'ph-image' },
+        { id: 3, title: 'Classificação e Fisíco', desc: 'Dados para logística e organização.', icon: 'ph-tag' },
+        { id: 4, title: 'Valores e Estoque', desc: 'Precificação e disponibilidade inicial.', icon: 'ph-currency-dollar' }
+    ];
+
+    currentStepData = computed(() => this.steps.find(s => s.id === this.currentStep()) || this.steps[0]);
+
+    // Formulário do Produto
     productForm: FormGroup = this.fb.group({
-        codigoControle: ['', [Validators.required, Validators.minLength(3)]],
+        // Passo 1
         titulo: ['', [Validators.required, Validators.minLength(3)]],
         descricao: ['', [Validators.required]],
-        preco: [null, [Validators.required, Validators.min(0.01)]],
-        precoPromocional: [null, [Validators.min(0)]],
-        estoque: [0, [Validators.required, Validators.min(0)]],
-        ativo: [true, Validators.required],
+        // Passo 3
+        codigoControle: ['', [Validators.required, Validators.minLength(3)]],
         categoriaId: ['', Validators.required],
+        ativo: [true, Validators.required],
         pesoKg: [null],
         dimensoes: [''],
+        // Passo 4
+        preco: [null, [Validators.required, Validators.min(0.01)]],
+        precoPromocional: [null, [Validators.min(0)]],
+        estoque: [0, [Validators.required, Validators.min(0)]]
     });
 
+    // Formulário de Estoque
     stockForm: FormGroup = this.fb.group({
         quantidade: [1, [Validators.required, Validators.min(1)]],
         tipo: [TipoMovimentacao.ENTRADA, Validators.required],
@@ -71,9 +94,106 @@ export class RegisterProductPageComponent implements OnInit {
                 this.productId.set(id);
                 this.isEditing.set(true);
                 this.carregarDadosProduto(id);
+            } else {
+                this.loadDraft();
             }
         });
+
+        // Configura o Auto-Save de rascunho
+        this.productForm.valueChanges
+            .pipe(debounceTime(500), takeUntil(this.destroy$))
+            .subscribe(() => this.saveDraft());
     }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    // --- AUTO SAVE E RASCUNHOS ---
+    
+    private saveDraft() {
+        // Se estiver editando um produto, nunca salvamos rascunho para não bugar dados reais.
+        if (this.isEditing()) return;
+        
+        const draftObj = {
+            form: this.productForm.value,
+            images: this.images()
+        };
+        localStorage.setItem(this.DRAFT_KEY, JSON.stringify(draftObj));
+    }
+
+    private loadDraft() {
+        const draftStr = localStorage.getItem(this.DRAFT_KEY);
+        if (draftStr) {
+            try {
+                const parsed = JSON.parse(draftStr);
+                if (parsed.form) this.productForm.patchValue(parsed.form, { emitEvent: false });
+                if (parsed.images) this.images.set(parsed.images);
+            } catch (e) {
+                console.error('Erro ao processar rascunho', e);
+            }
+        }
+    }
+
+    // --- LÓGICA DO WIZARD ---
+
+    nextStep() {
+        if (this.isCurrentStepValid()) {
+            this.currentStep.set(this.currentStep() + 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            this.toastr.warning('Preencha os campos obrigatórios corretamente.', 'Atenção');
+            this.markStepAsTouched();
+        }
+    }
+
+    prevStep() {
+        if (this.currentStep() > 1) {
+            this.currentStep.set(this.currentStep() - 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    isCurrentStepValid(): boolean {
+        const fieldsByStep: Record<number, string[]> = {
+            1: ['titulo', 'descricao'],
+            2: [], // Imagens não acionam erro duro que impeça avanço
+            3: ['codigoControle', 'categoriaId', 'ativo'],
+            4: ['preco', 'estoque']
+        };
+
+        const fieldsToCheck = fieldsByStep[this.currentStep()];
+        return fieldsToCheck.every(field => {
+            const control = this.productForm.get(field);
+            return control ? control.valid : true;
+        });
+    }
+
+    markStepAsTouched() {
+        const fieldsByStep: Record<number, string[]> = {
+            1: ['titulo', 'descricao'],
+            2: [],
+            3: ['codigoControle', 'categoriaId', 'pesoKg', 'dimensoes'],
+            4: ['preco', 'precoPromocional', 'estoque']
+        };
+
+        const fieldsToCheck = fieldsByStep[this.currentStep()];
+        fieldsToCheck.forEach(field => {
+            this.productForm.get(field)?.markAsTouched();
+        });
+    }
+
+    getStepCircleClass(stepId: number): string {
+        if (this.currentStep() > stepId) {
+            return 'bg-[#5252FF] border-none'; // Concluído
+        } else if (this.currentStep() === stepId) {
+            return 'bg-[#5252FF]/10 border-2 border-[#5252FF]/30'; // Atual
+        }
+        return 'bg-white border-2 border-gray-200'; // Pendente
+    }
+
+    // --- CARREGAMENTO DE DADOS ---
 
     carregarCategorias() {
         this.catalogoService
@@ -104,7 +224,6 @@ export class RegisterProductPageComponent implements OnInit {
                     const urls = produto.imagens
                         .sort((a, b) => a.ordem - b.ordem)
                         .map((img) => img.url);
-
                     this.images.set(urls);
                 }
 
@@ -117,6 +236,8 @@ export class RegisterProductPageComponent implements OnInit {
         });
     }
 
+    // --- UPLOAD DE IMAGENS ---
+
     onFileSelected(event: any) {
         const files: FileList = event.target.files;
         if (files && files.length > 0) {
@@ -128,9 +249,7 @@ export class RegisterProductPageComponent implements OnInit {
                 const file = files[i];
 
                 if (!file.type.startsWith('image/')) {
-                    this.toastr.warning(
-                        `Arquivo ${file.name} ignorado (não é imagem).`,
-                    );
+                    this.toastr.warning(`Arquivo ${file.name} ignorado (não é imagem).`);
                     uploadCount++;
                     this.checkUploadComplete(uploadCount, totalFiles);
                     continue;
@@ -140,14 +259,10 @@ export class RegisterProductPageComponent implements OnInit {
                     next: (event) => {
                         if (event instanceof HttpResponse) {
                             const response = event.body as any;
-
                             if (response && response.url) {
-                                this.images.update((imgs) => [
-                                    ...imgs,
-                                    response.url,
-                                ]);
+                                this.images.update((imgs) => [...imgs, response.url]);
+                                this.saveDraft(); // Salvar rascunho com a nova imagem
                             }
-
                             uploadCount++;
                             this.checkUploadComplete(uploadCount, totalFiles);
                         }
@@ -172,12 +287,20 @@ export class RegisterProductPageComponent implements OnInit {
 
     removeImage(index: number) {
         this.images.update((imgs) => imgs.filter((_, i) => i !== index));
+        this.saveDraft();
+    }
+
+    // --- SUBMISSÃO E ESTOQUE ---
+
+    isFieldInvalid(fieldName: string): boolean {
+        const field = this.productForm.get(fieldName);
+        return !!(field && field.invalid && (field.dirty || field.touched));
     }
 
     onSubmit() {
         if (this.productForm.invalid) {
             this.productForm.markAllAsTouched();
-            this.toastr.warning('Preencha todos os campos obrigatórios.');
+            this.toastr.warning('Preencha todos os campos obrigatórios em todas as abas.');
             return;
         }
 
@@ -200,23 +323,17 @@ export class RegisterProductPageComponent implements OnInit {
 
         const operation$ =
             this.isEditing() && this.productId()
-                ? this.catalogoService.atualizarProduto(
-                      this.productId()!,
-                      request,
-                  )
+                ? this.catalogoService.atualizarProduto(this.productId()!, request)
                 : this.catalogoService.salvarProduto(request);
 
         operation$.subscribe({
             next: () => {
-                this.toastr.success(
-                    `Produto ${this.isEditing() ? 'atualizado' : 'cadastrado'} com sucesso!`,
-                );
+                this.toastr.success(`Produto ${this.isEditing() ? 'atualizado' : 'cadastrado'} com sucesso!`);
+                localStorage.removeItem(this.DRAFT_KEY);
                 this.router.navigate(['/dashboard-admin/produtos']);
             },
             error: (err) => {
-                this.toastr.error(
-                    err.error?.message || 'Erro ao processar solicitação.',
-                );
+                this.toastr.error(err.error?.message || 'Erro ao processar solicitação.');
                 this.isLoading.set(false);
             },
         });
@@ -249,33 +366,16 @@ export class RegisterProductPageComponent implements OnInit {
         this.estoqueService.registrarMovimentacao(request).subscribe({
             next: () => {
                 this.toastr.success('Estoque atualizado com sucesso!');
-                this.stockForm.reset({
-                    quantidade: 1,
-                    tipo: TipoMovimentacao.ENTRADA,
-                    motivo: '',
-                });
+                this.stockForm.reset({ quantidade: 1, tipo: TipoMovimentacao.ENTRADA, motivo: '' });
                 this.showStockModal.set(false);
                 this.carregarDadosProduto(this.productId()!);
             },
-            error: (err) =>
-                this.toastr.error(
-                    err.error?.message || 'Erro ao ajustar estoque.',
-                ),
+            error: (err) => this.toastr.error(err.error?.message || 'Erro ao ajustar estoque.'),
             complete: () => this.isAdjustingStock.set(false),
         });
     }
 
     get enumTipo() {
         return TipoMovimentacao;
-    }
-
-    isFieldInvalid(fieldName: string): boolean {
-        const field = this.productForm.get(fieldName);
-        return !!(field && field.invalid && (field.dirty || field.touched));
-    }
-
-    isStockFieldInvalid(fieldName: string): boolean {
-        const field = this.stockForm.get(fieldName);
-        return !!(field && field.invalid && (field.dirty || field.touched));
     }
 }

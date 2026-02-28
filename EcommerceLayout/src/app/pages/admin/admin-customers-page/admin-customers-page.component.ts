@@ -9,119 +9,135 @@ import { UsuarioService } from '../../../services/usuario.service';
 import { NgxMaskPipe } from 'ngx-mask';
 
 @Component({
-  selector: 'app-admin-customers-page',
-  imports: [CommonModule, FormsModule, RouterLink, NgxMaskPipe],
-  templateUrl: './admin-customers-page.component.html',
-  styleUrl: './admin-customers-page.component.css',
+    selector: 'app-admin-customers-page',
+    imports: [CommonModule, FormsModule, RouterLink, NgxMaskPipe],
+    templateUrl: './admin-customers-page.component.html',
+    styleUrl: './admin-customers-page.component.css',
 })
 export class AdminCustomersPageComponent implements OnInit {
-  private usuarioService = inject(UsuarioService);
-  private toastr = inject(ToastrService);
+    private usuarioService = inject(UsuarioService);
+    private toastr = inject(ToastrService);
 
-  isLoading = signal(true);
-  searchTerm = signal('');
+    isLoading = signal(true);
+    searchTerm = signal('');
+    activeFilter = signal<'all' | 'ACTIVE' | 'BLOCKED'>('all');
 
-  customers = signal<Cliente[]>([]);
-  totalElements = signal(0);
-  currentPage = signal(0);
-  pageSize = signal(10);
+    customers = signal<Cliente[]>([]);
+    totalElements = signal(0);
+    currentPage = signal(0);
+    pageSize = signal(10);
 
-  totalPages = computed(() => {
-    const total = Number(this.totalElements());
-    const size = Number(this.pageSize());
-    if (!total || !size) return 0;
-    return Math.ceil(total / size);
-  });
+    totalPages = computed(() => {
+        const total = Number(this.totalElements());
+        const size = Number(this.pageSize());
+        if (!total || !size) return 0;
+        return Math.ceil(total / size);
+    });
 
-  visiblePages = computed(() => {
-    const total = this.totalPages();
-    const current = this.currentPage();
-    const maxVisible = 5;
+    visiblePages = computed(() => {
+        const total = this.totalPages();
+        const current = this.currentPage();
+        const maxVisible = 5;
 
-    if (total <= 0) return [];
+        if (total <= 0) return [];
 
-    let start = Math.max(0, current - Math.floor(maxVisible / 2));
-    let end = Math.min(total, start + maxVisible);
+        let start = Math.max(0, current - Math.floor(maxVisible / 2));
+        let end = Math.min(total, start + maxVisible);
 
-    if (end - start < maxVisible) {
-      start = Math.max(0, end - maxVisible);
+        if (end - start < maxVisible) {
+            start = Math.max(0, end - maxVisible);
+        }
+
+        if (start < 0) start = 0;
+
+        return Array.from({ length: end - start }, (_, i) => start + i);
+    });
+
+    ngOnInit() {
+        this.loadCustomers();
     }
 
-    if (start < 0) start = 0;
-
-    return Array.from({ length: end - start }, (_, i) => start + i);
-  });
-
-  ngOnInit() {
-    this.loadCustomers();
-  }
-
-  onSearch(term: string) {
-    this.searchTerm.set(term);
-    this.currentPage.set(0);
-    this.loadCustomers();
-  }
-
-  updatePageSize(newSize: string | number) {
-    this.pageSize.set(Number(newSize));
-    this.currentPage.set(0);
-    this.loadCustomers();
-  }
-
-  goToPage(page: number) {
-    if (page !== this.currentPage()) {
-      this.changePage(page);
+    onSearch(term: string) {
+        this.searchTerm.set(term);
+        this.currentPage.set(0);
+        this.loadCustomers();
     }
-  }
 
-  changePage(newPage: number) {
-    if (newPage >= 0 && newPage < this.totalPages()) {
-      this.currentPage.set(newPage);
-      this.loadCustomers();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    setFilter(filter: 'all' | 'ACTIVE' | 'BLOCKED') {
+        this.activeFilter.set(filter);
+        // Se o backend suportar, adicione o filtro nos params e chame o loadCustomers().
+        // Por enquanto, isso controla a aparência visual dos botões no topo.
     }
-  }
 
-  loadCustomers() {
-    this.isLoading.set(true);
-    const params: PageableParams = {
-      page: this.currentPage(),
-      size: this.pageSize(),
-      sort: 'nome,asc',
-    };
-
-    this.usuarioService
-      .listarTodosClientes(params, this.searchTerm())
-      .subscribe({
-        next: (page: any) => {
-          const content = page.content || page.data || [];
-          let total = 0;
-
-          if (typeof page.totalElements === 'number')
-            total = page.totalElements;
-          else if (page.page?.totalElements) total = page.page.totalElements;
-
-          this.customers.set(content);
-          this.totalElements.set(total);
-          this.isLoading.set(false);
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error('Erro ao sincronizar lista de clientes.');
-          this.isLoading.set(false);
-        },
-      });
-  }
-
-  toggleStatus(customer: Cliente) {
-    this.toastr.info(`Simulação: Status de ${customer.nome} alterado.`, 'Info');
-  }
-
-  deleteCustomer(customer: Cliente) {
-    if (
-      confirm(`Tem certeza que deseja remover o cliente "${customer.nome}"?`)
-    ) {
-      this.toastr.info('Ação de exclusão enviada.');
+    updatePageSize(newSize: string | number) {
+        this.pageSize.set(Number(newSize));
+        this.currentPage.set(0);
+        this.loadCustomers();
     }
-  }
+
+    goToPage(page: number) {
+        if (page !== this.currentPage()) {
+            this.changePage(page);
+        }
+    }
+
+    changePage(newPage: number) {
+        if (newPage >= 0 && newPage < this.totalPages()) {
+            this.currentPage.set(newPage);
+            this.loadCustomers();
+            // Opcional: Desliza para o topo quando muda de página
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    loadCustomers() {
+        this.isLoading.set(true);
+        const params: PageableParams = {
+            page: this.currentPage(),
+            size: this.pageSize(),
+            sort: 'nome,asc',
+        };
+
+        this.usuarioService
+            .listarTodosClientes(params, this.searchTerm())
+            .subscribe({
+                next: (page: any) => {
+                    const content = page.content || page.data || [];
+                    let total = 0;
+
+                    if (typeof page.totalElements === 'number') {
+                        total = page.totalElements;
+                    } else if (page.page?.totalElements) {
+                        total = page.page.totalElements;
+                    }
+
+                    this.customers.set(content);
+                    this.totalElements.set(total);
+                    this.isLoading.set(false);
+                },
+                error: (err) => {
+                    console.error(err);
+                    this.toastr.error('Erro ao sincronizar lista de clientes.');
+                    this.isLoading.set(false);
+                },
+            });
+    }
+
+    toggleStatus(customer: Cliente) {
+        // Isso é apenas um mock. Substitua pela lógica real do backend.
+        this.toastr.info(
+            `Simulação: Status de ${customer.nome} alterado.`,
+            'Info',
+        );
+    }
+
+    deleteCustomer(customer: Cliente) {
+        if (
+            confirm(
+                `Tem certeza que deseja remover o cliente "${customer.nome}"?`,
+            )
+        ) {
+            this.toastr.info('Ação de exclusão enviada.');
+        }
+    }
 }

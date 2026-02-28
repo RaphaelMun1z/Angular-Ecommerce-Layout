@@ -1,166 +1,278 @@
-<div class="space-y-8 animate-fade-in pb-10 max-w-[1600px] mx-auto">
+<div class="space-y-6 animate-fade-in pb-10">
     
+    <!-- Cabeçalho da Página -->
     <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Pedidos</h1>
+            <h1 class="text-[26px] font-bold text-gray-900 tracking-tight">Pedidos</h1>
             <p class="text-sm text-gray-500 mt-0.5">Gestão de vendas, pagamentos e logística</p>
         </div>
         
-        <div class="flex items-center gap-2">
-            <button class="p-2.5 text-gray-500 hover:text-gray-900 hover:bg-white rounded-xl transition-all cursor-pointer border border-transparent hover:border-gray-200" title="Exportar CSV">
-                <i class="ph-bold ph-download-simple text-xl"></i>
+        <div class="flex items-center gap-3">
+            <button class="flex items-center justify-center w-11 h-11 text-gray-500 bg-white border border-gray-200 hover:text-gray-900 hover:bg-gray-50 rounded-full transition-colors cursor-pointer" title="Exportar CSV">
+                <i class="ph ph-download-simple text-xl"></i>
             </button>
-            <button class="bg-brand-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl hover:bg-brand-700 transition-all shadow-sm active:scale-[0.98] cursor-pointer">
+            <button class="bg-[#5252FF] text-white text-sm font-medium px-6 py-2.5 rounded-full hover:bg-[#4040E6] transition-all shadow-lg shadow-[#5252FF]/20 active:scale-[0.98] cursor-pointer flex items-center gap-2">
+                <i class="ph ph-plus text-lg"></i>
                 Novo Pedido
             </button>
         </div>
     </header>
     
+    <!-- Barra de Ferramentas (Busca e Filtros) -->
     <section class="flex flex-col md:flex-row gap-4 items-center justify-between px-2">
-        <div class="relative w-full md:max-w-sm group">
-            <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-500 transition-colors"></i>
+        <!-- Campo de Busca -->
+        <div class="relative w-full md:w-80 group">
+            <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5252FF] transition-colors text-lg"></i>
             <input type="text" 
                    [ngModel]="searchTerm()"
                    (ngModelChange)="searchTerm.set($event)"
                    placeholder="Pesquisar por ID, cliente ou total..." 
-                   class="w-full pl-10 pr-4 py-2 bg-transparent border-b border-gray-200 focus:border-brand-500 transition-all outline-none text-sm text-gray-700 placeholder:text-gray-400">
+                   class="w-full pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[#5252FF]/20 focus:border-[#5252FF] transition-all text-[14px] text-gray-700 placeholder:text-gray-400 shadow-sm">
         </div>
         
-        <div class="flex items-center gap-1 overflow-x-auto scrollbar-hide w-full md:w-auto">
-            <button (click)="setFilter('all')" [ngClass]="activeFilter() === 'all' ? 'text-brand-600 bg-brand-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Todos</button>
-            <button (click)="setFilter('PAGO')" [ngClass]="activeFilter() === 'PAGO' ? 'text-green-600 bg-green-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Pagos</button>
-            <button (click)="setFilter('PENDENTE')" [ngClass]="activeFilter() === 'PENDENTE' ? 'text-amber-600 bg-amber-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Pendentes</button>
-            <button (click)="setFilter('CANCELADO')" [ngClass]="activeFilter() === 'CANCELADO' ? 'text-red-600 bg-red-50' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100'" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">Cancelados</button>
+        <!-- Filtros Rápidos Segmentados -->
+        <div class="flex items-center p-1 bg-white border border-gray-200 rounded-full overflow-x-auto scrollbar-hide w-full md:w-auto shadow-sm">
+            <button (click)="setFilter('all')" 
+                    [ngClass]="activeFilter() === 'all' ? 'bg-gray-100 text-gray-900 shadow-sm border-gray-200/50' : 'text-gray-500 hover:text-gray-800 border-transparent hover:bg-gray-50'" 
+                    class="px-5 py-1.5 rounded-full text-[13px] font-medium transition-all cursor-pointer whitespace-nowrap border">
+                Todos
+            </button>
+            <button (click)="setFilter('PAGO')" 
+                    [ngClass]="activeFilter() === 'PAGO' ? 'bg-emerald-50 text-emerald-700 shadow-sm border-emerald-100' : 'text-gray-500 hover:text-gray-800 border-transparent hover:bg-gray-50'" 
+                    class="px-5 py-1.5 rounded-full text-[13px] font-medium transition-all cursor-pointer whitespace-nowrap border">
+                Pagos
+            </button>
+            <button (click)="setFilter('PENDENTE')" 
+                    [ngClass]="activeFilter() === 'PENDENTE' ? 'bg-amber-50 text-amber-700 shadow-sm border-amber-100' : 'text-gray-500 hover:text-gray-800 border-transparent hover:bg-gray-50'" 
+                    class="px-5 py-1.5 rounded-full text-[13px] font-medium transition-all cursor-pointer whitespace-nowrap border">
+                Pendentes
+            </button>
+            <button (click)="setFilter('CANCELADO')" 
+                    [ngClass]="activeFilter() === 'CANCELADO' ? 'bg-red-50 text-red-700 shadow-sm border-red-100' : 'text-gray-500 hover:text-gray-800 border-transparent hover:bg-gray-50'" 
+                    class="px-5 py-1.5 rounded-full text-[13px] font-medium transition-all cursor-pointer whitespace-nowrap border">
+                Cancelados
+            </button>
         </div>
     </section>
 
-    <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden relative min-h-[500px]">
-        @if (isLoading()) {
-            <div class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-30 flex items-center justify-center text-brand-600">
-                <i class="ph ph-spinner animate-spin text-3xl"></i>
-            </div>
-        }
-
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+    <!-- Tabela Principal -->
+    <div class="bg-white rounded-[24px] border border-gray-100 overflow-hidden relative min-h-[500px] shadow-sm flex flex-col">
+        
+        <div class="overflow-x-auto flex-1">
+            <table class="w-full text-left border-collapse min-w-[900px]">
                 <thead>
-                    <tr class="text-[10px] text-gray-400 uppercase tracking-widest border-b border-gray-50 font-bold bg-gray-50/30">
-                        <th class="px-6 py-4">ID</th>
-                        <th class="px-6 py-4">Data</th>
-                        <th class="px-6 py-4">Cliente</th>
-                        <th class="px-6 py-4">Financeiro</th>
-                        <th class="px-6 py-4 text-center">Logística</th>
-                        <th class="px-6 py-4 text-right">Total</th>
-                        <th class="px-6 py-4 text-center w-24">Ações</th>
+                    <tr class="border-b border-gray-100 bg-white">
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap">ID Pedido</th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap">Data</th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap">Cliente</th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap">Financeiro</th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap text-center">Logística</th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap text-right">Total</th>
+                        <th class="py-4 px-6 font-medium text-[13px] text-gray-500 whitespace-nowrap text-center w-24">Ações</th>
                     </tr>
                 </thead>
-                <tbody class="text-sm divide-y divide-gray-50">
-                    @for (order of filteredOrders(); track order.id) {
-                        <tr class="hover:bg-gray-50/50 transition-colors group">
-                            <td class="px-6 py-5">
-                                <span class="font-mono text-xs font-bold text-gray-900">#{{ order.id.substring(0,8) | uppercase }}</span>
-                            </td>
-                            
-                            <td class="px-6 py-5 text-gray-500 text-xs">
-                                {{ order.dataPedido | date:'dd/MM/yy' }}
-                                <span class="text-[10px] opacity-50 ml-1">{{ order.dataPedido | date:'HH:mm' }}</span>
-                            </td>
+                <tbody class="divide-y divide-gray-50">
+                    
+                    @if (isLoading()) {
+                        <!-- ESTADO SKELETON: Linhas fantasmas na tabela -->
+                        @for (i of [1, 2, 3, 4, 5]; track i) {
+                            <tr class="animate-pulse bg-white">
+                                <!-- ID Skeleton -->
+                                <td class="py-4 px-6"><div class="w-20 h-4 bg-gray-200 rounded-full"></div></td>
+                                <!-- Data Skeleton -->
+                                <td class="py-4 px-6">
+                                    <div class="flex flex-col gap-1.5">
+                                        <div class="w-24 h-4 bg-gray-200 rounded-full"></div>
+                                        <div class="w-12 h-3 bg-gray-100 rounded-full"></div>
+                                    </div>
+                                </td>
+                                <!-- Cliente Skeleton -->
+                                <td class="py-4 px-6">
+                                    <div class="flex flex-col gap-1.5">
+                                        <div class="w-16 h-4 bg-gray-200 rounded-full"></div>
+                                        <div class="w-24 h-3 bg-gray-100 rounded-full"></div>
+                                    </div>
+                                </td>
+                                <!-- Financeiro Skeleton -->
+                                <td class="py-4 px-6"><div class="w-20 h-6 bg-gray-100 rounded border border-gray-200"></div></td>
+                                <!-- Logistica Skeleton -->
+                                <td class="py-4 px-6"><div class="w-20 h-4 bg-gray-100 rounded-full mx-auto"></div></td>
+                                <!-- Total Skeleton -->
+                                <td class="py-4 px-6"><div class="w-16 h-4 bg-gray-200 rounded-full ml-auto"></div></td>
+                                <!-- Ações Skeleton -->
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center justify-center gap-1.5">
+                                        <div class="w-[34px] h-[34px] rounded-lg bg-gray-100"></div>
+                                        <div class="w-[34px] h-[34px] rounded-lg bg-gray-100"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    } @else {
+                        <!-- Linhas com Dados Reais -->
+                        @for (order of filteredOrders(); track order.id) {
+                            <tr class="hover:bg-gray-50/50 transition-colors group">
+                                
+                                <td class="py-4 px-6">
+                                    <span class="font-mono text-[13px] font-bold text-gray-900">#{{ order.id.substring(0,8) | uppercase }}</span>
+                                </td>
+                                
+                                <td class="py-4 px-6">
+                                    <div class="flex flex-col">
+                                        <span class="text-[13px] font-medium text-gray-600">{{ order.dataPedido | date:'dd/MM/yy' }}</span>
+                                        <span class="text-[11px] text-gray-400 mt-0.5">{{ order.dataPedido | date:'HH:mm' }}</span>
+                                    </div>
+                                </td>
 
-                            <td class="px-6 py-5">
-                                <div class="flex flex-col">
-                                    <span class="text-xs font-semibold text-gray-700">Utilizador</span>
-                                    <span class="text-[10px] font-mono text-gray-400 truncate max-w-[80px]">{{ order.clienteId }}</span>
-                                </div>
-                            </td>
+                                <td class="py-4 px-6">
+                                    <div class="flex flex-col">
+                                        <span class="text-[13px] font-semibold text-gray-900">Utilizador</span>
+                                        <span class="text-[11px] font-mono text-gray-500 bg-white px-1.5 py-0.5 rounded border border-gray-200 w-fit mt-1 truncate max-w-[120px]">
+                                            {{ order.clienteId }}
+                                        </span>
+                                    </div>
+                                </td>
 
-                            <td class="px-6 py-5">
-                                <span [class]="getPaymentBadgeClass(order.status) + ' px-2 py-0.5 rounded-md text-[10px] font-bold border uppercase inline-flex items-center gap-1.5'">
-                                    <span class="w-1.5 h-1.5 rounded-full" 
-                                          [ngClass]="order.status === 'CANCELADO' ? 'bg-red-500' : (order.status === 'PAGO' ? 'bg-green-500' : 'bg-yellow-500')">
+                                <td class="py-4 px-6">
+                                    <span [class]="getPaymentBadgeClass(order.status) + ' px-2.5 py-1 rounded-md text-[10px] font-bold border uppercase inline-flex items-center gap-1.5 tracking-wide'">
+                                        <span class="w-1.5 h-1.5 rounded-full" 
+                                              [ngClass]="order.status === 'CANCELADO' ? 'bg-red-500' : (order.status === 'PAGO' ? 'bg-green-500' : 'bg-yellow-500')">
+                                        </span>
+                                        {{ order.status === 'PAGO' ? 'Pago' : order.status.replace('_', ' ') }}
                                     </span>
-                                    {{ order.status === 'PAGO' ? 'Pago' : order.status.replace('_', ' ') }}
-                                </span>
-                            </td>
+                                </td>
 
-                            <td class="px-6 py-5 text-center">
-                                <span [class]="getFulfillmentBadgeClass(order.status) + ' text-[10px] font-bold uppercase'">
-                                    @switch (order.status) {
-                                        @case ('ENTREGUE') { Entregue }
-                                        @case ('ENVIADO') { Enviado }
-                                        @case ('EM_PREPARACAO') { Em Separação }
-                                        @default { — }
-                                    }
-                                </span>
-                            </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span [class]="getFulfillmentBadgeClass(order.status) + ' text-[11px] font-bold uppercase tracking-tight'">
+                                        @switch (order.status) {
+                                            @case ('ENTREGUE') { Entregue }
+                                            @case ('ENVIADO') { Enviado }
+                                            @case ('EM_PREPARACAO') { Em Separação }
+                                            @default { — }
+                                        }
+                                    </span>
+                                </td>
 
-                            <td class="px-6 py-5 text-right">
-                                <span class="font-bold text-gray-900">{{ order.valorTotal | currency:'BRL' }}</span>
-                            </td>
+                                <td class="py-4 px-6 text-right">
+                                    <span class="font-bold text-[14px] text-gray-900">{{ order.valorTotal | currency:'BRL' }}</span>
+                                </td>
 
-                            <td class="px-6 py-5">
-                                <div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button (click)="openStatusModal(order)" class="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer" title="Alterar Status">
-                                        <i class="ph-bold ph-arrows-left-right"></i>
-                                    </button>
-                                    <button [routerLink]="['/pedido', order.id]" class="p-1.5 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors cursor-pointer" title="Ver Detalhes">
-                                        <i class="ph-bold ph-eye"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    } @empty {
-                        @if (!isLoading()) {
-                            <tr><td colspan="7" class="px-6 py-24 text-center text-gray-400 italic text-sm">Nenhum pedido encontrado.</td></tr>
+                                <td class="py-4 px-6">
+                                    <div class="flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button (click)="openStatusModal(order)" 
+                                                class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 hover:text-[#5252FF] hover:border-[#5252FF]/30 hover:bg-[#5252FF]/5 flex items-center justify-center transition-colors cursor-pointer" 
+                                                title="Alterar Status">
+                                            <i class="ph ph-arrows-left-right text-[16px]"></i>
+                                        </button>
+                                        <button [routerLink]="['/pedido', order.id]" 
+                                                class="w-[34px] h-[34px] rounded-lg border border-gray-200 text-gray-400 hover:text-emerald-500 hover:border-emerald-200 hover:bg-emerald-50 flex items-center justify-center transition-colors cursor-pointer" 
+                                                title="Ver Detalhes">
+                                            <i class="ph ph-eye text-[16px]"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        } @empty {
+                            @if (!isLoading()) {
+                                <tr>
+                                    <td colspan="7" class="px-6 py-24 text-center">
+                                        <div class="flex flex-col items-center justify-center text-gray-400">
+                                            <div class="w-16 h-16 bg-gray-50 border border-gray-100 rounded-full flex items-center justify-center mb-3">
+                                                <i class="ph-duotone ph-receipt text-3xl opacity-50"></i>
+                                            </div>
+                                            <p class="text-sm font-medium">Nenhum pedido encontrado.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
                         }
                     }
                 </tbody>
             </table>
         </div>
         
-        <footer class="px-6 py-4 border-t border-gray-50 flex items-center justify-between bg-white">
-            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{{ filteredOrders().length }} de {{ totalElements() }} itens</span>
-            <div class="flex items-center gap-2">
-                <button (click)="changePage(-1)" [disabled]="currentPage() === 0 || isLoading()" class="p-2 text-gray-400 hover:text-gray-900 disabled:opacity-20 cursor-pointer transition-all"><i class="ph-bold ph-arrow-left"></i></button>
-                <span class="text-xs font-bold text-gray-900 px-2">{{ currentPage() + 1 }}</span>
-                <button (click)="changePage(1)" [disabled]="((currentPage() + 1) * pageSize()) >= totalElements() || isLoading()" class="p-2 text-gray-400 hover:text-gray-900 disabled:opacity-20 cursor-pointer transition-all"><i class="ph-bold ph-arrow-right"></i></button>
+        <!-- Rodapé / Paginação Modelo Ecooma -->
+        <footer class="px-6 py-5 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
+            
+            <div class="flex items-center gap-3 text-[13px] text-gray-500 font-medium order-2 sm:order-1">
+                <span>Mostrando</span>
+                <select [ngModel]="pageSize()" (ngModelChange)="updatePageSize($event)" class="bg-white border border-gray-200 text-gray-900 text-[13px] font-medium rounded-lg focus:ring-[#5252FF]/20 focus:border-[#5252FF] block p-1.5 outline-none cursor-pointer shadow-sm">
+                    <option [value]="5">5</option>
+                    <option [value]="10">10</option>
+                    <option [value]="20">20</option>
+                    <option [value]="50">50</option>
+                </select>
+                <span>de {{ totalElements() }} entradas</span>
+            </div>
+
+            <div class="flex items-center gap-2 order-1 sm:order-2">
+                <button (click)="changePage(-1)" 
+                        [disabled]="currentPage() === 0 || isLoading()" 
+                        class="px-4 py-2 text-[13px] font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-colors cursor-pointer shadow-sm">
+                    Ant.
+                </button>
+
+                 @for (page of visiblePages(); track page) {
+                    <button (click)="goToPage(page)"
+                            [ngClass]="page === currentPage() ? 
+                                'bg-[#5252FF] text-white shadow-md shadow-[#5252FF]/20 border-transparent' : 
+                                'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
+                            class="w-9 h-9 border rounded-xl text-[13px] font-medium transition-all flex items-center justify-center cursor-pointer shadow-sm">
+                        {{ page + 1 }}
+                    </button>
+                 }
+
+                <button (click)="changePage(1)" 
+                        [disabled]="((currentPage() + 1) * pageSize()) >= totalElements() || isLoading()" 
+                        class="px-4 py-2 text-[13px] font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-white transition-colors cursor-pointer shadow-sm">
+                    Próx.
+                </button>
             </div>
         </footer>
     </div>
 
+    <!-- Modal de Alteração de Status -->
     @if (showStatusModal()) {
-        <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity duration-200 animate-fade-in" 
+        <div class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-[#0B0B0F]/60 backdrop-blur-sm transition-opacity duration-300 animate-fade-in" 
                  (click)="showStatusModal.set(false)"></div>
             
-            <div class="relative bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-200 animate-scale-up-fast">
-                <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
+            <div class="relative bg-white w-full max-w-sm rounded-[32px] shadow-2xl overflow-hidden transform transition-all duration-300 animate-scale-up-fast z-10 flex flex-col border border-white/20">
+                
+                <!-- Cabeçalho Modal -->
+                <div class="px-8 pt-8 pb-0 flex justify-between items-start">
                     <div>
-                        <h3 class="font-bold text-gray-900 leading-none">Atualizar Pedido</h3>
-                        <p class="text-[10px] text-gray-400 font-mono mt-1.5">#{{ selectedOrder()?.id?.substring(0,8) | uppercase }}</p>
+                        <h3 class="font-bold text-[22px] text-gray-900 tracking-tight">Atualizar Pedido</h3>
+                        <p class="text-[13px] text-gray-500 font-mono mt-1">#{{ selectedOrder()?.id?.substring(0,8) | uppercase }}</p>
                     </div>
-                    <button (click)="showStatusModal.set(false)" class="text-gray-400 hover:text-gray-600 p-2 cursor-pointer transition-colors"><i class="ph-bold ph-x text-xl"></i></button>
+                    <button (click)="showStatusModal.set(false)" class="w-10 h-10 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-500 flex items-center justify-center transition-colors cursor-pointer border border-gray-200/50">
+                        <i class="ph ph-x text-lg"></i>
+                    </button>
                 </div>
                 
-                <form [formGroup]="statusForm" (ngSubmit)="confirmStatusUpdate()" class="p-6 space-y-6">
+                <form [formGroup]="statusForm" (ngSubmit)="confirmStatusUpdate()" class="p-8 space-y-6">
                     <div>
-                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Novo Status</label>
-                        <select formControlName="status" class="w-full bg-gray-50 border-none rounded-xl px-4 py-3 text-sm font-bold cursor-pointer focus:ring-2 focus:ring-brand-500 outline-none">
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1">Novo Status</label>
+                        <select formControlName="status" class="w-full bg-gray-50 border border-gray-100 focus:bg-white focus:border-[#5252FF] focus:ring-4 focus:ring-[#5252FF]/10 rounded-[20px] px-4 py-3.5 text-[14px] text-gray-900 outline-none transition-all cursor-pointer font-medium appearance-none shadow-inner shadow-gray-500/5">
                             @for (status of availableStatuses; track status.value) {
                                 <option [value]="status.value">{{ status.label }}</option>
                             }
                         </select>
                     </div>
 
-                    <div class="flex items-center gap-3 bg-blue-50 p-3 rounded-xl border border-blue-100">
-                        <input type="checkbox" formControlName="notifyClient" id="notify" class="w-4 h-4 text-blue-600 rounded border-blue-300 focus:ring-blue-500">
-                        <label for="notify" class="text-xs font-bold text-blue-700 cursor-pointer select-none">Notificar cliente por e-mail</label>
+                    <div class="flex items-center gap-3 bg-[#F4F5F7] p-4 rounded-[20px] border border-gray-100">
+                        <input type="checkbox" formControlName="notifyClient" id="notify" class="w-4 h-4 text-[#5252FF] rounded border-gray-300 focus:ring-[#5252FF]">
+                        <label for="notify" class="text-[13px] font-medium text-gray-700 cursor-pointer select-none">Notificar cliente por e-mail</label>
                     </div>
 
                     <div class="pt-2 flex gap-3">
-                        <button type="button" (click)="showStatusModal.set(false)" class="flex-1 py-3 text-sm font-bold text-gray-500 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer">Cancelar</button>
-                        <button type="submit" [disabled]="isUpdating()" class="flex-[2] bg-gray-900 text-white py-3 rounded-xl text-sm font-bold hover:bg-brand-600 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
-                            @if (isUpdating()) { <i class="ph-bold ph-spinner animate-spin"></i> }
-                            Salvar Alterações
+                        <button type="button" (click)="showStatusModal.set(false)" class="flex-1 py-3.5 rounded-full font-medium text-[14px] text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 hover:text-gray-900 transition-all cursor-pointer">
+                            Cancelar
+                        </button>
+                        <button type="submit" [disabled]="isUpdating()" class="flex-[1.5] bg-[#5252FF] text-white py-3.5 rounded-full font-medium text-[14px] hover:bg-[#4040E6] hover:shadow-lg hover:shadow-[#5252FF]/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                            @if (isUpdating()) { <i class="ph ph-spinner animate-spin text-lg"></i> }
+                            @else { <i class="ph ph-check text-lg"></i> }
+                            Salvar
                         </button>
                     </div>
                 </form>

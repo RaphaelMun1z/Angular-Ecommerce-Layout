@@ -39,7 +39,6 @@ export class ProductPageComponent implements OnInit {
     
     productImages = signal<string[]>([]); 
     currentImage = signal<string>('');    
-    activeTab = signal<'overview' | 'specs' | 'reviews'>('overview');
     quantity = signal(1);
      
     zoomTransform = signal('scale(1)');
@@ -47,23 +46,63 @@ export class ProductPageComponent implements OnInit {
     
     zipCode = signal('');
     shippingResult = signal<null | { type: string, days: number, price: number }[]>(null);
+
+    // --- CONTROLES DE INTERFACE ---
+    tastes = ['Milk Chocolate', 'Dark Chocolate', 'Fruity Nuts', 'Chocoberries'];
+    selectedTaste = signal('Milk Chocolate');
     
+    sizes = ['100 g', '200 g', '500 g'];
+    selectedSize = signal('200 g');
+
+    showAllSpecs = signal(false); // Controle da expansão das características
+
+    // Controle de Paginação de Reviews
+    currentReviewPage = signal(0);
+    reviewsPerPage = signal(3);
+    
+    // Dados estruturados
     productExtras = {
-        rating: 4.8,
-        reviewsCount: 128,
-        brand: 'NEXUS',
-        specs: [
-            { label: "Garantia", value: "12 meses do fabricante" },
-            { label: "Conteúdo", value: "1 Unidade" },
-            { label: "Material", value: "Alta Resistência" }
+        rating: 4.8, 
+        reviewsCount: 587, 
+        brand: 'TREATO',
+        mainSpecs: [
+            { label: "Marca", value: "Electrolux" },
+            { label: "Linha", value: "Rita Lobo" },
+            { label: "Modelo", value: "EAF90" },
+            { label: "Modelo alfanumérico", value: "5211AABR408" },
+            { label: "Cor", value: "Grafite" }
+        ],
+        dimensionSpecs: [
+            { label: "Altura", value: "40,9 cm" },
+            { label: "Largura", value: "32,2 cm" },
+            { label: "Comprimento", value: "37,6 cm" },
+            { label: "Peso", value: "6,8 kg" }
+        ],
+        otherSpecs: [
+            { label: "Funções", value: "Fritar, Assar" },
+            { label: "Tipos de controle", value: "Digital" },
+            { label: "Voltagem", value: "110V/220V" },
+            { label: "Potência", value: "1400W" }
+        ],
+        ratingDistribution: [
+            { stars: 5, count: 374 },
+            { stars: 4, count: 183 },
+            { stars: 3, count: 25 },
+            { stars: 2, count: 4 },
+            { stars: 1, count: 1 }
         ],
         reviews: [
-            { user: "Carlos S.", date: "10/10/2023", rating: 5, text: "Produto excelente." },
-            { user: "Fernanda M.", date: "05/09/2023", rating: 4, text: "Muito bom." },
-            { user: "João P.", date: "20/08/2023", rating: 5, text: "Melhor custo benefício." }
+            { user: "Emily R.", date: "Hoje", rating: 5, text: "I've tried a few sleep aids before, but this sleeping tape from Blume is a game-changer. It's comfortable and stays in place all night. I wake up feeling rested and my breathing feels natural. Highly recommend!" },
+            { user: "Laura G.", date: "Ontem", rating: 4, text: "While the tape works as advertised, I have sensitive skin, and I found it a bit irritating after a few nights. If you don't have sensitive skin, it's a good product, but it didn't work perfectly for me." },
+            { user: "Carlos M.", date: "15/10/2023", rating: 5, text: "Produto excelente, atendeu todas as expectativas. Chegou antes do prazo e muito bem embalado." },
+            { user: "Fernanda T.", date: "02/09/2023", rating: 5, text: "A qualidade do material é incrível. Já recomendei para todos os meus amigos." },
+            { user: "Roberto A.", date: "28/08/2023", rating: 3, text: "É bom, mas achei que seria um pouco maior. De qualquer forma, cumpre o que promete." },
+            { user: "Juliana P.", date: "10/08/2023", rating: 4, text: "Gostei bastante, a única ressalva é a embalagem que veio um pouco amassada." }
         ]
     };
     
+    // --- COMPUTEDS E PAGINAÇÃO ---
+
     finalPrice = computed(() => {
         const p = this.product();
         if (!p) return 0;
@@ -75,7 +114,22 @@ export class ProductPageComponent implements OnInit {
         if (!p || !p.precoPromocional) return 0;
         return Math.round(((p.preco - p.precoPromocional) / p.preco) * 100);
     });
+
+    totalReviewPages = computed(() => {
+        return Math.ceil(this.productExtras.reviews.length / this.reviewsPerPage());
+    });
+
+    visibleReviewPages = computed(() => {
+        return Array.from({ length: this.totalReviewPages() }, (_, i) => i);
+    });
+
+    paginatedReviews = computed(() => {
+        const start = this.currentReviewPage() * this.reviewsPerPage();
+        return this.productExtras.reviews.slice(start, start + this.reviewsPerPage());
+    });
     
+    // --- MÉTODOS DO CICLO DE VIDA E AÇÕES ---
+
     ngOnInit() {
         this.route.paramMap.subscribe(params => {
             const id = params.get('id');
@@ -105,7 +159,7 @@ export class ProductPageComponent implements OnInit {
                     this.currentImage.set(resolvedImages[0]);
                 } else {
                     const placeholder = 'https://placehold.co/600x600/f3f4f6/a1a1aa?text=Sem+Imagem';
-                    this.productImages.set([placeholder]);
+                    this.productImages.set([placeholder, placeholder, placeholder, placeholder]); 
                     this.currentImage.set(placeholder);
                 }
                 
@@ -137,10 +191,6 @@ export class ProductPageComponent implements OnInit {
         if (p) this.favoritoService.toggle(p.id);
     }
     
-    setActiveTab(tab: 'overview' | 'specs' | 'reviews') {
-        this.activeTab.set(tab);
-    }
-    
     changeImage(img: string) {
         this.currentImage.set(img);
     }
@@ -148,6 +198,20 @@ export class ProductPageComponent implements OnInit {
     updateQty(delta: number) {
         const newVal = this.quantity() + delta;
         if (newVal >= 1) this.quantity.set(newVal);
+    }
+
+    // Navegação de Reviews
+    changeReviewPage(delta: number) {
+        const next = this.currentReviewPage() + delta;
+        if (next >= 0 && next < this.totalReviewPages()) {
+            this.currentReviewPage.set(next);
+        }
+    }
+
+    goToReviewPage(page: number) {
+        if (page >= 0 && page < this.totalReviewPages()) {
+            this.currentReviewPage.set(page);
+        }
     }
     
     onMouseMove(e: MouseEvent) {
@@ -183,7 +247,7 @@ export class ProductPageComponent implements OnInit {
         const userId = this.authService.currentUser()?.id;
         if (userId) {
             this.carrinhoService.adicionarItem(userId, p.id, this.quantity()).subscribe({
-                next: () => this.toastr.success(`Adicionado ao carrinho!`),
+                next: () => this.toastr.success(`Your order is placed! Thank you.`), 
                 error: () => this.toastr.error('Erro ao adicionar.')
             });
         }
