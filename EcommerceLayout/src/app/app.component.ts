@@ -11,5 +11,5 @@ import { FooterV2Component } from './shared/components/layout/footer-v2/footer-v
 })
 
 export class AppComponent {
-    title = 'NITOR | O ponto de partida para o que você precisa';
+    title = 'E-Shop';
 }

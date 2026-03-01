@@ -21,7 +21,7 @@ export class AboutUsPageComponent {
             icon: 'ph-magnifying-glass',
             title: 'Seleção Rigorosa',
             description:
-                'Nosso esforço (Nitor) está na curadoria. Analisamos centenas de opções para trazer apenas o que une funcionalidade real e design duradouro.',
+                'Nosso esforço (E-Shop) está na curadoria. Analisamos centenas de opções para trazer apenas o que une funcionalidade real e design duradouro.',
             colorClass: 'bg-blue-100 group-hover:bg-blue-600 text-blue-600',
         },
         {

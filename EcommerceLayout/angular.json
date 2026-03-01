@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "EcommerceNITOR": {
+        "EcommerceEShop": {
             "projectType": "application",
             "schematics": {},
             "root": "",
@@ -16,8 +16,8 @@
                         "outputPath": "dist",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
-                        "baseHref": "/Angular-Ecommerce-NITOR/",
-                        "deployUrl": "/Angular-Ecommerce-NITOR/",
+                        "baseHref": "/Angular-Ecommerce-EShop/",
+                        "deployUrl": "/Angular-Ecommerce-EShop/",
                         "polyfills": ["zone.js"],
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
@@ -65,10 +65,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "EcommerceNITOR:build:production"
+                            "buildTarget": "EcommerceEShop:build:production"
                         },
                         "development": {
-                            "buildTarget": "EcommerceNITOR:build:development"
+                            "buildTarget": "EcommerceEShop:build:development"
                         }
                     },
                     "defaultConfiguration": "development"

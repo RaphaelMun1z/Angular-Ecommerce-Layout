@@ -1,177 +1,204 @@
-<div class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen relative pb-12">
+<div class="bg-white text-gray-900 font-sans antialiased min-h-screen relative pb-12">
     
-<main class="container mx-auto px-4 pt-28 pb-12 animate-fade-in">
-    
-    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
-        <i class="ph-duotone ph-shopping-cart text-brand-500"></i> Seu Carrinho
-    </h1>
-    
-    @if (cartItems().length === 0) {
-        <div class="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-dashed border-gray-300 text-center animate-fade-in">
-            <div class="bg-gray-50 p-6 rounded-full mb-6">
-                <i class="ph-duotone ph-shopping-cart text-6xl text-gray-300"></i>
+    <!-- Header / Stepper -->
+    <div class="pt-8 pb-10 border-b border-gray-100 mb-8 hidden md:block">
+        <div class="max-w-2xl mx-auto flex items-center justify-between text-sm font-medium">
+            <div class="flex flex-col items-center gap-2 text-black">
+                <div class="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-xs font-bold">1</div>
+                <span>Carrinho</span>
             </div>
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Seu carrinho está vazio</h2>
-            <p class="text-gray-500 mb-8 max-w-sm mx-auto">Parece que você ainda não escolheu seus materiais.</p>
-            <a routerLink="/inicio" class="bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-brand-500/20 cursor-pointer inline-flex items-center gap-2">
-                Ir para a Loja
-            </a>
-        </div>
-    } @else {
-        
-        <div class="flex flex-col lg:flex-row gap-8 items-start mb-16 animate-fade-in">
-            
-            <div class="w-full lg:w-2/3 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="p-6 border-b border-gray-100 hidden md:block">
-                    <div class="grid grid-cols-12 gap-4 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                        <div class="col-span-6">Produto</div>
-                        <div class="col-span-2 text-center">Qtd</div>
-                        <div class="col-span-2 text-right">Preço Un.</div>
-                        <div class="col-span-2 text-right">Total</div>
-                    </div>
-                </div>
-                
-                <div class="divide-y divide-gray-100">
-                    @for (item of cartItems(); track item.id) {
-                        <div class="p-6 flex flex-col md:grid md:grid-cols-12 gap-6 items-center group relative border-b border-gray-50 last:border-0">
-                            
-                            <div class="flex items-center gap-4 w-full md:col-span-6 transition-colors hover:bg-gray-50/50 rounded-lg p-2 -ml-2">
-                            
-                            <div class="w-20 h-20 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden shrink-0 flex items-center justify-center text-gray-300">
-                                @if (item.imagens && item.imagens.length > 0) {
-                                    <img [src]="item.imagens[0].url" [alt]="item.nomeProduto" class="w-full h-full object-contain">
-                                } @else {
-                                    <i class="ph-duotone ph-image text-3xl"></i>
-                                }
-                            </div>
-
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-bold text-gray-800 text-sm md:text-base truncate" [title]="item.nomeProduto">{{ item.nomeProduto }}</h4>
-                                <p class="text-xs text-gray-400 mt-1">Ref: {{ item.id.substring(0, 8) }}</p>
-                                
-                                <button (click)="$event.stopPropagation(); removeItem(item)" class="text-xs text-red-500 hover:text-red-700 font-medium mt-2 flex items-center gap-1 md:hidden">
-                                    <i class="ph-bold ph-trash"></i> Remover
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="flex justify-between items-center w-full md:contents">
-                            <div class="md:col-span-2 flex justify-center">
-                                <div class="flex items-center border border-gray-200 rounded-lg bg-gray-50 h-9">
-                                    <button (click)="updateQty(item, -1)" class="w-8 h-full flex items-center justify-center text-gray-500 hover:text-brand-600 hover:bg-white rounded-l-lg transition-colors">
-                                        <i class="ph-bold ph-minus text-xs"></i>
-                                    </button>
-                                    <span class="w-8 text-center text-sm font-bold text-gray-800">{{ item.quantidade }}</span>
-                                    <button (click)="updateQty(item, 1)" class="w-8 h-full flex items-center justify-center text-gray-500 hover:text-brand-600 hover:bg-white rounded-r-lg transition-colors">
-                                        <i class="ph-bold ph-plus text-xs"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="hidden md:block md:col-span-2 text-right text-sm text-gray-500">
-                                {{ item.precoUnitario | currency:'BRL' }}
-                            </div>
-                            
-                            <div class="md:col-span-2 text-right">
-                                <div class="font-bold text-gray-900">{{ item.subTotal | currency:'BRL' }}</div>
-                                <button (click)="removeItem(item)" class="hidden md:inline-flex text-[10px] text-gray-400 hover:text-red-500 mt-1 items-center gap-1 transition-colors cursor-pointer">
-                                    <i class="ph-fill ph-trash"></i> Remover
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                }
+            <div class="flex-1 h-px bg-gray-200 mx-4 mt-[-20px]"></div>
+            <div class="flex flex-col items-center gap-2 text-gray-400">
+                <div class="w-6 h-6 rounded-full border border-gray-300 bg-white flex items-center justify-center text-xs">2</div>
+                <span>Endereço</span>
             </div>
-        </div>
-        
-        <div class="w-full lg:w-1/3 sticky top-24 space-y-6">
-            
-            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
-                <h3 class="font-bold text-lg text-gray-900 mb-6 border-b border-gray-50 pb-4">Resumo do Pedido</h3>
-                
-                <div class="mb-8">
-                    <app-shipping-calculator
-                        [initialZipCode]="zipCode()" 
-                        (shippingSelected)="updateShippingCost($event)">
-                    </app-shipping-calculator>
-                </div>
-                
-                <div class="space-y-3 mb-6 border-b border-gray-100 pb-6">
-                    <div class="flex justify-between text-sm text-gray-600">
-                        <span>Subtotal</span>
-                        <span class="font-medium text-gray-900">{{ subtotal() | currency:'BRL' }}</span>
-                    </div>
-                    <div class="flex justify-between text-sm text-gray-600 items-center">
-                        <span>Frete</span>
-                        @if (shippingCost() > 0) {
-                            <span class="font-bold text-gray-900">{{ shippingCost() | currency:'BRL' }}</span>
-                        } @else {
-                            <span class="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-1 rounded">PENDENTE</span>
-                        }
-                    </div>
-                </div>
-                
-                <div class="flex justify-between items-end mb-8">
-                    <span class="font-bold text-gray-800">Total</span>
-                    <div class="text-right">
-                        <span class="text-3xl font-extrabold text-brand-600 block leading-none">{{ total() | currency:'BRL' }}</span>
-                        <span class="text-[10px] text-gray-400 font-medium">em até 10x sem juros</span>
-                    </div>
-                </div>
-                
-                <div class="space-y-3">
-                    <button (click)="finalizarCompra()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 group cursor-pointer">
-                        <span>Finalizar Compra</span>
-                        <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                    </button>
-                    
-                    <a routerLink="/inicio" class="block text-center text-sm font-bold text-gray-500 hover:text-brand-600 transition-colors py-2">
-                        Continuar Comprando
-                    </a>
-                </div>
-            </div>
-            
-            <div class="flex justify-center gap-4 grayscale opacity-60">
-                <i class="ph-fill ph-shield-check text-2xl" title="Compra Segura"></i>
-                <i class="ph-fill ph-lock text-2xl" title="Site Blindado"></i>
-                <i class="ph-fill ph-credit-card text-2xl" title="Pagamento Protegido"></i>
+            <div class="flex-1 h-px bg-gray-200 mx-4 mt-[-20px]"></div>
+            <div class="flex flex-col items-center gap-2 text-gray-400">
+                <div class="w-6 h-6 rounded-full border border-gray-300 bg-white flex items-center justify-center text-xs">3</div>
+                <span>Pagamento</span>
             </div>
         </div>
     </div>
-}
 
-@if (cartItems().length > 0) {
-    <section class="border-t border-gray-200 pt-12 animate-fade-in">
-        <div class="flex items-center gap-2 mb-6">
-            <i class="ph-fill ph-sparkle text-brand-500 text-xl"></i>
-            <h2 class="text-xl font-bold text-gray-900">Aproveite e leve também</h2>
-        </div>
+    <main class="container max-w-6xl mx-auto px-4 animate-fade-in pt-6 md:pt-0">
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            @for (product of relatedProducts(); track product.id) {
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all p-3 flex flex-col h-full group">
-                    <div class="relative w-full aspect-square bg-gray-50 rounded-lg overflow-hidden mb-3 flex items-center justify-center text-gray-300">
-                        @if (product.imagens && product.imagens.length > 0) {
-                             <img [src]="product.imagens[0].url" [alt]="product.titulo" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        } @else {
-                            <i class="ph-duotone ph-image text-4xl group-hover:scale-110 transition-transform"></i>
+        @if (cartItems().length === 0) {
+            <!-- Empty State -->
+            <div class="flex flex-col items-center justify-center py-24 text-center animate-fade-in">
+                <div class="bg-gray-50 w-24 h-24 rounded-full flex items-center justify-center mb-6">
+                    <i class="ph-duotone ph-shopping-bag text-5xl text-gray-300"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Seu carrinho está vazio</h2>
+                <p class="text-gray-500 mb-8 max-w-sm mx-auto">Parece que você ainda não escolheu seus produtos.</p>
+                <a routerLink="/inicio" class="bg-black hover:bg-gray-800 text-white font-bold py-3.5 px-8 rounded-xl transition-all inline-flex items-center gap-2">
+                    Ir para a Loja <i class="ph-bold ph-arrow-right"></i>
+                </a>
+            </div>
+        } @else {
+            
+            <div class="flex flex-col lg:flex-row gap-10 items-start mb-16 animate-fade-in">
+                
+                <!-- Coluna Esquerda: Itens do Carrinho -->
+                <div class="w-full lg:flex-1">
+                    
+                    <!-- Cabeçalho da Lista -->
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-lg text-gray-900">
+                            Itens do Carrinho ({{ cartItems().length }})
+                        </h3>
+                    </div>
+
+                    <!-- Lista de Produtos -->
+                    <div class="space-y-4">
+                        @for (item of cartItems(); track item.id) {
+                            <div class="border border-gray-200 rounded-2xl p-5 flex gap-5 relative group bg-white hover:border-gray-300 transition-colors">
+                                
+                                <!-- Botão Fechar (X) -->
+                                <button (click)="removeItem(item)" class="absolute top-4 right-4 text-gray-400 hover:text-black transition-colors" title="Remover item">
+                                    <i class="ph ph-x text-lg"></i>
+                                </button>
+
+                                <!-- Imagem -->
+                                <div class="w-24 h-24 md:w-32 md:h-32 bg-gray-50 rounded-xl overflow-hidden shrink-0 flex items-center justify-center text-gray-300">
+                                    @if (item.imagens && item.imagens.length > 0) {
+                                        <img [src]="item.imagens[0].url" [alt]="item.nomeProduto" class="w-full h-full object-contain p-2">
+                                    } @else {
+                                        <i class="ph-duotone ph-image text-4xl"></i>
+                                    }
+                                </div>
+
+                                <!-- Detalhes do Produto -->
+                                <div class="flex-1 flex flex-col min-w-0 py-1">
+                                    <h4 class="font-bold text-gray-900 text-base md:text-lg pr-8 line-clamp-2" [title]="item.nomeProduto">
+                                        {{ item.nomeProduto }}
+                                    </h4>
+                                    
+                                    <!-- Meta Info -->
+                                    <div class="flex flex-wrap items-center gap-2 md:gap-3 text-xs text-gray-500 mt-2 font-medium">
+                                        <span class="flex items-center gap-1.5"><i class="ph ph-tag"></i> Ref: {{ item.id.substring(0, 5) }}</span>
+                                        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                                        <span class="flex items-center gap-1.5"><i class="ph ph-truck"></i> Entrega rápida</span>
+                                    </div>
+
+                                    <!-- Preço e Controle de Quantidade -->
+                                    <div class="flex items-center justify-between mt-auto pt-4">
+                                        <span class="font-bold text-lg md:text-xl text-gray-900">
+                                            {{ item.precoUnitario | currency:'BRL' }}
+                                        </span>
+                                        
+                                        <!-- Controle Minimalista -->
+                                        <div class="flex items-center bg-gray-50 rounded-full border border-gray-100 p-0.5">
+                                            <button (click)="updateQty(item, -1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-white hover:shadow-sm rounded-full transition-all">
+                                                <i class="ph-bold ph-minus text-xs"></i>
+                                            </button>
+                                            <span class="w-6 text-center text-sm font-bold text-gray-900">{{ item.quantidade }}</span>
+                                            <button (click)="updateQty(item, 1)" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-white hover:shadow-sm rounded-full transition-all">
+                                                <i class="ph-bold ph-plus text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         }
                     </div>
-                    <div class="flex-1 flex flex-col">
-                        <span class="text-[10px] text-gray-400 uppercase font-bold">{{ product.categoria?.nome || 'Geral' }}</span>
-                        <h4 class="font-bold text-gray-800 text-sm leading-tight mb-2 line-clamp-2" [title]="product.titulo">{{ product.titulo }}</h4>
-                        <div class="mt-auto flex items-center justify-between">
-                            <span class="font-bold text-brand-600">{{ product.preco | currency:'BRL' }}</span>
-                            <button (click)="addToCart(product)" class="bg-gray-100 text-gray-600 hover:bg-brand-600 hover:text-white p-2 rounded-lg transition-colors cursor-pointer">
-                                <i class="ph-bold ph-plus"></i>
-                            </button>
+                </div>
+                
+                <!-- Coluna Direita: Resumo e Ações -->
+                <div class="w-full lg:w-[380px] space-y-6">
+                    
+                    <!-- Componente de Frete -->
+                    <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100">
+                        <app-shipping-calculator 
+                            [initialZipCode]="zipCode()" 
+                            (shippingSelected)="updateShippingCost($event)">
+                        </app-shipping-calculator>
+                    </div>
+
+                    <!-- Detalhes do Preço -->
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-900 mb-3">Detalhes do Pedido</h3>
+                        <div class="bg-gray-50 rounded-2xl p-6 space-y-4 border border-gray-100">
+                            
+                            <h4 class="font-bold text-sm text-gray-900 mb-2">{{ cartItems().length }} {{ cartItems().length === 1 ? 'item' : 'itens' }}</h4>
+                            
+                            <!-- Lista Simples de Resumo -->
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-sm text-gray-500">
+                                    <span>Subtotal</span>
+                                    <span>{{ subtotal() | currency:'BRL' }}</span>
+                                </div>
+
+                                <div class="flex justify-between text-sm text-gray-500">
+                                    <span>Frete</span>
+                                    @if(shippingCost() > 0) {
+                                        <span>{{ shippingCost() | currency:'BRL' }}</span>
+                                    } @else {
+                                        <span class="text-gray-900 font-medium">A calcular</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <hr class="border-gray-200 my-4">
+
+                            <!-- Total -->
+                            <div class="flex justify-between items-center font-bold text-gray-900">
+                                <span>Valor Total</span>
+                                <span class="text-xl">{{ total() | currency:'BRL' }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-    </section>
-}
 
-</main>
+                    <!-- Botão Finalizar Compra -->
+                    <button (click)="finalizarCompra()" class="w-full bg-black hover:bg-gray-800 text-white font-bold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2 group active:scale-[0.98] mt-4">
+                        <span>Fazer pedido</span>
+                        <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    
+                    <div class="text-center mt-4">
+                         <a routerLink="/inicio" class="text-sm font-bold text-gray-400 hover:text-black transition-colors">
+                             Voltar para a loja
+                         </a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Seção: Aproveite e leve também -->
+        @if (cartItems().length > 0 && relatedProducts().length > 0) {
+            <section class="border-t border-gray-100 pt-16 mt-8 animate-fade-in mb-10">
+                <h2 class="text-xl font-bold text-gray-900 mb-8">Aproveite e leve também</h2>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    @for (product of relatedProducts(); track product.id) {
+                        <div class="bg-white rounded-2xl border border-gray-200 hover:border-gray-300 transition-colors p-4 flex flex-col h-full group">
+                            
+                            <!-- Imagem Produto Relacionado -->
+                            <div class="relative w-full aspect-square bg-gray-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center text-gray-300">
+                                @if (product.imagens && product.imagens.length > 0) {
+                                    <img [src]="product.imagens[0].url" [alt]="product.titulo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                } @else {
+                                    <i class="ph-duotone ph-image text-4xl group-hover:scale-110 transition-transform"></i>
+                                }
+                            </div>
+                            
+                            <!-- Infos -->
+                            <div class="flex-1 flex flex-col">
+                                <h4 class="font-bold text-gray-900 text-sm leading-tight mb-3 line-clamp-2" [title]="product.titulo">
+                                    {{ product.titulo }}
+                                </h4>
+                                
+                                <div class="mt-auto flex items-center justify-between">
+                                    <span class="font-bold text-lg">{{ product.preco | currency:'BRL' }}</span>
+                                    <button (click)="addToCart(product)" class="bg-gray-50 text-gray-900 hover:bg-black hover:text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors shadow-sm border border-gray-200 hover:border-black cursor-pointer">
+                                        <i class="ph-bold ph-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+        }
+
+    </main>
 </div>

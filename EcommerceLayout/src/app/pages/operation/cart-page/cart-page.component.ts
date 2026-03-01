@@ -29,6 +29,8 @@ export class CartPageComponent implements OnInit {
     
     cartItems = computed(() => this.carrinhoService.carrinho()?.itens || []);
     subtotal = computed(() => this.carrinhoService.valorTotal());
+    
+    // Total soma apenas os produtos e o frete
     total = computed(() => this.subtotal() + this.shippingCost());
     
     constructor() {

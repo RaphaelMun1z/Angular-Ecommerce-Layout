@@ -1,5 +1,5 @@
 export const BRAND_CONFIG = {
-    namePrefix: 'NITOR',
+    namePrefix: 'E-Shop',
     nameSuffix: '',
     
     useImage: true,
