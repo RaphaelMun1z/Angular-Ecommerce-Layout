@@ -17,7 +17,7 @@ export class CentralSearchBarComponent {
     onSearch() {
         const termo = this.searchTerm().trim();
 
-        this.router.navigate(['/inicio'], {
+        this.router.navigate(['/produtos'], {
             queryParams: termo ? { termo } : {},
         });
     }

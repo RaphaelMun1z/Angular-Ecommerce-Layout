@@ -1,94 +1,110 @@
-<main class="font-sans bg-gray-200 min-h-screen pt-20 pb-16 px-6">
-  <div class="max-w-6xl mx-auto">
-    <div class="flex flex-col lg:flex-row gap-16">
+<main class="font-sans bg-gray-50 min-h-screen pt-12 pb-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col lg:flex-row gap-12 items-start">
+            <aside class="w-full lg:w-72 flex-shrink-0">
+                
+                <div class="flex items-center gap-4 mb-8 p-4 rounded-2xl bg-white border border-gray-100">
+                    <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-lg border-2 border-white shadow-sm shrink-0">
+                        {{ user().name.charAt(0).toUpperCase() }}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h2 class="text-sm font-bold text-gray-900 truncate">
+                            {{ user().name }}
+                        </h2>
+                        <p class="text-xs text-gray-500 truncate" title="{{ user().email }}">
+                            {{ user().email }}
+                        </p>
+                    </div>
+                </div>
 
-      <!-- SIDEBAR -->
-      <aside class="w-full lg:w-80">
+                <nav class="space-y-1">
+                    
+                    <a
+                        routerLink="dados"
+                        routerLinkActive="bg-orange-50 !font-semibold"
+                        class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
+                    >
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center transition-all bg-white border border-gray-100 group-hover:bg-gray-50 group-hover:border-gray-200"
+                             routerLinkActive="!bg-orange-100 !border-orange-200">
+                            <i class="ph-fill ph-user text-xl text-gray-500 group-hover:text-gray-700 transition-colors"
+                               routerLinkActive="!text-orange-600"></i>
+                        </div>
+                        <span class="text-sm transition-colors"
+                              routerLinkActive="!text-orange-600">
+                            Dados Pessoais
+                        </span>
+                        <i class="ph-bold ph-caret-right ml-auto text-gray-300 group-hover:text-gray-400"></i>
+                    </a>
 
-        <!-- HEADER -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-gray-900 mb-1">
-            Your Account
-          </h1>
-          <p class="text-gray-600 text-sm">
-            {{ user().name }}, Email: {{ user().email }}
-          </p>
+                    <a
+                        routerLink="pedidos"
+                        routerLinkActive="bg-orange-50 !font-semibold"
+                        class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
+                    >
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center transition-all bg-white border border-gray-100 group-hover:bg-gray-50 group-hover:border-gray-200"
+                             routerLinkActive="!bg-orange-100 !border-orange-200">
+                            <i class="ph-fill ph-package text-xl text-gray-500 group-hover:text-gray-700 transition-colors"
+                               routerLinkActive="!text-orange-600"></i>
+                        </div>
+                        <span class="text-sm transition-colors"
+                              routerLinkActive="!text-orange-600">
+                            Meus Pedidos
+                        </span>
+                        <i class="ph-bold ph-caret-right ml-auto text-gray-300 group-hover:text-gray-400"></i>
+                    </a>
+
+                    <a
+                        routerLink="enderecos"
+                        routerLinkActive="bg-orange-50 !font-semibold"
+                        class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
+                    >
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center transition-all bg-white border border-gray-100 group-hover:bg-gray-50 group-hover:border-gray-200"
+                             routerLinkActive="!bg-orange-100 !border-orange-200">
+                            <i class="ph-fill ph-map-pin text-xl text-gray-500 group-hover:text-gray-700 transition-colors"
+                               routerLinkActive="!text-orange-600"></i>
+                        </div>
+                        <span class="text-sm transition-colors"
+                              routerLinkActive="!text-orange-600">
+                            Endereços
+                        </span>
+                        <i class="ph-bold ph-caret-right ml-auto text-gray-300 group-hover:text-gray-400"></i>
+                    </a>
+
+                    <a
+                        routerLink="favoritos"
+                        routerLinkActive="bg-orange-50 !font-semibold"
+                        class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
+                    >
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center transition-all bg-white border border-gray-100 group-hover:bg-gray-50 group-hover:border-gray-200"
+                             routerLinkActive="!bg-orange-100 !border-orange-200">
+                            <i class="ph-fill ph-heart text-xl text-gray-500 group-hover:text-gray-700 transition-colors"
+                               routerLinkActive="!text-orange-600"></i>
+                        </div>
+                        <span class="text-sm transition-colors"
+                              routerLinkActive="!text-orange-600">
+                            Favoritos
+                        </span>
+                        <i class="ph-bold ph-caret-right ml-auto text-gray-300 group-hover:text-gray-400"></i>
+                    </a>
+
+                    <div class="h-px bg-gray-100 my-3 mx-3"></div>
+
+                    <button
+                        (click)="logout()"
+                        class="w-full group flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-left"
+                    >
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center transition-all bg-white border border-gray-100 group-hover:bg-red-100/50 group-hover:border-red-200">
+                            <i class="ph-bold ph-sign-out text-xl text-gray-500 group-hover:text-red-500 transition-colors"></i>
+                        </div>
+                        <span class="text-sm">Sair da Conta</span>
+                        <i class="ph-bold ph-caret-right ml-auto text-gray-300 group-hover:text-red-300"></i>
+                    </button>
+                </nav>
+            </aside>
+
+            <div class="flex-1 w-full min-w-0 bg-white p-6 rounded-2xl border border-gray-100">
+                <router-outlet></router-outlet>
+            </div>
         </div>
-
-        <!-- NAVIGATION -->
-        <nav class="space-y-1">
-
-          <!-- Dados Pessoais -->
-          <a routerLink="dados"
-             routerLinkActive="bg-orange-200 text-orange-600"
-             class="flex items-center gap-4 px-4 py-3 rounded-lg text-gray-800 font-medium transition-colors hover:bg-gray-300">
-
-            <div class="w-10 h-10 rounded-lg bg-gray-300 flex items-center justify-center">
-              <i class="ph-fill ph-user-circle text-orange-500 text-xl"></i>
-            </div>
-
-            <span>Dados Pessoais</span>
-          </a>
-
-          <!-- Pedidos -->
-          <a routerLink="pedidos"
-             routerLinkActive="bg-orange-200 text-orange-600"
-             class="flex items-center gap-4 px-4 py-3 rounded-lg text-gray-800 font-medium transition-colors hover:bg-gray-300">
-
-            <div class="w-10 h-10 rounded-lg bg-gray-300 flex items-center justify-center">
-              <i class="ph-fill ph-package text-orange-500 text-xl"></i>
-            </div>
-
-            <span>Os Meus Pedidos</span>
-          </a>
-
-          <!-- Endereços -->
-          <a routerLink="enderecos"
-             routerLinkActive="bg-orange-200 text-orange-600"
-             class="flex items-center gap-4 px-4 py-3 rounded-lg text-gray-800 font-medium transition-colors hover:bg-gray-300">
-
-            <div class="w-10 h-10 rounded-lg bg-gray-300 flex items-center justify-center">
-              <i class="ph-fill ph-map-pin text-orange-500 text-xl"></i>
-            </div>
-
-            <span>Endereços</span>
-          </a>
-
-          <!-- Favoritos -->
-          <a routerLink="favoritos"
-             routerLinkActive="bg-orange-200 text-orange-600"
-             class="flex items-center gap-4 px-4 py-3 rounded-lg text-gray-800 font-medium transition-colors hover:bg-gray-300">
-
-            <div class="w-10 h-10 rounded-lg bg-gray-300 flex items-center justify-center">
-              <i class="ph-fill ph-heart text-orange-500 text-xl"></i>
-            </div>
-
-            <span>Favoritos</span>
-          </a>
-
-          <!-- Divider -->
-          <div class="border-t border-gray-400 my-4"></div>
-
-          <!-- Logout -->
-          <button (click)="logout()"
-                  class="w-full flex items-center gap-4 px-4 py-3 rounded-lg text-gray-800 font-medium transition-colors hover:bg-gray-300 text-left">
-
-            <div class="w-10 h-10 rounded-lg bg-gray-300 flex items-center justify-center">
-              <i class="ph-fill ph-sign-out text-orange-500 text-xl"></i>
-            </div>
-
-            <span>Sair da Conta</span>
-          </button>
-
-        </nav>
-
-      </aside>
-
-      <!-- CONTENT -->
-      <div class="flex-1">
-        <router-outlet></router-outlet>
-      </div>
-
     </div>
-  </div>
 </main>

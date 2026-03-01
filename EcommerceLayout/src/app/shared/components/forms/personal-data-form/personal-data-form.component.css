@@ -1,0 +1,16 @@
+/* personal-data-form.component.css */
+input:disabled {
+    background-color: #f9fafb; /* bg-gray-50 */
+    border-color: transparent;
+    color: #6b7280; /* text-gray-500 */
+}
+
+/* Garante que o autofill do navegador não estrague a cor de fundo cinza */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #f9fafb inset !important;
+    -webkit-text-fill-color: #111827 !important;
+    border-radius: 0.75rem;
+}

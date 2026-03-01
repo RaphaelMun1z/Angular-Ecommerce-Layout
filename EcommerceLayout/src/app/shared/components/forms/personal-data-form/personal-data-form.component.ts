@@ -7,103 +7,126 @@ import { UsuarioService } from '../../../../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { cpf } from 'cpf-cnpj-validator';
 
 @Component({
     selector: 'app-personal-data-form',
     imports: [CommonModule, FormsModule, NgxMaskDirective],
     providers: [provideNgxMask()],
     templateUrl: './personal-data-form.component.html',
-    styleUrl: './personal-data-form.component.css'
+    styleUrl: './personal-data-form.component.css',
 })
 export class PersonalDataFormComponent implements OnInit {
     private authService = inject(AuthService);
     private fileUploadService = inject(FileUploadService);
     private usuarioService = inject(UsuarioService);
     private toastService = inject(ToastService);
-    
+
     isEditingMode = signal(false);
     isUploading = signal(false);
     isSaving = signal(false);
-    
+
     formData = {
         nome: '',
         telefone: '',
-        cpf: ''
+        cpf: '',
     };
-    
+
     private originalData = {
         nome: '',
         telefone: '',
-        cpf: ''
+        cpf: '',
     };
-    
+
     user = signal({
         email: '',
         avatar: '',
-        isCliente: false
+        isCliente: false,
     });
-    
+
     constructor() {
         effect(() => {
             const currentUser = this.authService.currentUser();
             if (currentUser) {
-                const isCliente = currentUser.roles ? currentUser.roles.includes('ROLE_CLIENTE') : false;
-                
+                const isCliente = currentUser.roles
+                    ? currentUser.roles.includes('ROLE_CLIENTE')
+                    : false;
+
                 this.user.set({
                     email: currentUser.email,
-                    avatar: currentUser.avatar || `https://ui-avatars.com/api/?name=${currentUser.email}&background=0f172a&color=fff`,
-                    isCliente: isCliente
+                    avatar:
+                        currentUser.avatar ||
+                        `https://ui-avatars.com/api/?name=${currentUser.email}&background=0f172a&color=fff`,
+                    isCliente: isCliente,
                 });
-                
+
                 if (!this.isEditingMode()) {
                     this.updateLocalData(currentUser);
                 }
             }
         });
     }
-    
+
     ngOnInit() {
         this.authService.refreshUserData();
     }
-    
+
     private updateLocalData(currentUser: any) {
         const data = {
             nome: currentUser.name || '',
             telefone: currentUser.phone || '',
-            cpf: currentUser.cpf || ''
+            cpf: currentUser.cpf || '',
         };
         this.formData = { ...data };
         this.originalData = { ...data };
     }
-    
+
     toggleEditing() {
         this.isEditingMode.set(true);
     }
-    
+
     cancelEditing() {
         this.formData = { ...this.originalData };
         this.isEditingMode.set(false);
     }
-    
+
     savePersonalData(event: Event) {
         event.preventDefault();
-        
+
         if (!this.formData.nome || this.formData.nome.length < 3) {
-            this.toastService.warning('Atenção', 'O nome deve ter pelo menos 3 caracteres.');
+            this.toastService.warning(
+                'Atenção',
+                'O nome deve ter pelo menos 3 caracteres.',
+            );
             return;
         }
-        
+
+        // Validação de CPF
+        if (this.user().isCliente && this.formData.cpf) {
+            const cpfLimpo = this.formData.cpf.replace(/\D/g, '');
+
+            if (cpfLimpo.length > 0 && !cpf.isValid(cpfLimpo)) {
+                this.toastService.error('Erro', 'O CPF informado é inválido.');
+                return;
+            }
+        }
+
         this.isSaving.set(true);
-        
+
         const payload = {
             nome: this.formData.nome,
-            telefone: this.formData.telefone ? this.formData.telefone.replace(/\D/g, '') : '',
-            cpf: this.formData.cpf ? this.formData.cpf.replace(/\D/g, '') : ''
+            telefone: this.formData.telefone
+                ? this.formData.telefone.replace(/\D/g, '')
+                : '',
+            cpf: this.formData.cpf ? this.formData.cpf.replace(/\D/g, '') : '',
         };
-        
+
         this.usuarioService.atualizarMeusDados(payload).subscribe({
             next: () => {
-                this.toastService.success('Sucesso', 'Dados atualizados com sucesso.');
+                this.toastService.success(
+                    'Sucesso',
+                    'Dados atualizados com sucesso.',
+                );
                 this.isSaving.set(false);
                 this.isEditingMode.set(false);
                 this.authService.refreshUserData();
@@ -112,17 +135,20 @@ export class PersonalDataFormComponent implements OnInit {
                 const msg = err.error?.message || 'Erro ao salvar alterações.';
                 this.toastService.error('Erro', msg);
                 this.isSaving.set(false);
-            }
+            },
         });
     }
-	
+
     onAvatarSelected(event: any) {
         const file: File = event.target.files[0];
         if (!file || !file.type.startsWith('image/')) {
-             this.toastService.warning('Arquivo inválido', 'Selecione uma imagem.');
-             return;
+            this.toastService.warning(
+                'Arquivo inválido',
+                'Selecione uma imagem.',
+            );
+            return;
         }
-        
+
         this.isUploading.set(true);
 
         this.fileUploadService.upload(file).subscribe({
@@ -133,21 +159,34 @@ export class PersonalDataFormComponent implements OnInit {
                     if (response && response.url) {
                         const novaUrl = response.url;
 
-                        this.usuarioService.atualizarMeuAvatar(novaUrl).subscribe({
-                            next: () => {
-                                this.authService.updateUser({ avatar: novaUrl });
-                                
-                                this.user.update(u => ({ ...u, avatar: novaUrl }));
+                        this.usuarioService
+                            .atualizarMeuAvatar(novaUrl)
+                            .subscribe({
+                                next: () => {
+                                    this.authService.updateUser({
+                                        avatar: novaUrl,
+                                    });
 
-                                this.toastService.success('Foto Atualizada', 'Seu perfil foi atualizado.');
-                                this.isUploading.set(false);
-                            },
-                            error: (err) => {
-                                console.error(err);
-                                this.toastService.error('Erro', 'Erro ao salvar foto no perfil.');
-                                this.isUploading.set(false);
-                            }
-                        });
+                                    this.user.update((u) => ({
+                                        ...u,
+                                        avatar: novaUrl,
+                                    }));
+
+                                    this.toastService.success(
+                                        'Foto Atualizada',
+                                        'Seu perfil foi atualizado.',
+                                    );
+                                    this.isUploading.set(false);
+                                },
+                                error: (err) => {
+                                    console.error(err);
+                                    this.toastService.error(
+                                        'Erro',
+                                        'Erro ao salvar foto no perfil.',
+                                    );
+                                    this.isUploading.set(false);
+                                },
+                            });
                     }
                 }
             },
@@ -155,10 +194,10 @@ export class PersonalDataFormComponent implements OnInit {
                 console.error(err);
                 this.toastService.error('Erro', 'Falha no upload da imagem.');
                 this.isUploading.set(false);
-            }
+            },
         });
     }
-    
+
     handleImageError(event: any) {
         event.target.src = `https://ui-avatars.com/api/?name=${this.user().email}&background=0f172a&color=fff`;
     }

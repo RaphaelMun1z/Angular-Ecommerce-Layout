@@ -1,0 +1,144 @@
+<div class="min-h-screen bg-white flex flex-col md:flex-row font-sans">
+    
+    <aside class="w-full md:w-[320px] lg:w-[380px] bg-gray-50 border-r-2 border-gray-100 p-8 md:p-12 flex flex-col min-h-[200px] md:min-h-screen">
+        
+        <div class="flex items-center gap-3 mb-12">
+            <button routerLink="/dashboard-admin/categorias" class="w-8 h-8 rounded-lg bg-[#f45b49]/10 flex items-center justify-center text-[#f45b49] hover:bg-[#f45b49]/20 transition-all cursor-pointer">
+                <i class="ph-bold ph-arrow-left"></i>
+            </button>
+            <h1 class="text-xl font-bold text-[#101828] tracking-tight">
+                {{ isEditMode() ? 'Editar Categoria' : 'Nova Categoria' }}
+            </h1>
+        </div>
+
+        <div class="flex-1">
+            <div class="flex flex-col gap-8 relative">
+                @for (step of steps; track step.id; let isLast = $last) {
+                    <div class="relative flex gap-5">
+                        @if (!isLast) {
+                            <div class="absolute left-4 top-10 bottom-[-2rem] w-[2px]"
+                                 [ngClass]="currentStep() > step.id ? 'bg-[#f45b49]' : 'bg-gray-200'">
+                            </div>
+                        }
+
+                        <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center shrink-0 relative z-10 transition-all duration-300"
+                             [ngClass]="getStepCircleClass(step.id)">
+                            @if (currentStep() > step.id) {
+                                <i class="ph-bold ph-check text-sm"></i>
+                            } @else {
+                                <i [class]="'ph-bold text-sm ' + step.icon"></i>
+                            }
+                        </div>
+
+                        <div>
+                            <p class="text-[10px] font-black uppercase tracking-widest mb-0.5"
+                               [ngClass]="currentStep() === step.id ? 'text-[#101828]' : 'text-gray-400'">
+                                Passo {{ step.id }}
+                            </p>
+                            <h3 class="text-[15px] font-bold"
+                                [ngClass]="currentStep() >= step.id ? 'text-[#101828]' : 'text-gray-300'">
+                                {{ step.title }}
+                            </h3>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col relative bg-white">
+        
+        <header class="flex items-center justify-between p-6 md:px-12 md:py-8">
+            <button (click)="prevStep()" 
+                    class="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-[#101828] transition-colors cursor-pointer"
+                    [class.invisible]="currentStep() === 1">
+                <div class="w-8 h-8 rounded-full border-2 border-gray-100 flex items-center justify-center"><i class="ph-bold ph-caret-left"></i></div>
+                Voltar
+            </button>
+            <div class="text-[11px] font-black uppercase text-gray-300 flex items-center gap-1.5 tracking-widest">
+                Gerenciamento de Catálogo <i class="ph-fill ph-shield-check text-[#f45b49] text-lg"></i>
+            </div>
+        </header>
+
+        <div class="flex-1 flex flex-col max-w-[500px] w-full mx-auto px-6 pb-20 pt-4 md:pt-8 animate-fade-in">
+            
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-black text-[#101828] tracking-tighter mb-3 uppercase">{{ currentStepData().title }}</h2>
+                <p class="text-[15px] text-gray-500 font-medium">{{ currentStepData().desc }}</p>
+            </div>
+
+            <form [formGroup]="categoryForm" class="flex-1">
+                
+                @if (currentStep() === 1) {
+                    <div class="space-y-6 animate-fade-in">
+                        <div>
+                            <label class="block text-xs font-black uppercase text-gray-400 tracking-widest mb-2 ml-1">Nome da Categoria</label>
+                            <input type="text" formControlName="nome" placeholder="Ex: Eletrônicos, Calçados..." 
+                                   class="w-full border-2 border-gray-100 rounded-2xl p-4 text-[15px] text-[#101828] outline-none focus:border-[#f45b49] transition-all placeholder:text-gray-300">
+                            @if (isFieldInvalid('nome')) { <p class="text-[10px] text-[#f45b49] font-bold uppercase mt-2 ml-2">O nome é obrigatório.</p> }
+                        </div>
+                    </div>
+                }
+
+                @if (currentStep() === 2) {
+                    <div class="space-y-6 animate-fade-in">
+                        <div>
+                            <label class="block text-xs font-black uppercase text-gray-400 tracking-widest mb-2 ml-1">Descrição (Opcional)</label>
+                            <textarea formControlName="descricao" rows="5" placeholder="Descreva brevemente para que serve esta categoria..." 
+                                      class="w-full border-2 border-gray-100 rounded-2xl p-4 text-[15px] text-[#101828] outline-none focus:border-[#f45b49] transition-all placeholder:text-gray-300 resize-none"></textarea>
+                        </div>
+                    </div>
+                }
+
+                @if (currentStep() === 3) {
+                    <div class="space-y-8 animate-fade-in">
+                        <div class="bg-gray-50 rounded-[32px] border-2 border-gray-100 p-8">
+                            <h4 class="text-xs font-black uppercase text-gray-400 tracking-widest mb-6">Resumo dos Dados</h4>
+                            <div class="space-y-4">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-500">Nome:</span>
+                                    <span class="text-sm font-bold text-[#101828]">{{ categoryForm.get('nome')?.value || '---' }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-500">Descrição:</span>
+                                    <span class="text-sm font-bold text-[#101828] truncate max-w-[200px]">{{ categoryForm.get('descricao')?.value || '---' }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label class="flex items-center cursor-pointer gap-4 p-5 border-2 border-gray-100 rounded-2xl hover:border-[#f45b49] transition-all group">
+                            <div class="relative">
+                                <input type="checkbox" formControlName="ativo" class="peer sr-only">
+                                <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-emerald-500 transition-all after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                            </div>
+                            <div>
+                                <span class="block text-sm font-bold text-[#101828]">Categoria Ativa</span>
+                                <span class="block text-[10px] text-gray-400 uppercase font-black">Disponível para novos produtos</span>
+                            </div>
+                        </label>
+                    </div>
+                }
+                
+                <div class="mt-12">
+                    @if (currentStep() < steps.length) {
+                        <button type="button" (click)="nextStep()" 
+                                class="w-full py-5 bg-[#101828] text-white font-black rounded-2xl text-sm uppercase tracking-widest transition-all hover:bg-black active:scale-[0.98] cursor-pointer">
+                            Continuar
+                        </button>
+                    } @else {
+                        <button type="button" (click)="onSubmit()" [disabled]="isLoading()"
+                                class="w-full py-5 bg-[#f45b49] text-white font-black rounded-2xl text-sm uppercase tracking-widest transition-all hover:brightness-110 active:scale-[0.98] cursor-pointer disabled:opacity-70 flex items-center justify-center gap-2">
+                            @if (isLoading()) {
+                                <i class="ph-bold ph-spinner animate-spin text-xl"></i> Salvando...
+                            } @else {
+                                <i class="ph-bold ph-check-circle text-xl"></i> 
+                                {{ isEditMode() ? 'Salvar Alterações' : 'Concluir Cadastro' }}
+                            }
+                        </button>
+                    }
+                </div>
+
+            </form>
+        </div>
+    </main>
+</div>

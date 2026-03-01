@@ -31,6 +31,8 @@ import { MyPersonalDataComponent } from './shared/components/profile/my-personal
 import { OrderFailedPageComponent } from './pages/operation/order-failed-page/order-failed-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { CheckoutLayoutComponent } from './shared/components/checkout-layout/checkout-layout.component';
+import { AdminCategoriesPageComponent } from './pages/admin/admin-categories-page/admin-categories-page.component';
+import { RegisterCategoryPageComponent } from './pages/admin/register-category-page/register-category-page.component';
 
 export const routes: Routes = [
     {
@@ -117,12 +119,17 @@ export const routes: Routes = [
                 path: 'registrar-product',
                 component: RegisterProductPageComponent,
             },
+			{
+                path: 'registrar-categoria',
+                component: RegisterCategoryPageComponent,
+            },
             {
                 path: 'registrar-cliente',
                 component: RegisterCustomerPageComponent,
             },
             { path: 'pedidos', component: AdminOrdersPageComponent },
             { path: 'produtos', component: AdminProductsPageComponent },
+			{ path: 'categorias', component: AdminCategoriesPageComponent },
             { path: 'clientes', component: AdminCustomersPageComponent },
             {
                 path: 'relatorios-administrativos',

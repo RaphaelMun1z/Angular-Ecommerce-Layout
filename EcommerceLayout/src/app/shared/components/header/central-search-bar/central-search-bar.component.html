@@ -1,52 +1,35 @@
 <form 
     (ngSubmit)="onSearch()" 
-    class="flex w-full bg-white rounded-md overflow-hidden shadow-sm h-11 relative"
+    class="flex w-full bg-white rounded-full overflow-hidden h-12 relative"
 >
-    <!-- Dropdown de Categorias (Visual do Header V2) -->
-    <div class="relative bg-white border-r border-gray-200 hidden lg:block text-gray-600 min-w-[170px]">
-        <select class="appearance-none bg-transparent py-2.5 pl-4 pr-8 text-sm outline-none cursor-pointer w-full h-full font-medium focus:ring-0">
-            <option value="">Todas Categorias</option>
-            <option value="notebooks">Notebooks</option>
-            <option value="smartphones">Smartphones</option>
-        </select>
-        <i class="ph ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs"></i>
-    </div>
-
-    <!-- Container do Input (flex-1 para ocupar o restante do espaço) -->
-    <div class="flex-1 relative flex items-center">
-        <!-- 
-            Nota: Ao usar ngModel dentro de uma tag <form>, 
-            é obrigatório definir o atributo "name" 
-        -->
+    <div class="flex-1 relative flex items-center pl-6">
         <input 
             type="text" 
             name="searchInput"
             id="search-input" 
             [ngModel]="searchTerm()"
             (ngModelChange)="searchTerm.set($event)"
-            placeholder="Busque por produtos, marcas ou categorias..." 
-            class="w-full h-full px-4 outline-none text-sm text-gray-800 placeholder-gray-400 bg-transparent"
+            placeholder="O que você está procurando hoje?" 
+            class="w-full h-full outline-none text-base text-gray-700 placeholder-gray-400 bg-transparent pr-10"
         >
         
-        <!-- Botão Limpar (Só aparece se tiver texto) -->
         @if (searchTerm()) {
             <button 
                 type="button" 
                 (click)="clearSearch()" 
-                class="absolute right-3 flex items-center text-gray-400 hover:text-red-500 transition-colors z-10 p-1"
+                class="absolute right-2 flex items-center text-gray-300 hover:text-red-500 transition-colors z-10 p-2"
                 aria-label="Limpar busca"
             >
-                <i class="ph-fill ph-x-circle text-lg"></i>
+                <i class="ph-fill ph-x-circle text-xl"></i>
             </button>
         }
     </div>
 
-    <!-- Botão de Busca (Substitui o ícone fixo na esquerda do modelo antigo) -->
     <button 
         type="submit" 
-        class="bg-brand text-white px-5 hover:bg-brand-dark transition-colors flex items-center justify-center focus:outline-none"
+        class="bg-gray-900 text-white px-8 hover:bg-gray-800 transition-colors flex items-center justify-center focus:outline-none m-1 rounded-full"
         aria-label="Buscar"
     >
-        <i class="ph ph-magnifying-glass text-lg font-bold"></i>
+        <i class="ph ph-magnifying-glass text-xl font-bold"></i>
     </button>
 </form>

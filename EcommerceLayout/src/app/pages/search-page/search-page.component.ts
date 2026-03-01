@@ -29,6 +29,7 @@ export class SearchPageComponent implements OnInit {
     produtos: Produto[] = [];
     loading: boolean = false;
     totalElements: number = 0;
+    maxPrecoLimite: number = 5000;
 
     filtros: FiltroBusca = {
         termo: '',
@@ -40,11 +41,17 @@ export class SearchPageComponent implements OnInit {
     };
 
     categoriasDisponiveis: Categoria[] = [];
-
-    // Opções genéricas para o filtro de Marcas
     marcasDisponiveis = ['Apple', 'Samsung', 'LG', 'Logitech', 'Sony', 'Acer'];
-
     viewMode: 'grid' | 'list' = 'grid';
+
+    ordenacaoAtual: string = '';
+    opcoesOrdenacao = [
+        { label: 'Relevância', value: '' },
+        { label: 'Menor Preço', value: 'preco,asc' },
+        { label: 'Maior Preço', value: 'preco,desc' },
+        { label: 'Nome (A-Z)', value: 'titulo,asc' },
+        { label: 'Nome (Z-A)', value: 'titulo,desc' },
+    ];
 
     ngOnInit(): void {
         this.carregarCategorias();
@@ -52,16 +59,19 @@ export class SearchPageComponent implements OnInit {
         this.route.queryParams.subscribe((params) => {
             this.filtros.termo = params['termo'] || '';
             this.filtros.categoriaId = params['categoria'] || '';
-            this.filtros.precoMin = params['min'] ? Number(params['min']) : 0;
-            this.filtros.precoMax = params['max']
-                ? Number(params['max'])
-                : 99990;
             this.filtros.marcas = params['marcas']
                 ? params['marcas'].split(',')
                 : [];
             this.filtros.avaliacao = params['avaliacao']
                 ? Number(params['avaliacao'])
                 : undefined;
+
+            const pMin = params['min'] ? Number(params['min']) : 0;
+            const pMax = params['max'] ? Number(params['max']) : null;
+            this.filtros.precoMin = pMin;
+            this.filtros.precoMax = pMax !== null ? pMax : 99990;
+
+            this.ordenacaoAtual = params['sort'] || '';
 
             this.buscarProdutos();
         });
@@ -72,10 +82,24 @@ export class SearchPageComponent implements OnInit {
             next: (response: any) => {
                 this.categoriasDisponiveis = response.content || [];
             },
-            error: (err) => {
-                console.error('Erro ao buscar categorias', err);
-            },
+            error: (err) => console.error(err),
         });
+    }
+
+    get percentMin(): number {
+        if (this.maxPrecoLimite === 0) return 0;
+        return Math.min(
+            (this.filtros.precoMin / this.maxPrecoLimite) * 100,
+            100,
+        );
+    }
+
+    get percentMax(): number {
+        if (this.maxPrecoLimite === 0) return 100;
+        return Math.min(
+            (this.filtros.precoMax / this.maxPrecoLimite) * 100,
+            100,
+        );
     }
 
     get filtrosAtivosList() {
@@ -110,7 +134,6 @@ export class SearchPageComponent implements OnInit {
     }
 
     aplicarFiltros(): void {
-        // Garante que o precoMin nunca seja maior que o precoMax visualmente
         if (this.filtros.precoMin > this.filtros.precoMax) {
             const temp = this.filtros.precoMin;
             this.filtros.precoMin = this.filtros.precoMax;
@@ -124,16 +147,28 @@ export class SearchPageComponent implements OnInit {
                 categoria: this.filtros.categoriaId || null,
                 min: this.filtros.precoMin > 0 ? this.filtros.precoMin : null,
                 max:
-                    this.filtros.precoMax < 99990
+                    this.filtros.precoMax < this.maxPrecoLimite
                         ? this.filtros.precoMax
                         : null,
                 marcas: this.filtros.marcas?.length
                     ? this.filtros.marcas.join(',')
                     : null,
                 avaliacao: this.filtros.avaliacao || null,
+                sort: this.ordenacaoAtual || null,
             },
             queryParamsHandling: 'merge',
         });
+    }
+
+    mudarOrdenacao(): void {
+        this.aplicarFiltros();
+    }
+
+    limparPreco(): void {
+        this.filtros.precoMin = 0;
+        this.filtros.precoMax =
+            this.maxPrecoLimite > 0 ? this.maxPrecoLimite : 99990;
+        this.aplicarFiltros();
     }
 
     selecionarCategoria(id: string): void {
@@ -143,7 +178,6 @@ export class SearchPageComponent implements OnInit {
 
     toggleMarca(marca: string): void {
         if (!this.filtros.marcas) this.filtros.marcas = [];
-
         const index = this.filtros.marcas.indexOf(marca);
         if (index > -1) {
             this.filtros.marcas.splice(index, 1);
@@ -184,18 +218,39 @@ export class SearchPageComponent implements OnInit {
 
     buscarProdutos(): void {
         this.loading = true;
+
+        const pageable: any = { page: 0, size: 12 };
+        if (this.ordenacaoAtual) {
+            pageable.sort = [this.ordenacaoAtual];
+        }
+
         this.catalogoService
-            .buscarProdutosComFiltro(this.filtros, { page: 0, size: 12 })
+            .buscarProdutosComFiltro(this.filtros, pageable)
             .subscribe({
                 next: (response: any) => {
                     const pageInfo = response.page || response;
                     this.produtos = response.content || [];
                     this.totalElements =
                         pageInfo.totalElements || this.produtos.length;
+
+                    if (this.produtos.length > 0) {
+                        const maxPrecoNaLista = Math.max(
+                            ...this.produtos.map((p) => p.preco),
+                        );
+                        if (
+                            maxPrecoNaLista > this.maxPrecoLimite ||
+                            this.maxPrecoLimite === 5000
+                        ) {
+                            this.maxPrecoLimite = Math.ceil(maxPrecoNaLista);
+                        }
+                        if (this.filtros.precoMax === 99990) {
+                            this.filtros.precoMax = this.maxPrecoLimite;
+                        }
+                    }
                     this.loading = false;
                 },
                 error: (err) => {
-                    console.error('Erro ao buscar produtos', err);
+                    console.error(err);
                     this.loading = false;
                 },
             });

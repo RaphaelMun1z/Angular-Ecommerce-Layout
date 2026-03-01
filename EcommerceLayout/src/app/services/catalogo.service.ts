@@ -1,9 +1,9 @@
-import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Page, PageableParams } from '../models/shared.models';
-import { Produto, ProdutoFiltro, Categoria, ProdutoRequest } from '../models/catalogo.models';
-import { Observable, tap } from 'rxjs';
+import { Produto, ProdutoFiltro, Categoria, ProdutoRequest, CategoriaRequest } from '../models/catalogo.models';
+import { Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
@@ -11,15 +11,19 @@ import { Observable, tap } from 'rxjs';
 export class CatalogoService {
     private http = inject(HttpClient);
     private apiUrl = `${environment.apiUrl}`;
-        
+    private categoriasUrl = `${this.apiUrl}/categorias`;
+    private produtosUrl = `${this.apiUrl}/produtos`;
+
+    // --- MÉTODOS DE PRODUTOS ---
+
     listarProdutosVitrine(pageable?: PageableParams): Observable<Page<Produto>> {
         let params = this.buildPageParams(pageable);
-        return this.http.get<Page<Produto>>(`${this.apiUrl}/produtos/vitrine`, { params });
+        return this.http.get<Page<Produto>>(`${this.produtosUrl}/vitrine`, { params });
     }
     
     listarTodosProdutosAdmin(pageable?: PageableParams): Observable<Page<Produto>> {
         let params = this.buildPageParams(pageable);
-        return this.http.get<Page<Produto>>(`${this.apiUrl}/produtos`, { params });
+        return this.http.get<Page<Produto>>(`${this.produtosUrl}`, { params });
     }
     
     buscarProdutosComFiltro(filtro: ProdutoFiltro, pageable?: PageableParams): Observable<Page<Produto>> {
@@ -30,37 +34,70 @@ export class CatalogoService {
         if (filtro.precoMax !== undefined) params = params.set('precoMax', filtro.precoMax.toString());
         if (filtro.apenasAtivos !== undefined) params = params.set('apenasAtivos', filtro.apenasAtivos);
         
-        return this.http.get<Page<Produto>>(`${this.apiUrl}/produtos/buscar`, { params });
+        return this.http.get<Page<Produto>>(`${this.produtosUrl}/buscar`, { params });
     }
     
     obterProduto(id: string): Observable<Produto> {
-        return this.http.get<Produto>(`${this.apiUrl}/produtos/${id}`);
+        return this.http.get<Produto>(`${this.produtosUrl}/${id}`);
     }
     
     salvarProduto(produto: ProdutoRequest): Observable<Produto> {
-        return this.http.post<Produto>(`${this.apiUrl}/produtos`, produto);
+        return this.http.post<Produto>(`${this.produtosUrl}`, produto);
     }
     
     atualizarProduto(id: string, produto: ProdutoRequest): Observable<Produto> {
-        return this.http.put<Produto>(`${this.apiUrl}/produtos/${id}`, produto);
+        return this.http.put<Produto>(`${this.produtosUrl}/${id}`, produto);
     }
     
     excluirProduto(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/produtos/${id}`);
+        return this.http.delete<void>(`${this.produtosUrl}/${id}`);
     }
     
     ativarProduto(id: string): Observable<void> {
-        return this.http.patch<void>(`${this.apiUrl}/produtos/${id}/ativar`, {});
+        return this.http.patch<void>(`${this.produtosUrl}/${id}/ativar`, {});
     }
     
     desativarProduto(id: string): Observable<void> {
-        return this.http.patch<void>(`${this.apiUrl}/produtos/${id}/desativar`, {});
+        return this.http.patch<void>(`${this.produtosUrl}/${id}/desativar`, {});
     }
-        
+
+    // --- MÉTODOS DE CATEGORIAS (ALINHADOS COM O CONTROLLER) ---
+
+    listarTodasCategorias(pageable?: PageableParams): Observable<Page<Categoria>> {
+        const params = this.buildPageParams(pageable);
+        return this.http.get<Page<Categoria>>(`${this.categoriasUrl}`, { params });
+    }
+
     listarCategoriasAtivas(pageable?: PageableParams): Observable<Page<Categoria>> {
         const params = this.buildPageParams(pageable);
-        return this.http.get<Page<Categoria>>(`${this.apiUrl}/categorias/ativas`, { params });
+        return this.http.get<Page<Categoria>>(`${this.categoriasUrl}/ativas`, { params });
     }
+
+    obterCategoria(id: string): Observable<Categoria> {
+        return this.http.get<Categoria>(`${this.categoriasUrl}/${id}`);
+    }
+
+    salvarCategoria(categoria: CategoriaRequest): Observable<Categoria> {
+        return this.http.post<Categoria>(`${this.categoriasUrl}`, categoria);
+    }
+
+    atualizarCategoria(id: string, categoria: CategoriaRequest): Observable<Categoria> {
+        return this.http.put<Categoria>(`${this.categoriasUrl}/${id}`, categoria);
+    }
+
+    excluirCategoria(id: string): Observable<void> {
+        return this.http.delete<void>(`${this.categoriasUrl}/${id}`);
+    }
+
+    ativarCategoria(id: string): Observable<void> {
+        return this.http.patch<void>(`${this.categoriasUrl}/${id}/ativar`, {});
+    }
+
+    desativarCategoria(id: string): Observable<void> {
+        return this.http.patch<void>(`${this.categoriasUrl}/${id}/desativar`, {});
+    }
+
+    // --- UTILITÁRIOS ---
     
     private buildPageParams(pageable?: PageableParams): HttpParams {
         let params = new HttpParams();

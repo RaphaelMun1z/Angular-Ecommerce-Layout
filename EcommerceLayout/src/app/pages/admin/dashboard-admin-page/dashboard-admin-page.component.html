@@ -1,13 +1,9 @@
-<!-- Fundo de tela geral (Ocupa 100% da view) -->
 <div class="h-screen w-full bg-[#DDE1E8] p-2 md:p-4 lg:p-5 flex items-center justify-center font-sans text-gray-800 overflow-hidden">
     
-    <!-- Container Principal Branco (Expande totalmente o espaço disponível mantendo a margem da borda) -->
     <div class="w-full h-full bg-white rounded-[24px] md:rounded-[32px] p-2 md:p-3 flex shadow-2xl overflow-hidden relative">
       
-      <!-- Sidebar Desktop -->
-      <aside class="hidden md:flex flex-col w-[260px] h-full bg-[#0E0E12] rounded-[24px] text-white py-8 px-5 shrink-0 relative transition-all">
+      <aside class="hidden md:flex flex-col w-[260px] h-full bg-[#1a1c26] rounded-[24px] text-white py-8 px-5 shrink-0 relative transition-all">
         
-        <!-- Logo -->
         <a routerLink="/" class="flex items-center gap-3 px-3 mb-10 cursor-pointer">
           @if (config.logoUrl) {
             <img [src]="config.logoUrl" class="h-8 w-auto object-contain" />
@@ -22,230 +18,140 @@
           </span>
         </a>
 
-        <!-- Menu de Navegação -->
-        <nav class="flex-1 space-y-2 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <nav class="flex-1 space-y-7 overflow-y-auto [&::-webkit-scrollbar]:hidden">
           
-          <p class="px-4 text-[10px] font-bold text-[#8A8C98]/60 uppercase tracking-widest mb-3 mt-2">Principal</p>
-          
-          <!-- Dashboard -->
-          <a routerLink="/dashboard-admin" routerLinkActive="active" #rlaDash="routerLinkActive" [routerLinkActiveOptions]="{exact: true}"
-             class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-             [ngClass]="rlaDash.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-            <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                 [ngClass]="rlaDash.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-              <i class="ph ph-squares-four text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaDash.isActive}"></i>
-            </div>
-            <span class="text-[15px] font-medium">Dashboard</span>
-          </a>
-          
-          <!-- Pedidos -->
-          <a routerLink="/dashboard-admin/pedidos" routerLinkActive="active" #rlaPedidos="routerLinkActive"
-             class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-             [ngClass]="rlaPedidos.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-            <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                 [ngClass]="rlaPedidos.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-              <i class="ph ph-shopping-cart-simple text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaPedidos.isActive}"></i>
-            </div>
-            <span class="text-[15px] font-medium">Pedidos</span>
-          </a>
+          <div class="space-y-3 border-l-4 border-[#f45b49] pl-3 ml-1">
+            <p class="px-3 text-[10px] font-black text-[#f45b49] uppercase tracking-widest mb-1">Principal</p>
+            
+            <a routerLink="/dashboard-admin" routerLinkActive="active" #rlaDash="routerLinkActive" [routerLinkActiveOptions]="{exact: true}"
+               class="flex items-center gap-3 px-3 py-2 rounded-full transition-colors group"
+               [ngClass]="rlaDash.isActive ? 'bg-[#f45b49] text-white shadow-lg shadow-[#f45b49]/20' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+              <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
+                   [ngClass]="rlaDash.isActive ? 'border-white/25' : 'border-gray-700 group-hover:border-gray-500'">
+                <i class="ph ph-squares-four text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaDash.isActive}"></i>
+              </div>
+              <span class="text-[14px] font-bold">Dashboard</span>
+            </a>
+          </div>
 
-          <!-- Produtos -->
-          <a routerLink="/dashboard-admin/produtos" routerLinkActive="active" #rlaProdutos="routerLinkActive"
-             class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-             [ngClass]="rlaProdutos.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-            <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                 [ngClass]="rlaProdutos.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-              <i class="ph ph-package text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaProdutos.isActive}"></i>
-            </div>
-            <span class="text-[15px] font-medium">Produtos</span>
-          </a>
+          <div class="space-y-3 border-l-4 border-[#5252FF] pl-3 ml-1">
+            <p class="px-3 text-[10px] font-black text-[#5252FF] uppercase tracking-widest mb-1">Vendas & CRM</p>
+            
+            <div class="space-y-1.5">
+                <a routerLink="/dashboard-admin/pedidos" routerLinkActive="active" #rlaPedidos="routerLinkActive"
+                   class="flex items-center gap-3 px-3 py-2 rounded-full transition-colors group"
+                   [ngClass]="rlaPedidos.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                  <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
+                       [ngClass]="rlaPedidos.isActive ? 'border-white/25' : 'border-gray-700 group-hover:border-gray-500'">
+                    <i class="ph ph-shopping-cart-simple text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaPedidos.isActive}"></i>
+                  </div>
+                  <span class="text-[14px] font-bold">Pedidos</span>
+                </a>
 
-          <!-- Clientes -->
-          <a routerLink="/dashboard-admin/clientes" routerLinkActive="active" #rlaClientes="routerLinkActive"
-             class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-             [ngClass]="rlaClientes.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-            <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                 [ngClass]="rlaClientes.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-              <i class="ph ph-users text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaClientes.isActive}"></i>
-            </div>
-            <span class="text-[15px] font-medium">Clientes</span>
-          </a>
-          
-          <!-- Novo Cliente -->
-          <a routerLink="/dashboard-admin/registrar-cliente" routerLinkActive="active" #rlaNovoCliente="routerLinkActive"
-             class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-             [ngClass]="rlaNovoCliente.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-            <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                 [ngClass]="rlaNovoCliente.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-              <i class="ph ph-user-plus text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaNovoCliente.isActive}"></i>
-            </div>
-            <span class="text-[15px] font-medium">Novo Cliente</span>
-          </a>
-
-          <!-- Novo Produto -->
-          <a routerLink="/dashboard-admin/registrar-product" routerLinkActive="active" #rlaNovoProd="routerLinkActive"
-             class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-             [ngClass]="rlaNovoProd.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-            <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                 [ngClass]="rlaNovoProd.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-              <i class="ph ph-plus-circle text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaNovoProd.isActive}"></i>
-            </div>
-            <span class="text-[15px] font-medium">Novo Produto</span>
-          </a>
-
-          <p class="px-4 text-[10px] font-bold text-[#8A8C98]/60 uppercase tracking-widest mt-6 mb-3">Gestão</p>
-
-          <!-- Relatórios -->
-          <a routerLink="/dashboard-admin/relatorios-administrativos" routerLinkActive="active" #rlaRel="routerLinkActive"
-             class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-             [ngClass]="rlaRel.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-            <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                 [ngClass]="rlaRel.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-              <i class="ph ph-chart-line-up text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaRel.isActive}"></i>
-            </div>
-            <span class="text-[15px] font-medium">Relatórios</span>
-          </a>
-        </nav>
-
-        <!-- Perfil do Usuário / Botão de Sair (Hover) -->
-        <div (click)="logout()" class="mt-4 rounded-[100px] p-1.5 pr-3 flex items-center justify-between border border-white/10 cursor-pointer hover:bg-red-500/10 hover:border-red-500/30 transition-all group" title="Sair do Sistema">
-          <div class="flex items-center gap-3 overflow-hidden">
-            <img [src]="'https://ui-avatars.com/api/?name=' + (adminUser()?.email || 'Admin') + '&background=5252FF&color=fff'" class="w-9 h-9 rounded-full object-cover shrink-0" />
-            <div class="flex flex-col truncate">
-              <span class="text-[13px] font-medium text-white leading-tight truncate">{{ adminUser()?.email?.split('@')?.at(0) || 'Administrador' }}</span>
-              <span class="text-[11px] text-[#8A8C98] mt-0.5 group-hover:text-red-400 transition-colors">Sair do sistema</span>
+                <a routerLink="/dashboard-admin/clientes" routerLinkActive="active" #rlaClientes="routerLinkActive"
+                   class="flex items-center gap-3 px-3 py-2 rounded-full transition-colors group"
+                   [ngClass]="rlaClientes.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                  <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
+                       [ngClass]="rlaClientes.isActive ? 'border-white/25' : 'border-gray-700 group-hover:border-gray-500'">
+                    <i class="ph ph-users text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaClientes.isActive}"></i>
+                  </div>
+                  <span class="text-[14px] font-bold">Clientes</span>
+                </a>
             </div>
           </div>
-          <div class="w-6 h-6 rounded-full bg-[#2A2A32] flex items-center justify-center shrink-0 group-hover:bg-red-500/20 transition-colors">
-            <i class="ph-bold ph-sign-out text-[#8A8C98] group-hover:text-red-500 text-[10px] transition-colors"></i>
+
+          <div class="space-y-3 border-l-4 border-emerald-400 pl-3 ml-1">
+            <p class="px-3 text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">Catálogo</p>
+            
+            <div class="space-y-1.5">
+                <a routerLink="/dashboard-admin/produtos" routerLinkActive="active" #rlaProdutos="routerLinkActive"
+                   class="flex items-center gap-3 px-3 py-2 rounded-full transition-colors group"
+                   [ngClass]="rlaProdutos.isActive ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                  <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
+                       [ngClass]="rlaProdutos.isActive ? 'border-white/25' : 'border-gray-700 group-hover:border-gray-500'">
+                    <i class="ph ph-package text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaProdutos.isActive}"></i>
+                  </div>
+                  <span class="text-[14px] font-bold">Produtos</span>
+                </a>
+
+				 <a routerLink="/dashboard-admin/registrar-product" routerLinkActive="active" #rlaNovoProd="routerLinkActive"
+                   class="flex items-center gap-3 px-3 py-2 rounded-full transition-colors group"
+                   [ngClass]="rlaNovoProd.isActive ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                  <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
+                       [ngClass]="rlaNovoProd.isActive ? 'border-white/25' : 'border-gray-700 group-hover:border-gray-500'">
+                    <i class="ph ph-plus-circle text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaNovoProd.isActive}"></i>
+                  </div>
+                  <span class="text-[14px] font-bold">Novo Produto</span>
+                </a>
+
+                <a routerLink="/dashboard-admin/categorias" routerLinkActive="active" #rlaListCat="routerLinkActive"
+                   class="flex items-center gap-3 px-3 py-2 rounded-full transition-colors group"
+                   [ngClass]="rlaListCat.isActive ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                  <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
+                       [ngClass]="rlaListCat.isActive ? 'border-white/25' : 'border-gray-700 group-hover:border-gray-500'">
+                    <i class="ph ph-tag text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaListCat.isActive}"></i>
+                  </div>
+                  <span class="text-[14px] font-bold">Categorias</span>
+                </a>
+
+				<a routerLink="/dashboard-admin/registrar-categoria" routerLinkActive="active" #rlaNovaCat="routerLinkActive"
+                   class="flex items-center gap-3 px-3 py-2 rounded-full transition-colors group"
+                   [ngClass]="rlaNovaCat.isActive ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                  <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
+                       [ngClass]="rlaNovaCat.isActive ? 'border-white/25' : 'border-gray-700 group-hover:border-gray-500'">
+                    <i class="ph ph-plus-circle text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaNovaCat.isActive}"></i>
+                  </div>
+                  <span class="text-[14px] font-bold">Nova Catergoria</span>
+                </a>
+            </div>
+          </div>
+
+          <div class="space-y-3 border-l-4 border-purple-400 pl-3 ml-1">
+            <p class="px-3 text-[10px] font-black text-purple-400 uppercase tracking-widest mb-1">Gestão</p>
+            
+            <a routerLink="/dashboard-admin/relatorios-administrativos" routerLinkActive="active" #rlaRel="routerLinkActive"
+               class="flex items-center gap-3 px-3 py-2 rounded-full transition-colors group"
+               [ngClass]="rlaRel.isActive ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+              <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
+                   [ngClass]="rlaRel.isActive ? 'border-white/25' : 'border-gray-700 group-hover:border-gray-500'">
+                <i class="ph ph-chart-line-up text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaRel.isActive}"></i>
+              </div>
+              <span class="text-[14px] font-bold">Relatórios</span>
+            </a>
+          </div>
+        </nav>
+
+        <div (click)="logout()" class="mt-4 rounded-[100px] p-1.5 pr-3 flex items-center justify-between bg-white/5 border border-white/10 cursor-pointer hover:bg-red-500/10 transition-all group">
+          <div class="flex items-center gap-3 overflow-hidden">
+            <img [src]="'https://ui-avatars.com/api/?name=' + (adminUser()?.email || 'Admin') + '&background=f45b49&color=fff'" class="w-9 h-9 rounded-full object-cover shrink-0" />
+            <div class="flex flex-col truncate">
+              <span class="text-[12px] font-bold text-white leading-tight truncate">{{ adminUser()?.email?.split('@')?.at(0) || 'Administrador' }}</span>
+              <span class="text-[10px] text-gray-500 group-hover:text-red-400 uppercase font-black tracking-tighter">Sair</span>
+            </div>
+          </div>
+          <div class="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-red-500/20 transition-colors">
+            <i class="ph-bold ph-sign-out text-gray-500 group-hover:text-red-500 text-[10px]"></i>
           </div>
         </div>
       </aside>
 
-      <!-- Conteúdo Principal (Direita) -->
-      <!-- bg-[#F8F9FA] adiciona um contraste leve e premium para os cards brancos da página de produto se destacarem -->
       <main class="flex-1 bg-[#F8F9FA] flex flex-col overflow-hidden relative">
-        
-        <!-- Cabeçalho / Barra Superior -->
-        <header class="h-20 md:h-24 px-6 lg:px-10 bg-white flex items-center justify-between shrink-0 border-b border-gray-200 shadow-sm z-10">
+        <header class="h-20 md:h-24 px-6 lg:px-10 bg-white flex items-center justify-between shrink-0 border-b border-gray-200 z-10">
           <div class="flex items-center gap-4">
-            <!-- Botão Menu Mobile -->
-            <button (click)="toggleSidebar()" class="md:hidden w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors cursor-pointer">
+            <button (click)="toggleSidebar()" class="md:hidden w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50 cursor-pointer">
               <i class="ph ph-list text-xl"></i>
             </button>
-            
             <div class="hidden sm:block">
-              <h1 class="text-[24px] font-bold text-gray-900 tracking-tight">Painel Administrativo</h1>
-              <p class="text-[13px] text-gray-500 mt-0.5">Gerenciamento central de operações</p>
+              <h1 class="text-[22px] font-bold text-[#101828] tracking-tight">Administração</h1>
+              <p class="text-[12px] text-gray-400 font-medium mt-0.5">Visão central do ecossistema</p>
             </div>
           </div>
         </header>
         
-        <!-- Área onde os componentes filhos são renderizados -->
         <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth animate-fade-in">
           <router-outlet></router-outlet>
         </div>
       </main>
 
-    <!-- Mobile Sidebar Overlay -->
-    @if (isSidebarOpen()) {
-        <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-40 md:hidden animate-fade-in" (click)="toggleSidebar()"></div>
-        
-        <aside class="fixed inset-y-0 left-0 w-[280px] bg-[#0E0E12] shadow-2xl z-50 transform transition-transform md:hidden flex flex-col py-6 px-4">
-            
-            <!-- Mobile Logo & Fechar -->
-            <div class="flex items-center justify-between px-2 mb-8">
-                <a routerLink="/" (click)="toggleSidebar()" class="flex items-center gap-3">
-                    <div class="relative">
-                        <i class="ph-fill ph-shopping-cart text-[24px] text-white"></i>
-                        <i class="ph-fill ph-funnel text-[13px] text-[#5252FF] absolute -top-0.5 right-0 translate-x-1"></i>
-                    </div>
-                    <span class="text-xl font-bold tracking-wide text-white">Ecooma</span>
-                </a>
-                <button (click)="toggleSidebar()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors">
-                    <i class="ph-bold ph-x text-sm"></i>
-                </button>
-            </div>
-
-            <!-- Mobile Nav -->
-            <nav class="flex-1 space-y-2 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                
-                <a routerLink="/dashboard-admin" (click)="toggleSidebar()" routerLinkActive="active" #rlaMobDash="routerLinkActive" [routerLinkActiveOptions]="{exact: true}" 
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-                   [ngClass]="rlaMobDash.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-                    <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                         [ngClass]="rlaMobDash.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-                        <i class="ph ph-squares-four text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaMobDash.isActive}"></i>
-                    </div>
-                    <span class="text-[15px] font-medium">Dashboard</span>
-                </a>
-
-                <a routerLink="/dashboard-admin/pedidos" (click)="toggleSidebar()" routerLinkActive="active" #rlaMobPedidos="routerLinkActive"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-                   [ngClass]="rlaMobPedidos.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-                    <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                         [ngClass]="rlaMobPedidos.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-                        <i class="ph ph-shopping-cart-simple text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaMobPedidos.isActive}"></i>
-                    </div>
-                    <span class="text-[15px] font-medium">Pedidos</span>
-                </a>
-
-                <a routerLink="/dashboard-admin/produtos" (click)="toggleSidebar()" routerLinkActive="active" #rlaMobProdutos="routerLinkActive"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-                   [ngClass]="rlaMobProdutos.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-                    <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                         [ngClass]="rlaMobProdutos.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-                        <i class="ph ph-package text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaMobProdutos.isActive}"></i>
-                    </div>
-                    <span class="text-[15px] font-medium">Produtos</span>
-                </a>
-
-                <a routerLink="/dashboard-admin/clientes" (click)="toggleSidebar()" routerLinkActive="active" #rlaMobClientes="routerLinkActive"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-                   [ngClass]="rlaMobClientes.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-                    <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                         [ngClass]="rlaMobClientes.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-                        <i class="ph ph-users text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaMobClientes.isActive}"></i>
-                    </div>
-                    <span class="text-[15px] font-medium">Clientes</span>
-                </a>
-
-                <a routerLink="/dashboard-admin/registrar-cliente" (click)="toggleSidebar()" routerLinkActive="active" #rlaMobNovoCliente="routerLinkActive"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-                   [ngClass]="rlaMobNovoCliente.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-                    <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                         [ngClass]="rlaMobNovoCliente.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-                        <i class="ph ph-user-plus text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaMobNovoCliente.isActive}"></i>
-                    </div>
-                    <span class="text-[15px] font-medium">Novo Cliente</span>
-                </a>
-
-                <a routerLink="/dashboard-admin/registrar-product" (click)="toggleSidebar()" routerLinkActive="active" #rlaMobNovoProd="routerLinkActive"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-                   [ngClass]="rlaMobNovoProd.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-                    <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                         [ngClass]="rlaMobNovoProd.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-                        <i class="ph ph-plus-circle text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaMobNovoProd.isActive}"></i>
-                    </div>
-                    <span class="text-[15px] font-medium">Novo Produto</span>
-                </a>
-
-                <a routerLink="/dashboard-admin/relatorios-administrativos" (click)="toggleSidebar()" routerLinkActive="active" #rlaMobRel="routerLinkActive"
-                   class="flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors group"
-                   [ngClass]="rlaMobRel.isActive ? 'bg-[#5252FF] text-white shadow-lg shadow-[#5252FF]/20' : 'text-[#8A8C98] hover:text-white hover:bg-white/5'">
-                    <div class="flex items-center justify-center w-[34px] h-[34px] rounded-full border transition-colors shrink-0"
-                         [ngClass]="rlaMobRel.isActive ? 'border-white/25' : 'border-[#8A8C98]/30 group-hover:border-[#8A8C98]/60'">
-                        <i class="ph ph-chart-line-up text-[18px]" [ngClass]="{'group-hover:scale-110 transition-transform': !rlaMobRel.isActive}"></i>
-                    </div>
-                    <span class="text-[15px] font-medium">Relatórios</span>
-                </a>
-            </nav>
-
-            <button (click)="logout()" class="mt-4 flex items-center justify-center gap-2 px-4 py-3.5 bg-red-500/10 text-red-500 font-bold rounded-2xl border border-red-500/20 hover:bg-red-500/20 transition-colors w-full">
-                <i class="ph-bold ph-sign-out text-lg"></i>
-                Sair do Sistema
-            </button>
-        </aside>
-    }
     </div>
 </div>

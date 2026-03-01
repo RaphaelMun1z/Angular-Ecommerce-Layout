@@ -7,10 +7,11 @@ import { FavoritoService } from '../../../../services/favorito.service';
 import { Produto } from '../../../../models/catalogo.models';
 import { ProductCardComponent } from '../../product/product-card/product-card.component';
 import { ToastService } from '../../../../services/toast.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-my-favorite-products',
-    imports: [CommonModule, ProductCardComponent],
+    imports: [CommonModule, ProductCardComponent, RouterLink],
     templateUrl: './my-favorite-products.component.html',
     styleUrl: './my-favorite-products.component.css',
 })

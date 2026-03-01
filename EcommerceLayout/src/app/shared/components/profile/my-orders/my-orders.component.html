@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4 py-4 max-w-5xl min-h-[60vh]">
     <div class="mb-8 border-b border-gray-100 pb-4">
-        <h1 class="text-3xl font-bold text-gray-900">Meus Pedidos</h1>
+        <h1 class="text-3xl font-bold text-[#101828]">Meus Pedidos</h1>
         <p class="text-gray-500 mt-1">Acompanhe o status e histórico das suas compras.</p>
     </div>
     
@@ -37,11 +37,11 @@
     @else if (orders().length === 0) {
         <div class="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
             <div class="inline-flex bg-white p-4 rounded-full shadow-sm mb-4">
-                <i class="ph-duotone ph-shopping-bag text-4xl text-brand-600"></i>
+                <i class="ph-duotone ph-shopping-bag text-4xl text-[#f45b49]"></i>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Ainda não tem pedidos</h3>
+            <h3 class="text-xl font-bold text-[#101828] mb-2">Ainda não tem pedidos</h3>
             <p class="text-gray-500 mb-8 max-w-md mx-auto">Explore o nosso catálogo e encontre os melhores produtos.</p>
-            <a routerLink="/inicio" class="inline-flex items-center px-6 py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition-all shadow-lg shadow-brand-500/20 transform hover:-translate-y-0.5">
+            <a routerLink="/inicio" class="inline-flex items-center px-6 py-3 bg-[#f45b49] text-white font-bold rounded-xl hover:brightness-110 transition-all shadow-lg shadow-[#f45b49]/20 transform hover:-translate-y-0.5">
                 Ir para a Loja
                 <i class="ph-bold ph-arrow-right ml-2"></i>
             </a>
@@ -51,16 +51,16 @@
     @else {
         <div class="space-y-6">
             @for (order of orders(); track order.id) {
-                <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all overflow-hidden group">
+                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden group hover:border-[#101828]/20 transition-colors">
                     
                     <div class="p-6 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gray-50/50">
                         <div class="flex items-start gap-4">
                             <div class="bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
-                                <i class="ph-duotone ph-package text-2xl text-brand-600"></i>
+                                <i class="ph-duotone ph-package text-2xl text-[#f45b49]"></i>
                             </div>
                             <div>
                                 <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Pedido #{{ order.id.slice(0, 8) }}...</p>
-                                <p class="text-sm font-medium text-gray-900 mt-0.5">
+                                <p class="text-sm font-medium text-[#101828] mt-0.5">
                                     Realizado em {{ order.dataPedido | date:"d 'de' MMMM, y 'às' HH:mm" }}
                                 </p>
                             </div>
@@ -83,17 +83,17 @@
                             @for (item of order.itens.slice(0, 3); track $index) {
                                 <div class="flex items-center justify-between text-sm">
                                     <div class="flex items-center gap-2">
-                                        <span class="w-5 h-5 flex items-center justify-center bg-gray-100 rounded text-xs font-bold text-gray-600">
+                                        <span class="w-5 h-5 flex items-center justify-center bg-[#101828]/5 rounded text-xs font-bold text-[#101828]">
                                             {{ item.quantidade }}x
                                         </span>
                                         <span class="text-gray-700 truncate max-w-[200px] sm:max-w-[300px]">{{ item.nomeProduto }}</span>
                                     </div>
-                                    <span class="text-gray-900 font-medium">{{ item.subTotal | currency:'BRL' }}</span>
+                                    <span class="text-[#101828] font-semibold">{{ item.subTotal | currency:'BRL' }}</span>
                                 </div>
                             }
                             
                             @if (order.itens.length > 3) {
-                                <p class="text-xs text-gray-500 mt-2 font-medium italic">
+                                <p class="text-xs text-[#f45b49] mt-2 font-medium italic">
                                     + {{ order.itens.length - 3 }} outros itens...
                                 </p>
                             }
@@ -102,13 +102,13 @@
                         <div class="md:w-64 md:border-l md:border-gray-100 md:pl-6 flex flex-col justify-between gap-4">
                             <div>
                                 <p class="text-xs font-bold text-gray-400 uppercase mb-1">Valor Total</p>
-                                <p class="text-2xl font-extrabold text-brand-600">
+                                <p class="text-2xl font-extrabold text-[#f45b49]">
                                     {{ order.valorTotal | currency:'BRL' }}
                                 </p>
                             </div>
                             
                             <a [routerLink]="['/pedido', order.id]" 
-                            class="w-full inline-flex items-center justify-center px-4 py-2.5 border border-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-50 hover:text-brand-600 hover:border-brand-200 transition-all text-sm group/btn">
+                            class="w-full inline-flex items-center justify-center px-4 py-2.5 border border-[#101828] text-[#101828] font-bold rounded-lg hover:bg-[#101828] hover:text-white transition-all text-sm group/btn">
                             Ver Detalhes
                             <i class="ph-bold ph-arrow-right ml-2 group-hover/btn:translate-x-1 transition-transform"></i>
                         </a>
@@ -116,7 +116,7 @@
                 </div>
             </div>
         </div>
+        }
+    </div>
     }
-</div>
-}
 </div>

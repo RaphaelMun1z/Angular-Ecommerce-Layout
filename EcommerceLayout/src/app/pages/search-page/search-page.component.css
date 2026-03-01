@@ -1,0 +1,59 @@
+/* Remove as setinhas (spinners) dos inputs numéricos */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* --- Estilização do Range Slider Duplo --- */
+
+/* O input range deve ser invisível, apenas a 'bolinha' deve ser clicável */
+input[type=range] {
+  -webkit-appearance: none; /* Remove estilo padrão Webkit */
+  pointer-events: none; /* Permite clicar através da barra */
+  background: transparent;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  outline: none;
+}
+
+/* Estilo da Bolinha (Thumb) - Webkit (Chrome, Edge, Safari) */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto; /* Reativa o clique na bolinha */
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f97316; /* Cor Laranja (Brand) */
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  cursor: pointer;
+  margin-top: -7px; /* Centraliza verticalmente na trilha */
+  transition: transform 0.1s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+input[type=range]::-webkit-slider-thumb:active {
+  background: #c2410c; /* Laranja mais escuro ao clicar */
+}
+
+/* Estilo da Bolinha (Thumb) - Firefox */
+input[type=range]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f97316;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  cursor: pointer;
+  border: none;
+}

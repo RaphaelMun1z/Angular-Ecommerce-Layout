@@ -23,6 +23,7 @@
         "@angular/router": "^19.1.0",
         "@phosphor-icons/web": "^2.1.2",
         "@tailwindcss/postcss": "^4.1.18",
+        "cpf-cnpj-validator": "^1.0.3",
         "jspdf": "^4.0.0",
         "jspdf-autotable": "^5.0.7",
         "ngx-mask": "^20.0.3",

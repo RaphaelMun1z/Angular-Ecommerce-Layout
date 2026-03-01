@@ -1,0 +1,107 @@
+<div class="space-y-6 animate-fade-in pb-10">
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
+        <div>
+            <h1 class="text-[26px] font-bold text-[#101828] tracking-tight uppercase">Gestão de Categorias</h1>
+            <p class="text-sm text-gray-500 mt-0.5 font-medium">Controle total do catálogo</p>
+        </div>
+		<button routerLink="/dashboard-admin/registrar-categoria" 
+                class="bg-[#f45b49] text-white text-sm font-black px-6 py-3 rounded-full border-2 border-[#f45b49] hover:brightness-110 transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 uppercase tracking-wider">
+            <i class="ph-bold ph-plus-circle text-lg"></i>
+            Nova Categoria
+        </button>
+    </header>
+    
+    <section class="px-2">
+        <div class="relative w-full md:w-96 group">
+            <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#f45b49] transition-colors text-lg"></i>
+            <input type="text" [ngModel]="searchTerm()" (ngModelChange)="onSearch($event)" placeholder="Buscar categoria..." 
+                   class="w-full pl-11 pr-4 py-3 bg-white border-2 border-gray-100 rounded-2xl focus:outline-none focus:border-[#f45b49] transition-all text-sm text-[#101828] placeholder:text-gray-300">
+        </div>
+    </section>
+
+    <div class="bg-white rounded-[32px] border-2 border-gray-100 overflow-hidden relative min-h-[500px] flex flex-col">
+        <div class="overflow-x-auto flex-1">
+            <table class="w-full text-left border-collapse min-w-[800px]">
+                <thead>
+                    <tr class="border-b-2 border-gray-50 bg-gray-50/50">
+                        <th class="py-5 px-8 font-black text-[11px] text-gray-400 uppercase tracking-widest">Categoria</th>
+                        <th class="py-5 px-8 font-black text-[11px] text-gray-400 uppercase tracking-widest text-center">Status</th>
+                        <th class="py-5 px-8 font-black text-[11px] text-gray-400 uppercase tracking-widest text-center w-32">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y-2 divide-gray-50">
+                    @if (isLoading()) {
+                        @for (i of [1,2,3]; track i) {
+                            <tr class="animate-pulse bg-white">
+                                <td class="py-6 px-8"><div class="h-10 w-48 bg-gray-100 rounded-xl"></div></td>
+                                <td class="py-6 px-8"><div class="h-8 w-20 bg-gray-100 mx-auto rounded-full"></div></td>
+                                <td class="py-6 px-8"><div class="h-10 w-24 bg-gray-50 mx-auto rounded-xl"></div></td>
+                            </tr>
+                        }
+                    } @else {
+                        @for (cat of categories(); track cat.id) {
+                            <tr class="hover:bg-gray-50/80 transition-colors group">
+                                <td class="py-5 px-8">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-2xl bg-[#101828] text-[#f45b49] flex items-center justify-center shrink-0 border-2 border-[#101828]">
+                                            <i class="ph-bold ph-tag text-xl"></i>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="font-bold text-sm text-[#101828]">{{ cat.nome }}</span>
+                                            <span class="text-[10px] font-mono text-gray-400">ID: {{ cat.id.substring(0, 8) }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-5 px-8 text-center">
+                                    <button (click)="toggleStatus(cat)" 
+                                          [ngClass]="cat.ativa ? 'text-emerald-600 bg-emerald-50 border-emerald-100' : 'text-rose-600 bg-rose-50 border-rose-100'"
+                                          class="px-3 py-1 rounded-lg text-[10px] font-black uppercase border-2 tracking-tighter inline-flex items-center gap-1.5 transition-all hover:scale-105 cursor-pointer">
+                                        <span class="w-1.5 h-1.5 rounded-full" [ngClass]="cat.ativa ? 'bg-emerald-500' : 'bg-rose-500'"></span>
+                                        {{ cat.ativa ? 'Ativa' : 'Inativa' }}
+                                    </button>
+                                </td>
+                                <td class="py-5 px-8 text-center">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button [routerLink]="['/dashboard-admin/registrar-categoria']" [queryParams]="{ id: cat.id }"
+                                                class="w-10 h-10 rounded-xl border-2 border-gray-100 text-gray-400 hover:text-[#101828] hover:border-[#101828] transition-all cursor-pointer">
+                                            <i class="ph-bold ph-pencil-simple"></i>
+                                        </button>
+                                        <button (click)="deleteCategory(cat)"
+                                                class="w-10 h-10 rounded-xl border-2 border-gray-100 text-gray-400 hover:text-[#f45b49] hover:border-[#f45b49] transition-all cursor-pointer">
+                                            <i class="ph-bold ph-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="px-8 py-6 border-t-2 border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white">
+            <div class="flex items-center gap-3 text-[11px] font-black uppercase text-gray-400 tracking-widest">
+                <span>Exibir</span>
+                <select [ngModel]="pageSize()" (ngModelChange)="updatePageSize($event)" class="bg-gray-50 border-2 border-gray-100 text-[#101828] rounded-xl p-1.5 cursor-pointer">
+                    <option [value]="10">10</option>
+                    <option [value]="20">20</option>
+                </select>
+                <span>de {{ totalElements() }} categorias</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 0 || isLoading()" class="w-10 h-10 border-2 border-gray-100 rounded-xl disabled:opacity-30 hover:bg-gray-50 cursor-pointer">
+                    <i class="ph-bold ph-caret-left"></i>
+                </button>
+                @for (page of visiblePages(); track page) {
+                    <button (click)="goToPage(page)" [ngClass]="page === currentPage() ? 'bg-[#101828] text-white' : 'bg-white border-gray-100 text-gray-500'" class="w-10 h-10 border-2 rounded-xl text-xs font-black cursor-pointer transition-all">
+                        {{ page + 1 }}
+                    </button>
+                }
+                <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() >= (totalPages() - 1) || isLoading()" class="w-10 h-10 border-2 border-gray-100 rounded-xl disabled:opacity-30 hover:bg-gray-50 cursor-pointer">
+                    <i class="ph-bold ph-caret-right"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+</div>
