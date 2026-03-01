@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { PageableParams } from '../../../models/shared.models';
 import { Cliente } from '../../../models/usuario.models';
 import { UsuarioService } from '../../../services/usuario.service';
 import { NgxMaskPipe } from 'ngx-mask';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-admin-customers-page',
@@ -16,7 +16,7 @@ import { NgxMaskPipe } from 'ngx-mask';
 })
 export class AdminCustomersPageComponent implements OnInit {
     private usuarioService = inject(UsuarioService);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
 
     isLoading = signal(true);
     searchTerm = signal('');
@@ -117,7 +117,7 @@ export class AdminCustomersPageComponent implements OnInit {
                 },
                 error: (err) => {
                     console.error(err);
-                    this.toastr.error('Erro ao sincronizar lista de clientes.');
+                    this.toastService.error('Erro', 'Erro ao sincronizar lista de clientes.');
                     this.isLoading.set(false);
                 },
             });
@@ -125,9 +125,9 @@ export class AdminCustomersPageComponent implements OnInit {
 
     toggleStatus(customer: Cliente) {
         // Isso é apenas um mock. Substitua pela lógica real do backend.
-        this.toastr.info(
-            `Simulação: Status de ${customer.nome} alterado.`,
+        this.toastService.info(
             'Info',
+            `Simulação: Status de ${customer.nome} alterado.`,
         );
     }
 
@@ -137,7 +137,7 @@ export class AdminCustomersPageComponent implements OnInit {
                 `Tem certeza que deseja remover o cliente "${customer.nome}"?`,
             )
         ) {
-            this.toastr.info('Ação de exclusão enviada.');
+            this.toastService.info('Info', 'Ação de exclusão enviada.');
         }
     }
 }

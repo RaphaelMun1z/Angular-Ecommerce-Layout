@@ -15,12 +15,12 @@ import {
     Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/auth/auth.service';
 import { RegisterRequest } from '../../../models/auth.models';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Observable, Subject, debounceTime, takeUntil } from 'rxjs';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-register-customer-page',
@@ -39,7 +39,7 @@ export class RegisterCustomerPageComponent implements OnInit, OnDestroy {
     private authService = inject(AuthService);
     private usuarioService = inject(UsuarioService);
     private http = inject(HttpClient);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
     private destroy$ = new Subject<void>();
@@ -164,7 +164,7 @@ export class RegisterCustomerPageComponent implements OnInit, OnDestroy {
                 this.isLoading.set(false);
             },
             error: () => {
-                this.toastr.error('Erro ao carregar dados do cliente.');
+                this.toastService.error('Erro', 'Erro ao carregar dados do cliente.');
                 this.router.navigate(['/dashboard-admin/clientes']);
             },
         });
@@ -180,9 +180,9 @@ export class RegisterCustomerPageComponent implements OnInit, OnDestroy {
             this.currentStep.set(this.currentStep() + 1);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-            this.toastr.warning(
-                'Preencha os campos obrigatórios corretamente para avançar.',
+            this.toastService.warning(
                 'Atenção',
+                'Preencha os campos obrigatórios corretamente para avançar.',
             );
             this.markStepAsTouched();
         }
@@ -249,7 +249,7 @@ export class RegisterCustomerPageComponent implements OnInit, OnDestroy {
         this.http.get<any>(`https://viacep.com.br/ws/${cep}/json/`).subscribe({
             next: (dados) => {
                 if (dados.erro) {
-                    this.toastr.warning('CEP não encontrado.');
+                    this.toastService.warning('CEP', 'CEP não encontrado.');
                 } else {
                     this.customerForm.patchValue({
                         street: dados.logradouro,
@@ -259,7 +259,7 @@ export class RegisterCustomerPageComponent implements OnInit, OnDestroy {
                     });
                 }
             },
-            error: () => this.toastr.error('Erro ao buscar CEP.'),
+            error: () => this.toastService.error('CEP', 'Erro ao buscar CEP.'),
             complete: () => this.isLoadingCep.set(false),
         });
     }
@@ -272,7 +272,7 @@ export class RegisterCustomerPageComponent implements OnInit, OnDestroy {
     onSubmit() {
         if (this.customerForm.invalid) {
             this.customerForm.markAllAsTouched();
-            this.toastr.warning('Existem campos inválidos no formulário.');
+            this.toastService.warning('Formulário Inválido', 'Existem campos inválidos no formulário.');
             return;
         }
 
@@ -309,7 +309,8 @@ export class RegisterCustomerPageComponent implements OnInit, OnDestroy {
 
         request$.subscribe({
             next: () => {
-                this.toastr.success(
+                this.toastService.success(
+                    'Sucesso',
                     `Cliente ${this.isEditing() ? 'atualizado' : 'cadastrado'} com sucesso!`,
                 );
                 localStorage.removeItem(this.DRAFT_KEY);
@@ -317,7 +318,8 @@ export class RegisterCustomerPageComponent implements OnInit, OnDestroy {
             },
             error: (err: any) => {
                 // CORREÇÃO: Tipando o 'err' como 'any' explicitamente
-                this.toastr.error(
+                this.toastService.error(
+                    'Erro',
                     err.error?.message || 'Erro ao processar cliente.',
                 );
                 this.isLoading.set(false);

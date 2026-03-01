@@ -8,7 +8,6 @@ import {
     Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Produto } from '../../../models/catalogo.models';
 import { PageableParams } from '../../../models/shared.models';
 import { CatalogoService } from '../../../services/catalogo.service';
@@ -17,6 +16,7 @@ import {
     MovimentacaoEstoqueRequest,
 } from '../../../models/estoque.models';
 import { EstoqueService } from '../../../services/estoque.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-admin-products-page',
@@ -27,7 +27,7 @@ import { EstoqueService } from '../../../services/estoque.service';
 export class AdminProductsPageComponent implements OnInit {
     private catalogoService = inject(CatalogoService);
     private estoqueService = inject(EstoqueService);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     private fb = inject(FormBuilder);
 
     isLoading = signal(true);
@@ -140,7 +140,7 @@ export class AdminProductsPageComponent implements OnInit {
                 },
                 error: (err) => {
                     console.error('Erro no carregamento:', err);
-                    this.toastr.error('Erro ao carregar catálogo.');
+                    this.toastService.error('Erro', 'Erro ao carregar catálogo.');
                     this.isLoading.set(false);
                 },
             });
@@ -193,12 +193,13 @@ export class AdminProductsPageComponent implements OnInit {
 
         this.estoqueService.registrarMovimentacao(request).subscribe({
             next: () => {
-                this.toastr.success('Estoque atualizado com sucesso!');
+                this.toastService.success('Estoque', 'Estoque atualizado com sucesso!');
                 this.showStockModal.set(false);
                 this.loadProducts();
             },
             error: (err) =>
-                this.toastr.error(
+                this.toastService.error(
+                    'Erro',
                     err.error?.message || 'Erro ao ajustar estoque.',
                 ),
             complete: () => this.isAdjusting.set(false),
@@ -212,11 +213,12 @@ export class AdminProductsPageComponent implements OnInit {
 
         action$.subscribe({
             next: () => {
-                this.toastr.success(`Status alterado com sucesso.`);
+                this.toastService.success('Sucesso', 'Status alterado com sucesso.');
                 this.loadProducts();
             },
             error: (err) =>
-                this.toastr.error(
+                this.toastService.error(
+                    'Erro',
                     err.error?.message || 'Erro ao alterar status.',
                 ),
         });
@@ -226,11 +228,11 @@ export class AdminProductsPageComponent implements OnInit {
         if (confirm(`Excluir permanentemente "${product.titulo}"?`)) {
             this.catalogoService.excluirProduto(product.id).subscribe({
                 next: () => {
-                    this.toastr.success('Produto removido.');
+                    this.toastService.success('Sucesso', 'Produto removido.');
                     this.loadProducts();
                 },
                 error: (err) =>
-                    this.toastr.error(err.error?.message || 'Erro ao excluir.'),
+                    this.toastService.error('Erro', err.error?.message || 'Erro ao excluir.'),
             });
         }
     }

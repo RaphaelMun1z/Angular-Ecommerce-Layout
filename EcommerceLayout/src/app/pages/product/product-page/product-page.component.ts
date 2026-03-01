@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { provideNgxMask } from 'ngx-mask';
 import { AuthService } from '../../../core/auth/auth.service';
 import { Produto } from '../../../models/catalogo.models';
@@ -12,6 +11,7 @@ import { FileUploadService } from '../../../services/fileUpload.service';
 import { FavoritoService } from '../../../services/favorito.service';
 import { ShippingCalculatorComponent } from "../../../shared/components/forms/shipping-calculator/shipping-calculator.component";
 import { SystemStatusService } from '../../../services/systemStatus.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-product-page',
@@ -24,7 +24,7 @@ import { SystemStatusService } from '../../../services/systemStatus.service';
 export class ProductPageComponent implements OnInit {
     private route = inject(ActivatedRoute);
     private router = inject(Router);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     private catalogoService = inject(CatalogoService);
     private carrinhoService = inject(CarrinhoService);
     private authService = inject(AuthService);
@@ -136,7 +136,7 @@ export class ProductPageComponent implements OnInit {
             if (id) {
                 this.loadProduct(id);
             } else {
-                this.toastr.error('ID do produto inválido');
+                this.toastService.error('Erro', 'ID do produto inválido');
                 this.router.navigate(['/']);
             }
         });
@@ -234,12 +234,12 @@ export class ProductPageComponent implements OnInit {
         if (!p) return;
         
         if (p.estoque <= 0) {
-            this.toastr.warning('Produto fora de estoque.');
+            this.toastService.warning('Estoque', 'Produto fora de estoque.');
             return;
         }
         
         if (!this.authService.isAuthenticated()) {
-            this.toastr.info('Faça login para comprar.');
+            this.toastService.info('Login', 'Faça login para comprar.');
             this.router.navigate(['/login']);
             return;
         }
@@ -247,13 +247,13 @@ export class ProductPageComponent implements OnInit {
         const userId = this.authService.currentUser()?.id;
         if (userId) {
             this.carrinhoService.adicionarItem(userId, p.id, this.quantity()).subscribe({
-                next: () => this.toastr.success(`Your order is placed! Thank you.`), 
-                error: () => this.toastr.error('Erro ao adicionar.')
+                next: () => this.toastService.success('Carrinho', 'Seu pedido foi feito! Obrigado.'), 
+                error: () => this.toastService.error('Erro', 'Erro ao adicionar ao carrinho.')
             });
         }
     }
     
     calculateShipping() {
-        this.toastr.info('Calculando opções de entrega...');
+        this.toastService.info('Frete', 'Calculando opções de entrega...');
     }
 }

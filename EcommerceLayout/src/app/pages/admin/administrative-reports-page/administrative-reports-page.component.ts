@@ -3,8 +3,8 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ReportType } from '../../../shared/interfaces/ReportType';
-import { ToastrService } from 'ngx-toastr';
 import { AnaliticoService } from '../../../services/analitico.service';
+import { ToastService } from '../../../services/toast.service';
 
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -18,7 +18,7 @@ import autoTable from 'jspdf-autotable';
 
 export class AdministrativeReportsPageComponent {
     private analiticoService = inject(AnaliticoService);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     
     activeCategory = signal<'Todos' | 'Vendas' | 'Estoque' | 'Clientes' | 'Financeiro'>('Todos');
     loadingReportId = signal<string | null>(null);
@@ -94,7 +94,7 @@ export class AdministrativeReportsPageComponent {
             });
         } else {
             setTimeout(() => {
-                this.toastr.info('Este relatório está sendo preparado.', 'Em breve');
+                this.toastService.info('Em breve', 'Este relatório está sendo preparado.');
                 this.loadingReportId.set(null);
             }, 1000);
         }
@@ -106,7 +106,7 @@ export class AdministrativeReportsPageComponent {
         reader.onload = (e: any) => {
             const csvText = e.target.result;
             if (!csvText) {
-                this.toastr.error('O relatório retornou vazio.');
+                this.toastService.error('Erro', 'O relatório retornou vazio.');
                 return;
             }
             
@@ -165,7 +165,7 @@ export class AdministrativeReportsPageComponent {
         
         const fileName = `${title.toLowerCase().replace(/ /g, '-')}-${new Date().getTime()}.pdf`;
         doc.save(fileName);
-        this.toastr.success('Relatório PDF gerado com sucesso!');
+        this.toastService.success('Sucesso', 'Relatório PDF gerado com sucesso!');
     }
     
     private calculateDates(period: string): { inicio: string, fim: string } {
@@ -199,7 +199,7 @@ export class AdministrativeReportsPageComponent {
     }
     
     private handleError() {
-        this.toastr.error('Erro ao processar os dados. Tente novamente.');
+        this.toastService.error('Erro', 'Erro ao processar os dados. Tente novamente.');
         this.loadingReportId.set(null);
     }
 }

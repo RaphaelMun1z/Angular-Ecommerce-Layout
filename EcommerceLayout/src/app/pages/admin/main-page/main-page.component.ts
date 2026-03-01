@@ -57,7 +57,8 @@ export class MainPageComponent implements OnInit {
 
         // Verifica se data de início é maior que a data de fim
         if (new Date(this.dataInicio()) > new Date(this.dataFim())) {
-            this.toastService.showError(
+            this.toastService.error(
+                'Erro de Validação',
                 'A data de início não pode ser maior que a data de fim.',
             );
             return;
@@ -80,7 +81,8 @@ export class MainPageComponent implements OnInit {
                 },
                 error: (err) => {
                     console.error('Erro ao carregar dados do dashboard', err);
-                    this.toastService.showError(
+                    this.toastService.error(
+                        'Erro',
                         'Falha ao carregar os dados do dashboard.',
                     );
                     this.isLoading.set(false);

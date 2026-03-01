@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { CarrinhoService } from '../../../../services/carrinho.service';
 import { Favorito } from '../../../../models/preferencias.models';
 import { FavoritoService } from '../../../../services/favorito.service';
 import { Produto } from '../../../../models/catalogo.models';
 import { ProductCardComponent } from '../../product/product-card/product-card.component';
+import { ToastService } from '../../../../services/toast.service';
 
 @Component({
     selector: 'app-my-favorite-products',
@@ -15,7 +15,7 @@ import { ProductCardComponent } from '../../product/product-card/product-card.co
     styleUrl: './my-favorite-products.component.css',
 })
 export class MyFavoriteProductsComponent {
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     private carrinhoService = inject(CarrinhoService);
     private authService = inject(AuthService);
     private favoritoService = inject(FavoritoService);
@@ -43,7 +43,7 @@ export class MyFavoriteProductsComponent {
                 this.isLoading.set(false);
             },
             error: () => {
-                this.toastr.error('Erro ao carregar favoritos.');
+                this.toastService.error('Erro', 'Erro ao carregar favoritos.');
                 this.isLoading.set(false);
             },
         });
@@ -60,16 +60,17 @@ export class MyFavoriteProductsComponent {
         const userId = this.authService.currentUser()?.id;
 
         if (!userId) {
-            this.toastr.warning('Faça login para adicionar ao carrinho.');
+            this.toastService.warning('Login', 'Faça login para adicionar ao carrinho.');
             return;
         }
 
         this.carrinhoService.adicionarItem(userId, product.id).subscribe({
             next: () =>
-                this.toastr.success(
+                this.toastService.success(
+                    'Carrinho',
                     `${product.titulo} adicionado ao carrinho!`,
                 ),
-            error: () => this.toastr.error('Erro ao adicionar produto.'),
+            error: () => this.toastService.error('Erro', 'Erro ao adicionar produto.'),
         });
     }
 
@@ -81,9 +82,9 @@ export class MyFavoriteProductsComponent {
             this.favoritoService.limparTudo(userId).subscribe({
                 next: () => {
                     this.favorites.set([]);
-                    this.toastr.info('Lista de favoritos limpa.');
+                    this.toastService.info('Favoritos', 'Lista de favoritos limpa.');
                 },
-                error: () => this.toastr.error('Erro ao limpar lista.'),
+                error: () => this.toastService.error('Erro', 'Erro ao limpar lista.'),
             });
         }
     }

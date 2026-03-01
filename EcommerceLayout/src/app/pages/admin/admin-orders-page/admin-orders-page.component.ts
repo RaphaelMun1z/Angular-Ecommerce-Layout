@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { Pedido } from '../../../models/pedido.models';
 import { PageableParams } from '../../../models/shared.models';
 import { PedidoService } from '../../../services/pedido.service';
-import { ToastrService } from 'ngx-toastr';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-admin-orders-page',
@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class AdminOrdersPageComponent implements OnInit {
     private pedidoService = inject(PedidoService);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     private fb = inject(FormBuilder);
     
     activeFilter = signal<'all' | 'PAGO' | 'PENDENTE' | 'CANCELADO'>('all');
@@ -87,7 +87,7 @@ export class AdminOrdersPageComponent implements OnInit {
             },
             error: (err) => {
                 console.error('Erro ao carregar pedidos', err);
-                this.toastr.error('Erro ao sincronizar pedidos.');
+                this.toastService.error('Erro', 'Erro ao sincronizar pedidos.');
                 this.isLoading.set(false);
             }
         });
@@ -117,13 +117,13 @@ export class AdminOrdersPageComponent implements OnInit {
         
         this.pedidoService.atualizarStatus(order.id, newStatus).subscribe({
             next: () => {
-                this.toastr.success(`Status do pedido #${order.id.substring(0,8)} atualizado!`);
+                this.toastService.success('Sucesso', `Status do pedido #${order.id.substring(0,8)} atualizado!`);
                 this.showStatusModal.set(false);
                 this.loadOrders();
             },
             error: (err) => {
                 console.error(err);
-                this.toastr.error('Erro ao atualizar status.');
+                this.toastService.error('Erro', 'Erro ao atualizar status.');
             },
             complete: () => this.isUpdating.set(false)
         });

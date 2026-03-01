@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 import { AuthService } from '../core/auth/auth.service';
 import { Favorito } from '../models/preferencias.models';
 import { Page, PageableParams } from '../models/shared.models';
-import { ToastrService } from 'ngx-toastr';
+import { ToastService } from './toast.service';
 import { tap } from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,7 @@ import { tap } from 'rxjs';
 export class FavoritoService {
     private http = inject(HttpClient);
     private authService = inject(AuthService);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     private apiUrl = `${environment.apiUrl}/favoritos`;
 
     private _favoritosIds = signal<Set<string>>(new Set());
@@ -71,14 +71,14 @@ export class FavoritoService {
                 {},
             )
             .subscribe({
-                next: () => this.toastr.success('Adicionado aos favoritos'),
+                next: () => this.toastService.success('Favoritos', 'Adicionado aos favoritos'),
                 error: () => {
                     this._favoritosIds.update((set) => {
                         const newSet = new Set(set);
                         newSet.delete(produtoId);
                         return newSet;
                     });
-                    this.toastr.error('Erro ao adicionar favorito');
+                    this.toastService.error('Favoritos', 'Erro ao adicionar favorito');
                 },
             });
     }
@@ -96,21 +96,21 @@ export class FavoritoService {
         this.http
             .delete(`${this.apiUrl}/cliente/${clienteId}/produto/${produtoId}`)
             .subscribe({
-                next: () => this.toastr.info('Removido dos favoritos'),
+                next: () => this.toastService.info('Favoritos', 'Removido dos favoritos'),
                 error: () => {
                     this._favoritosIds.update((set) => {
                         const newSet = new Set(set);
                         newSet.add(produtoId);
                         return newSet;
                     });
-                    this.toastr.error('Erro ao remover favorito');
+                    this.toastService.error('Favoritos', 'Erro ao remover favorito');
                 },
             });
     }
 
     toggle(produtoId: string) {
         if (!this.authService.isAuthenticated()) {
-            this.toastr.info('Faça login para favoritar produtos.');
+            this.toastService.info('Login Necessário', 'Faça login para favoritar produtos.');
             return;
         }
 

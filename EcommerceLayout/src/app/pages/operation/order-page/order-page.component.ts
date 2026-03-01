@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import {
     Pedido,
     StatusPedido,
@@ -10,6 +9,7 @@ import {
 } from '../../../models/pedido.models';
 import { PedidoService } from '../../../services/pedido.service';
 import { TimelineStep } from '../../../shared/interfaces/Cart';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-order-page',
@@ -22,7 +22,7 @@ export class OrderPageComponent implements OnInit {
     private route = inject(ActivatedRoute);
     private router = inject(Router);
     private pedidoService = inject(PedidoService);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     private datePipe = inject(DatePipe);
 
     pedido = signal<Pedido | null>(null);
@@ -58,7 +58,7 @@ export class OrderPageComponent implements OnInit {
                 this.loading.set(false);
             },
             error: () => {
-                this.toastr.error('Pedido não encontrado.', 'Erro');
+                this.toastService.error('Erro', 'Pedido não encontrado.');
                 this.router.navigate(['/perfil']);
             },
         });
@@ -66,10 +66,11 @@ export class OrderPageComponent implements OnInit {
 
     irParaPagamento(url?: string) {
         if (url) {
-            this.toastr.info('Redirecionando para o pagamento...');
+            this.toastService.info('Pagamento', 'Redirecionando para o pagamento...');
             window.location.href = url;
         } else {
-            this.toastr.warning(
+            this.toastService.warning(
+                'Pagamento',
                 'Link de pagamento indisponível. Entre em contato com o suporte.',
             );
         }
@@ -174,11 +175,11 @@ export class OrderPageComponent implements OnInit {
         if (!pedido) return;
 
 		if (pedido.pagamento?.status !== StatusPagamento.APROVADO) {
-            this.toastr.warning('A Nota Fiscal só está disponível após a confirmação do pagamento.');
+            this.toastService.warning('Nota Fiscal', 'A Nota Fiscal só está disponível após a confirmação do pagamento.');
             return;
         }
 
-        this.toastr.info('Preparando Nota Fiscal Provisória...');
+        this.toastService.info('Nota Fiscal', 'Preparando Nota Fiscal Provisória...');
 
         setTimeout(() => {
             const printWindow = window.open('', '_blank');

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideNgxMask } from 'ngx-mask';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -21,6 +20,7 @@ import { PaymentSectionComponent } from './components/payment-section/payment-se
 import { OrderSummarySectionComponent } from './components/order-summary-section/order-summary-section.component';
 import { TitleSectionComponent } from './components/title-section/title-section.component';
 import { CheckoutService } from '../../../services/checkout.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-finalize-purchase-page',
@@ -45,7 +45,7 @@ export class FinalizePurchasePageComponent {
     private usuarioService = inject(UsuarioService);
     private checkoutService = inject(CheckoutService);
     private router = inject(Router);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
 
     paymentMethod = signal<'credit' | 'pix' | 'boleto'>('pix');
     
@@ -106,13 +106,13 @@ export class FinalizePurchasePageComponent {
         if (confirm('Tem certeza que deseja excluir este endereço?')) {
             this.usuarioService.removerEndereco(addressId, userId).subscribe({
                 next: () => {
-                    this.toastr.info('Endereço removido.');
+                    this.toastService.info('Endereço', 'Endereço removido.');
                     if (this.selectedAddressId() === addressId) {
                         this.selectedAddressId.set(null);
                         this.selectedShippingMethod.set(null);
                     }
                 },
-                error: () => this.toastr.error('Erro ao remover endereço.'),
+                error: () => this.toastService.error('Erro', 'Erro ao remover endereço.'),
             });
         }
     }
@@ -125,10 +125,10 @@ export class FinalizePurchasePageComponent {
         this.isLoading.set(true);
         this.usuarioService.definirComoPrincipal(addressId, userId).subscribe({
             next: () => {
-                this.toastr.success('Endereço definido como principal.');
+                this.toastService.success('Sucesso', 'Endereço definido como principal.');
                 this.selectedAddressId.set(addressId);
             },
-            error: () => this.toastr.error('Erro ao atualizar.'),
+            error: () => this.toastService.error('Erro', 'Erro ao atualizar.'),
             complete: () => this.isLoading.set(false),
         });
     }
@@ -151,14 +151,15 @@ export class FinalizePurchasePageComponent {
 
         action$.subscribe({
             next: () => {
-                this.toastr.success(
+                this.toastService.success(
+                    'Sucesso',
                     this.editingAddress()
                         ? 'Endereço atualizado!'
                         : 'Endereço adicionado!',
                 );
                 this.toggleAddressForm();
             },
-            error: () => this.toastr.error('Erro ao salvar endereço.'),
+            error: () => this.toastService.error('Erro', 'Erro ao salvar endereço.'),
             complete: () => this.isLoading.set(false),
         });
     }
@@ -171,19 +172,19 @@ export class FinalizePurchasePageComponent {
         const userId = this.authService.currentUser()?.id;
 
         if (!userId) {
-            this.toastr.error('Erro de autenticação.');
+            this.toastService.error('Erro', 'Erro de autenticação.');
             return;
         }
         if (this.cartItems().length === 0) {
-            this.toastr.warning('Carrinho vazio.');
+            this.toastService.warning('Atenção', 'Carrinho vazio.');
             return;
         }
         if (!this.selectedAddressId()) {
-            this.toastr.warning('Selecione um endereço.');
+            this.toastService.warning('Atenção', 'Selecione um endereço.');
             return;
         }
         if (!this.selectedShippingMethod()) {
-            this.toastr.warning('Selecione o frete.');
+            this.toastService.warning('Atenção', 'Selecione o frete.');
             return;
         }
 
@@ -220,9 +221,9 @@ export class FinalizePurchasePageComponent {
             })
             .subscribe({
                 next: (pedidoCriado: Pedido) => { 
-                    this.toastr.success(
+                    this.toastService.success(
+                        'Sucesso',
                         'Pedido criado! Redirecionando para pagamento...',
-                        'Sucesso'
                     );
                     
                     this.carrinhoService.limparEstadoLocal();
@@ -243,7 +244,7 @@ export class FinalizePurchasePageComponent {
                             ? err.error[0]
                             : err.error?.message || 'Erro ao processar pedido.';
                     
-                    this.toastr.error(msg, 'Erro');
+                    this.toastService.error('Erro', msg);
                     this.isLoading.set(false);
                 },
             });

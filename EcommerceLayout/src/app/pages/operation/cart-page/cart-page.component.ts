@@ -2,12 +2,12 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/auth/auth.service';
 import { ItemCarrinho } from '../../../models/carrinho.models';
 import { Produto } from '../../../models/catalogo.models';
 import { CarrinhoService } from '../../../services/carrinho.service';
 import { CatalogoService } from '../../../services/catalogo.service';
+import { ToastService } from '../../../services/toast.service';
 import { ShippingCalculatorComponent } from '../../../shared/components/forms/shipping-calculator/shipping-calculator.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class CartPageComponent implements OnInit {
     private carrinhoService = inject(CarrinhoService);
     private authService = inject(AuthService);
     private catalogoService = inject(CatalogoService);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     private router = inject(Router);
     
     relatedProducts = signal<Produto[]>([]);
@@ -64,7 +64,7 @@ export class CartPageComponent implements OnInit {
         
         if (clienteId && produtoId) {
             this.carrinhoService.atualizarQuantidade(clienteId, produtoId, novaQuantidade).subscribe({
-                error: (err) => this.toastr.error('Erro ao atualizar quantidade.', 'Ops!')
+                error: (err) => this.toastService.error('Ops!', 'Erro ao atualizar quantidade.')
             });
         }
     }
@@ -77,7 +77,7 @@ export class CartPageComponent implements OnInit {
             if (clienteId && produtoId) {
                 this.carrinhoService.removerItem(clienteId, produtoId).subscribe({
                     next: () => {
-                        this.toastr.info('Item removido.', 'Carrinho');
+                        this.toastService.info('Carrinho', 'Item removido.');
                     }
                 });
             }
@@ -93,10 +93,10 @@ export class CartPageComponent implements OnInit {
         
         this.carrinhoService.adicionarItem(clienteId, product.id).subscribe({
             next: () => {
-                this.toastr.success(`${product.titulo} adicionado!`, 'Sucesso');
+                this.toastService.success('Sucesso', `${product.titulo} adicionado!`);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             },
-            error: () => this.toastr.error('Erro ao adicionar produto.', 'Erro')
+            error: () => this.toastService.error('Erro', 'Erro ao adicionar produto.')
         });
     }
     

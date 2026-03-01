@@ -7,7 +7,6 @@ import {
     Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Categoria, ProdutoRequest } from '../../../models/catalogo.models';
 import { CatalogoService } from '../../../services/catalogo.service';
 import {
@@ -18,6 +17,7 @@ import { EstoqueService } from '../../../services/estoque.service';
 import { FileUploadService } from '../../../services/fileUpload.service';
 import { HttpResponse } from '@angular/common/http';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-register-product-page',
@@ -30,7 +30,7 @@ export class RegisterProductPageComponent implements OnInit, OnDestroy {
     private catalogoService = inject(CatalogoService);
     private estoqueService = inject(EstoqueService);
     private fileUploadService = inject(FileUploadService);
-    private toastr = inject(ToastrService);
+    private toastService = inject(ToastService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
     private destroy$ = new Subject<void>();
@@ -143,7 +143,7 @@ export class RegisterProductPageComponent implements OnInit, OnDestroy {
             this.currentStep.set(this.currentStep() + 1);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-            this.toastr.warning('Preencha os campos obrigatórios corretamente.', 'Atenção');
+            this.toastService.warning('Atenção', 'Preencha os campos obrigatórios corretamente.');
             this.markStepAsTouched();
         }
     }
@@ -230,7 +230,7 @@ export class RegisterProductPageComponent implements OnInit, OnDestroy {
                 this.isLoading.set(false);
             },
             error: () => {
-                this.toastr.error('Erro ao carregar dados do produto.');
+                this.toastService.error('Erro', 'Erro ao carregar dados do produto.');
                 this.router.navigate(['/dashboard-admin/produtos']);
             },
         });
@@ -249,7 +249,7 @@ export class RegisterProductPageComponent implements OnInit, OnDestroy {
                 const file = files[i];
 
                 if (!file.type.startsWith('image/')) {
-                    this.toastr.warning(`Arquivo ${file.name} ignorado (não é imagem).`);
+                    this.toastService.warning('Upload', `Arquivo ${file.name} ignorado (não é imagem).`);
                     uploadCount++;
                     this.checkUploadComplete(uploadCount, totalFiles);
                     continue;
@@ -269,7 +269,7 @@ export class RegisterProductPageComponent implements OnInit, OnDestroy {
                     },
                     error: (err) => {
                         console.error(err);
-                        this.toastr.error(`Erro ao enviar ${file.name}`);
+                        this.toastService.error('Upload', `Erro ao enviar ${file.name}`);
                         uploadCount++;
                         this.checkUploadComplete(uploadCount, totalFiles);
                     },
@@ -281,7 +281,7 @@ export class RegisterProductPageComponent implements OnInit, OnDestroy {
     private checkUploadComplete(current: number, total: number) {
         if (current === total) {
             this.isUploading.set(false);
-            this.toastr.success('Processamento de imagens concluído!');
+            this.toastService.success('Upload', 'Processamento de imagens concluído!');
         }
     }
 
@@ -300,7 +300,7 @@ export class RegisterProductPageComponent implements OnInit, OnDestroy {
     onSubmit() {
         if (this.productForm.invalid) {
             this.productForm.markAllAsTouched();
-            this.toastr.warning('Preencha todos os campos obrigatórios em todas as abas.');
+            this.toastService.warning('Formulário Inválido', 'Preencha todos os campos obrigatórios em todas as abas.');
             return;
         }
 
@@ -328,12 +328,12 @@ export class RegisterProductPageComponent implements OnInit, OnDestroy {
 
         operation$.subscribe({
             next: () => {
-                this.toastr.success(`Produto ${this.isEditing() ? 'atualizado' : 'cadastrado'} com sucesso!`);
+                this.toastService.success('Sucesso', `Produto ${this.isEditing() ? 'atualizado' : 'cadastrado'} com sucesso!`);
                 localStorage.removeItem(this.DRAFT_KEY);
                 this.router.navigate(['/dashboard-admin/produtos']);
             },
             error: (err) => {
-                this.toastr.error(err.error?.message || 'Erro ao processar solicitação.');
+                this.toastService.error('Erro', err.error?.message || 'Erro ao processar solicitação.');
                 this.isLoading.set(false);
             },
         });
@@ -365,12 +365,12 @@ export class RegisterProductPageComponent implements OnInit, OnDestroy {
 
         this.estoqueService.registrarMovimentacao(request).subscribe({
             next: () => {
-                this.toastr.success('Estoque atualizado com sucesso!');
+                this.toastService.success('Estoque', 'Estoque atualizado com sucesso!');
                 this.stockForm.reset({ quantidade: 1, tipo: TipoMovimentacao.ENTRADA, motivo: '' });
                 this.showStockModal.set(false);
                 this.carregarDadosProduto(this.productId()!);
             },
-            error: (err) => this.toastr.error(err.error?.message || 'Erro ao ajustar estoque.'),
+            error: (err) => this.toastService.error('Estoque', err.error?.message || 'Erro ao ajustar estoque.'),
             complete: () => this.isAdjustingStock.set(false),
         });
     }
