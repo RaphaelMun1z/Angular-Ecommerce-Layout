@@ -1,18 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { StatCard } from '../../../models/analitico.models';
 import { Pedido } from '../../../models/pedido.models';
 import { AnaliticoService } from '../../../services/analitico.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
     selector: 'app-main-page',
-    imports: [CommonModule, RouterLink],
+    imports: [CommonModule],
     templateUrl: './main-page.component.html',
     styleUrl: './main-page.component.css',
 })
 export class MainPageComponent implements OnInit {
     private analiticoService = inject(AnaliticoService);
+    private toastService = inject(ToastService);
 
     // Variáveis de Estado (Signals)
     stats = signal<StatCard[]>([]);
@@ -56,7 +57,9 @@ export class MainPageComponent implements OnInit {
 
         // Verifica se data de início é maior que a data de fim
         if (new Date(this.dataInicio()) > new Date(this.dataFim())) {
-            alert('A data de início não pode ser maior que a data de fim.');
+            this.toastService.showError(
+                'A data de início não pode ser maior que a data de fim.',
+            );
             return;
         }
 
@@ -77,6 +80,9 @@ export class MainPageComponent implements OnInit {
                 },
                 error: (err) => {
                     console.error('Erro ao carregar dados do dashboard', err);
+                    this.toastService.showError(
+                        'Falha ao carregar os dados do dashboard.',
+                    );
                     this.isLoading.set(false);
                 },
             });

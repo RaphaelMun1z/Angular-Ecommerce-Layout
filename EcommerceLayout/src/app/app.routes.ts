@@ -1,75 +1,94 @@
-import { Routes } from "@angular/router";
-import { authGuard, adminGuard } from "./core/guards/auth.guard";
-import { AdminCustomersPageComponent } from "./pages/admin/admin-customers-page/admin-customers-page.component";
-import { AdminOrdersPageComponent } from "./pages/admin/admin-orders-page/admin-orders-page.component";
-import { AdminProductsPageComponent } from "./pages/admin/admin-products-page/admin-products-page.component";
-import { AdministrativeReportsPageComponent } from "./pages/admin/administrative-reports-page/administrative-reports-page.component";
-import { DashboardAdminPageComponent } from "./pages/admin/dashboard-admin-page/dashboard-admin-page.component";
-import { MainPageComponent } from "./pages/admin/main-page/main-page.component";
-import { RegisterCustomerPageComponent } from "./pages/admin/register-customer-page/register-customer-page.component";
-import { RegisterProductPageComponent } from "./pages/admin/register-product-page/register-product-page.component";
-import { LoginPageComponent } from "./pages/auth/login-page/login-page.component";
-import { RegisterPageComponent } from "./pages/auth/register-page/register-page.component";
-import { HomePageComponent } from "./pages/home-page/home-page.component";
-import { LayoutWithHeaderComponent } from "./pages/layouts/layout-with-header/layout-with-header.component";
-import { CartPageComponent } from "./pages/operation/cart-page/cart-page.component";
-import { FinalizePurchasePageComponent } from "./pages/operation/finalize-purchase-page/finalize-purchase-page.component";
-import { OrderConfirmedPageComponent } from "./pages/operation/order-confirmed-page/order-confirmed-page.component";
-import { OrderPageComponent } from "./pages/operation/order-page/order-page.component";
-import { RecoverPasswordPageComponent } from "./pages/operation/recover-password-page/recover-password-page.component";
-import { ProductPageComponent } from "./pages/product/product-page/product-page.component";
-import { ProfilePageComponent } from "./pages/profile/profile-page/profile-page.component";
-import { AboutUsPageComponent } from "./pages/static/about-us-page/about-us-page.component";
-import { FaqPageComponent } from "./pages/static/faq-page/faq-page.component";
-import { ForbiddenPageComponent } from "./pages/static/forbidden-page/forbidden-page.component";
-import { NotFoundPageComponent } from "./pages/static/not-found-page/not-found-page.component";
-import { PrivacyPolicyPageComponent } from "./pages/static/privacy-policy-page/privacy-policy-page.component";
-import { MyAddressesComponent } from "./shared/components/profile/my-addresses/my-addresses.component";
-import { MyFavoriteProductsComponent } from "./shared/components/profile/my-favorite-products/my-favorite-products.component";
-import { MyOrdersComponent } from "./shared/components/profile/my-orders/my-orders.component";
-import { MyPersonalDataComponent } from "./shared/components/profile/my-personal-data/my-personal-data.component";
-import { OrderFailedPageComponent } from "./pages/operation/order-failed-page/order-failed-page.component";
-import { SearchPageComponent } from "./pages/search-page/search-page.component";
+import { Routes } from '@angular/router';
+import { authGuard, adminGuard } from './core/guards/auth.guard';
+import { AdminCustomersPageComponent } from './pages/admin/admin-customers-page/admin-customers-page.component';
+import { AdminOrdersPageComponent } from './pages/admin/admin-orders-page/admin-orders-page.component';
+import { AdminProductsPageComponent } from './pages/admin/admin-products-page/admin-products-page.component';
+import { AdministrativeReportsPageComponent } from './pages/admin/administrative-reports-page/administrative-reports-page.component';
+import { DashboardAdminPageComponent } from './pages/admin/dashboard-admin-page/dashboard-admin-page.component';
+import { MainPageComponent } from './pages/admin/main-page/main-page.component';
+import { RegisterCustomerPageComponent } from './pages/admin/register-customer-page/register-customer-page.component';
+import { RegisterProductPageComponent } from './pages/admin/register-product-page/register-product-page.component';
+import { LoginPageComponent } from './pages/auth/login-page/login-page.component';
+import { RegisterPageComponent } from './pages/auth/register-page/register-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { LayoutWithHeaderComponent } from './pages/layouts/layout-with-header/layout-with-header.component';
+import { CartPageComponent } from './pages/operation/cart-page/cart-page.component';
+import { FinalizePurchasePageComponent } from './pages/operation/finalize-purchase-page/finalize-purchase-page.component';
+import { OrderConfirmedPageComponent } from './pages/operation/order-confirmed-page/order-confirmed-page.component';
+import { OrderPageComponent } from './pages/operation/order-page/order-page.component';
+import { RecoverPasswordPageComponent } from './pages/operation/recover-password-page/recover-password-page.component';
+import { ProductPageComponent } from './pages/product/product-page/product-page.component';
+import { ProfilePageComponent } from './pages/profile/profile-page/profile-page.component';
+import { AboutUsPageComponent } from './pages/static/about-us-page/about-us-page.component';
+import { FaqPageComponent } from './pages/static/faq-page/faq-page.component';
+import { ForbiddenPageComponent } from './pages/static/forbidden-page/forbidden-page.component';
+import { NotFoundPageComponent } from './pages/static/not-found-page/not-found-page.component';
+import { PrivacyPolicyPageComponent } from './pages/static/privacy-policy-page/privacy-policy-page.component';
+import { MyAddressesComponent } from './shared/components/profile/my-addresses/my-addresses.component';
+import { MyFavoriteProductsComponent } from './shared/components/profile/my-favorite-products/my-favorite-products.component';
+import { MyOrdersComponent } from './shared/components/profile/my-orders/my-orders.component';
+import { MyPersonalDataComponent } from './shared/components/profile/my-personal-data/my-personal-data.component';
+import { OrderFailedPageComponent } from './pages/operation/order-failed-page/order-failed-page.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { CheckoutLayoutComponent } from './shared/components/checkout-layout/checkout-layout.component';
 
 export const routes: Routes = [
     {
         path: '',
         redirectTo: 'inicio',
-        pathMatch: 'full'
+        pathMatch: 'full',
     },
     {
         path: '',
         component: LayoutWithHeaderComponent,
         children: [
             { path: 'inicio', component: HomePageComponent },
-			{ path: 'produtos', component: SearchPageComponent },
+            { path: 'produtos', component: SearchPageComponent },
             { path: 'produto/:id', component: ProductPageComponent },
-            { path: 'carrinho', component: CartPageComponent },
             { path: 'faq', component: FaqPageComponent },
             { path: 'sobre-nos', component: AboutUsPageComponent },
-            { path: 'politica-de-privacidade', component: PrivacyPolicyPageComponent },
-            { 
-                path: 'finalizar-compra', 
-                component: FinalizePurchasePageComponent,
-                canActivate: [authGuard] 
+            {
+                path: 'politica-de-privacidade',
+                component: PrivacyPolicyPageComponent,
             },
-            { 
-                path: 'pedido/sucesso', 
-                component: OrderConfirmedPageComponent,
-                canActivate: [authGuard]
+            {
+                path: 'checkout',
+                component: CheckoutLayoutComponent,
+                children: [
+                    {
+                        path: 'carrinho',
+                        component: CartPageComponent,
+                        canActivate: [authGuard],
+                        data: { step: 1 },
+                    },
+                    {
+                        path: 'finalizar',
+                        component: FinalizePurchasePageComponent,
+                        canActivate: [authGuard],
+                        data: { step: 2 },
+                    },
+                    {
+                        path: 'sucesso',
+                        component: OrderConfirmedPageComponent,
+                        canActivate: [authGuard],
+                        data: { step: 3, isError: false },
+                    },
+                    {
+                        path: 'falhou',
+                        component: OrderFailedPageComponent,
+                        canActivate: [authGuard],
+                        data: { step: 3, isError: true },
+                    },
+                    { path: '', redirectTo: 'carrinho', pathMatch: 'full' },
+                ],
             },
-			{ 
-                path: 'pedido/falhou', 
-                component: OrderFailedPageComponent,
-                canActivate: [authGuard]
+            {
+                path: 'pedido/:id',
+                component: OrderPageComponent,
+                canActivate: [authGuard],
             },
-            { 
-                path: 'pedido/:id', 
-                component: OrderPageComponent, 
-                canActivate: [authGuard]
-            },
-            { 
-                path: 'perfil', 
+            {
+                path: 'perfil',
                 component: ProfilePageComponent,
                 canActivate: [authGuard],
                 children: [
@@ -77,10 +96,13 @@ export const routes: Routes = [
                     { path: 'dados', component: MyPersonalDataComponent },
                     { path: 'pedidos', component: MyOrdersComponent },
                     { path: 'enderecos', component: MyAddressesComponent },
-                    { path: 'favoritos', component: MyFavoriteProductsComponent }
-                ]
-            }
-        ]
+                    {
+                        path: 'favoritos',
+                        component: MyFavoriteProductsComponent,
+                    },
+                ],
+            },
+        ],
     },
     { path: 'login', component: LoginPageComponent },
     { path: 'registrar', component: RegisterPageComponent },
@@ -91,14 +113,23 @@ export const routes: Routes = [
         canActivate: [authGuard, adminGuard],
         children: [
             { path: '', component: MainPageComponent },
-            { path: 'registrar-product', component: RegisterProductPageComponent },
-            { path: 'registrar-cliente', component: RegisterCustomerPageComponent },
+            {
+                path: 'registrar-product',
+                component: RegisterProductPageComponent,
+            },
+            {
+                path: 'registrar-cliente',
+                component: RegisterCustomerPageComponent,
+            },
             { path: 'pedidos', component: AdminOrdersPageComponent },
             { path: 'produtos', component: AdminProductsPageComponent },
             { path: 'clientes', component: AdminCustomersPageComponent },
-            { path: 'relatorios-administrativos', component: AdministrativeReportsPageComponent }
-        ]
+            {
+                path: 'relatorios-administrativos',
+                component: AdministrativeReportsPageComponent,
+            },
+        ],
     },
     { path: 'acesso-negado', component: ForbiddenPageComponent },
-    { path: '**', component: NotFoundPageComponent }
+    { path: '**', component: NotFoundPageComponent },
 ];

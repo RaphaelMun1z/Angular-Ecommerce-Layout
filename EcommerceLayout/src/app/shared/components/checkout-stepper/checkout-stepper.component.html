@@ -1,0 +1,78 @@
+<div class="pt-8 pb-10 border-b border-gray-100 mb-8 hidden md:block">
+    <div
+        class="max-w-2xl mx-auto flex items-center justify-between text-sm font-medium"
+    >
+        <!-- Etapa 1: Carrinho -->
+        <div
+            class="flex flex-col items-center gap-2"
+            [class.text-black]="step >= 1"
+            [class.text-gray-400]="step < 1"
+        >
+            <div
+                class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors"
+                [class.bg-black]="step >= 1"
+                [class.text-white]="step >= 1"
+                [class.border]="step < 1"
+                [class.border-gray-300]="step < 1"
+                [class.bg-white]="step < 1"
+            >
+                1
+            </div>
+            <span>Carrinho</span>
+        </div>
+
+        <div
+            class="flex-1 h-px mx-4 mt-[-20px] transition-colors"
+            [class.bg-black]="step >= 2"
+            [class.bg-gray-200]="step < 2"
+        ></div>
+
+        <!-- Etapa 2: Finalizar Compra / Pagamento -->
+        <div
+            class="flex flex-col items-center gap-2"
+            [class.text-black]="step >= 2"
+            [class.text-gray-400]="step < 2"
+        >
+            <div
+                class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors"
+                [class.bg-black]="step >= 2"
+                [class.text-white]="step >= 2"
+                [class.border]="step < 2"
+                [class.border-gray-300]="step < 2"
+                [class.bg-white]="step < 2"
+            >
+                2
+            </div>
+            <span>Pagamento</span>
+        </div>
+
+        <div
+            class="flex-1 h-px mx-4 mt-[-20px] transition-colors"
+            [class.bg-black]="step >= 3 && !isError"
+            [class.bg-red-500]="step >= 3 && isError"
+            [class.bg-gray-200]="step < 3"
+        ></div>
+
+        <!-- Etapa 3: Confirmação / Falha -->
+        <div
+            class="flex flex-col items-center gap-2"
+            [class.text-black]="step >= 3 && !isError"
+            [class.text-red-500]="step >= 3 && isError"
+            [class.text-gray-400]="step < 3"
+        >
+            <div
+                class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors"
+                [class.bg-black]="step >= 3 && !isError"
+                [class.bg-red-500]="step >= 3 && isError"
+                [class.text-white]="step >= 3"
+                [class.border]="step < 3"
+                [class.border-gray-300]="step < 3"
+                [class.bg-white]="step < 3"
+            >
+                <span *ngIf="!(step >= 3 && isError)">3</span>
+                <span *ngIf="step >= 3 && isError">!</span>
+            </div>
+            <span>{{ step >= 3 && isError ? "Falhou" : "Confirmação" }}</span>
+        </div>
+    </div>
+</div>

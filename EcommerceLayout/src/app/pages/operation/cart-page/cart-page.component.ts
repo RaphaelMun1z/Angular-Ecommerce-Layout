@@ -30,7 +30,6 @@ export class CartPageComponent implements OnInit {
     cartItems = computed(() => this.carrinhoService.carrinho()?.itens || []);
     subtotal = computed(() => this.carrinhoService.valorTotal());
     
-    // Total soma apenas os produtos e o frete
     total = computed(() => this.subtotal() + this.shippingCost());
     
     constructor() {
@@ -108,7 +107,7 @@ export class CartPageComponent implements OnInit {
     finalizarCompra() {
         const clienteId = this.authService.currentUser()?.id;
         if (clienteId) {
-            this.router.navigate(['/finalizar-compra']);
+            this.router.navigate(['/checkout/finalizar']);
         } else {
             this.router.navigate(['/login']);
         }
