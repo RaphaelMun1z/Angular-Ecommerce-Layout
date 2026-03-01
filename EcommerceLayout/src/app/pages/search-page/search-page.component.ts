@@ -53,6 +53,11 @@ export class SearchPageComponent implements OnInit {
         { label: 'Nome (Z-A)', value: 'titulo,desc' },
     ];
 
+    // =================== PAGINAÇÃO ===================
+    paginaAtual: number = 0; // página atual (0-based)
+    tamanhoPagina: number = 12; // produtos por página
+    totalPaginas: number = 0; // total de páginas
+
     ngOnInit(): void {
         this.carregarCategorias();
 
@@ -140,6 +145,9 @@ export class SearchPageComponent implements OnInit {
             this.filtros.precoMax = temp;
         }
 
+        // Reset da página para 0 ao aplicar filtros
+        this.paginaAtual = 0;
+
         this.router.navigate([], {
             relativeTo: this.route,
             queryParams: {
@@ -158,6 +166,8 @@ export class SearchPageComponent implements OnInit {
             },
             queryParamsHandling: 'merge',
         });
+
+        this.buscarProdutos();
     }
 
     mudarOrdenacao(): void {
@@ -219,7 +229,10 @@ export class SearchPageComponent implements OnInit {
     buscarProdutos(): void {
         this.loading = true;
 
-        const pageable: any = { page: 0, size: 12 };
+        const pageable: any = {
+            page: this.paginaAtual,
+            size: this.tamanhoPagina,
+        };
         if (this.ordenacaoAtual) {
             pageable.sort = [this.ordenacaoAtual];
         }
@@ -232,6 +245,9 @@ export class SearchPageComponent implements OnInit {
                     this.produtos = response.content || [];
                     this.totalElements =
                         pageInfo.totalElements || this.produtos.length;
+                    this.totalPaginas = Math.ceil(
+                        this.totalElements / this.tamanhoPagina,
+                    );
 
                     if (this.produtos.length > 0) {
                         const maxPrecoNaLista = Math.max(
@@ -254,5 +270,17 @@ export class SearchPageComponent implements OnInit {
                     this.loading = false;
                 },
             });
+    }
+
+    // =================== FUNÇÃO PAGINAÇÃO ===================
+    irParaPagina(pagina: number) {
+        if (pagina < 0 || pagina >= this.totalPaginas) return;
+        this.paginaAtual = pagina;
+        this.buscarProdutos();
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
     }
 }

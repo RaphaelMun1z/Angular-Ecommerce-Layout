@@ -1,57 +1,111 @@
 @if (systemStatus.isSystemOffline()) {
-    <div class="h-screen flex flex-col items-center justify-center bg-[#EAF4FE] px-4 py-8 text-center animate-fade-in relative overflow-hidden">
+    <div
+        class="h-screen flex flex-col items-center justify-center bg-[#EAF4FE] px-4 py-8 text-center animate-fade-in relative overflow-hidden"
+    >
         <!-- Linhas decorativas de fundo inspiradas na imagem -->
-        <div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-40">
-            <svg class="absolute top-[-10%] left-[-5%] w-[50%] max-w-[800px]" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path fill="none" stroke="#FFFFFF" stroke-width="1.5" d="M0,100 C50,150 150,50 200,100" />
+        <div
+            class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-40"
+        >
+            <svg
+                class="absolute top-[-10%] left-[-5%] w-[50%] max-w-[800px]"
+                viewBox="0 0 200 200"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    fill="none"
+                    stroke="#FFFFFF"
+                    stroke-width="1.5"
+                    d="M0,100 C50,150 150,50 200,100"
+                />
             </svg>
-            <svg class="absolute bottom-[-10%] right-[-5%] w-[60%] max-w-[1000px]" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path fill="none" stroke="#FFFFFF" stroke-width="1.5" d="M0,100 C50,50 150,150 200,100" />
+            <svg
+                class="absolute bottom-[-10%] right-[-5%] w-[60%] max-w-[1000px]"
+                viewBox="0 0 200 200"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    fill="none"
+                    stroke="#FFFFFF"
+                    stroke-width="1.5"
+                    d="M0,100 C50,50 150,150 200,100"
+                />
             </svg>
         </div>
 
-        <div class="bg-white p-12 md:p-16 rounded-[40px] shadow-2xl shadow-blue-900/5 max-w-4xl w-full relative z-10 flex flex-col items-center">
-            
+        <div
+            class="bg-white p-12 md:p-16 rounded-[40px] shadow-2xl shadow-blue-900/5 max-w-4xl w-full relative z-10 flex flex-col items-center"
+        >
             <!-- Logo minimalista no topo -->
-            <div class="absolute top-8 left-8 flex items-center gap-1.5 opacity-80">
-                <div class="w-4 h-6 rounded-md bg-orange-500 transform -skew-y-12"></div>
-                <div class="w-4 h-5 rounded-md bg-blue-900 transform -skew-y-12 -ml-2 mt-2"></div>
+            <div
+                class="absolute top-8 left-8 flex items-center gap-1.5 opacity-80"
+            >
+                <div
+                    class="w-4 h-6 rounded-md bg-orange-500 transform -skew-y-12"
+                ></div>
+                <div
+                    class="w-4 h-5 rounded-md bg-blue-900 transform -skew-y-12 -ml-2 mt-2"
+                ></div>
             </div>
 
             <!-- Cenário Ilustrativo (Offline) feito com HTML/CSS -->
             <div class="relative flex justify-center w-full mb-8">
-                <div class="relative w-full max-w-[400px] h-64 flex flex-col items-center justify-center">
+                <div
+                    class="relative w-full max-w-[400px] h-64 flex flex-col items-center justify-center"
+                >
                     <!-- Texto de Fundo -->
-                    <div class="absolute bottom-4 w-full flex justify-center z-0">
-                        <span class="text-[120px] font-black text-[#EAF4FE] tracking-tighter select-none">503</span>
+                    <div
+                        class="absolute bottom-4 w-full flex justify-center z-0"
+                    >
+                        <span
+                            class="text-[120px] font-black text-[#EAF4FE] tracking-tighter select-none"
+                            >503</span
+                        >
                     </div>
-                    
+
                     <!-- Nuvens Abstratas -->
-                    <div class="absolute bottom-10 left-16 w-24 h-12 bg-[#EAF4FE] rounded-full z-0 opacity-80"></div>
-                    <div class="absolute bottom-16 right-20 w-16 h-8 bg-[#EAF4FE] rounded-full z-0 opacity-80"></div>
-                    <div class="absolute top-10 left-24 w-10 h-10 bg-[#EAF4FE] rounded-full z-0 opacity-60"></div>
-                    
+                    <div
+                        class="absolute bottom-10 left-16 w-24 h-12 bg-[#EAF4FE] rounded-full z-0 opacity-80"
+                    ></div>
+                    <div
+                        class="absolute bottom-16 right-20 w-16 h-8 bg-[#EAF4FE] rounded-full z-0 opacity-80"
+                    ></div>
+                    <div
+                        class="absolute top-10 left-24 w-10 h-10 bg-[#EAF4FE] rounded-full z-0 opacity-60"
+                    ></div>
+
                     <!-- Ícone Central -->
                     <div class="relative z-20 animate-pulse mt-4">
-                        <i class="ph-duotone ph-wifi-slash text-[100px] text-orange-500 drop-shadow-sm"></i>
+                        <i
+                            class="ph-duotone ph-wifi-slash text-[100px] text-orange-500 drop-shadow-sm"
+                        ></i>
                     </div>
                 </div>
             </div>
 
-            <h2 class="text-3xl md:text-[32px] font-bold text-[#111827] mb-3 tracking-tight">Whoops! Sem Conexão?</h2>
-            <p class="text-[15px] text-[#6B7280] mb-8 leading-relaxed font-medium max-w-sm mx-auto">
-                Não conseguimos alcançar nossos servidores :( <br> Sugerimos que verifique sua internet.
+            <h2
+                class="text-3xl md:text-[32px] font-bold text-[#111827] mb-3 tracking-tight"
+            >
+                Whoops! Sem Conexão?
+            </h2>
+            <p
+                class="text-[15px] text-[#6B7280] mb-8 leading-relaxed font-medium max-w-sm mx-auto"
+            >
+                Não conseguimos alcançar nossos servidores :( <br />
+                Sugerimos que verifique sua internet.
             </p>
 
-            <button (click)="retry()" class="bg-[#1E293B] hover:bg-black text-white font-semibold py-3.5 px-8 rounded-full transition-transform active:scale-95 inline-flex items-center justify-center gap-2 shadow-lg shadow-slate-800/20 cursor-pointer">
+            <button
+                (click)="retry()"
+                class="bg-[#1E293B] hover:bg-black text-white font-semibold py-3.5 px-8 rounded-full transition-transform active:scale-95 inline-flex items-center justify-center gap-2 shadow-lg shadow-slate-800/20 cursor-pointer"
+            >
                 Tentar Novamente
             </button>
         </div>
     </div>
-}
-
-@else if (loading()) {
-    <main class="max-w-[1400px] mx-auto px-6 pt-24 pb-24 animate-fade-in font-sans w-full">
+} @else if (loading()) {
+    <main
+        class="max-w-[1400px] mx-auto px-6 pt-24 pb-24 animate-fade-in font-sans w-full"
+    >
         <!-- Breadcrumbs Skeleton -->
         <div class="flex items-center gap-3 mb-8">
             <div class="h-3 w-16 bg-gray-200 rounded-full animate-pulse"></div>
@@ -60,291 +114,388 @@
             <div class="h-3 w-3 bg-gray-100 rounded-full animate-pulse"></div>
             <div class="h-3 w-32 bg-gray-200 rounded-full animate-pulse"></div>
         </div>
-        
+
         <!-- Hero Skeleton -->
         <div class="flex flex-col lg:flex-row gap-12 lg:gap-20">
-            
             <!-- Coluna Esquerda: Imagens Skeleton -->
             <div class="w-full lg:w-1/2 flex flex-col gap-6">
                 <!-- Imagem Principal -->
-                <div class="w-full aspect-square bg-gray-100 rounded-[40px] animate-pulse"></div>
+                <div
+                    class="w-full aspect-square bg-gray-100 rounded-[40px] animate-pulse"
+                ></div>
                 <!-- Thumbnails -->
                 <div class="grid grid-cols-4 gap-4">
-                    @for (i of [1,2,3,4]; track i) {
-                        <div class="aspect-square rounded-[24px] bg-gray-100 animate-pulse"></div>
+                    @for (i of [1, 2, 3, 4]; track i) {
+                        <div
+                            class="aspect-square rounded-[24px] bg-gray-100 animate-pulse"
+                        ></div>
                     }
                 </div>
             </div>
-            
+
             <!-- Coluna Direita: Detalhes Skeleton -->
             <div class="w-full lg:w-1/2 flex flex-col justify-center">
                 <!-- Categoria -->
-                <div class="h-3 w-24 bg-gray-200 rounded-full animate-pulse mb-4"></div>
-                
+                <div
+                    class="h-3 w-24 bg-gray-200 rounded-full animate-pulse mb-4"
+                ></div>
+
                 <!-- Titulo -->
-                <div class="h-12 w-4/5 bg-gray-200 rounded-2xl animate-pulse mb-3"></div>
-                <div class="h-12 w-1/2 bg-gray-200 rounded-2xl animate-pulse mb-6"></div>
-                
+                <div
+                    class="h-12 w-4/5 bg-gray-200 rounded-2xl animate-pulse mb-3"
+                ></div>
+                <div
+                    class="h-12 w-1/2 bg-gray-200 rounded-2xl animate-pulse mb-6"
+                ></div>
+
                 <!-- Avaliações -->
-                <div class="h-5 w-48 bg-gray-100 rounded-full animate-pulse mb-8"></div>
-                
+                <div
+                    class="h-5 w-48 bg-gray-100 rounded-full animate-pulse mb-8"
+                ></div>
+
                 <!-- Preco -->
-                <div class="h-12 w-40 bg-gray-200 rounded-2xl animate-pulse mb-8"></div>
-                
+                <div
+                    class="h-12 w-40 bg-gray-200 rounded-2xl animate-pulse mb-8"
+                ></div>
+
                 <!-- Descrição -->
                 <div class="space-y-3 mb-10">
-                    <div class="h-4 w-full bg-gray-100 rounded-full animate-pulse"></div>
-                    <div class="h-4 w-full bg-gray-100 rounded-full animate-pulse"></div>
-                    <div class="h-4 w-3/4 bg-gray-100 rounded-full animate-pulse"></div>
+                    <div
+                        class="h-4 w-full bg-gray-100 rounded-full animate-pulse"
+                    ></div>
+                    <div
+                        class="h-4 w-full bg-gray-100 rounded-full animate-pulse"
+                    ></div>
+                    <div
+                        class="h-4 w-3/4 bg-gray-100 rounded-full animate-pulse"
+                    ></div>
                 </div>
-                
+
                 <!-- Sabor / Tamanho -->
                 <div class="mb-6">
-                    <div class="h-4 w-32 bg-gray-200 rounded-full animate-pulse mb-4"></div>
+                    <div
+                        class="h-4 w-32 bg-gray-200 rounded-full animate-pulse mb-4"
+                    ></div>
                     <div class="flex gap-2.5">
-                        <div class="h-10 w-28 bg-gray-100 rounded-full animate-pulse"></div>
-                        <div class="h-10 w-32 bg-gray-100 rounded-full animate-pulse"></div>
-                        <div class="h-10 w-24 bg-gray-100 rounded-full animate-pulse"></div>
+                        <div
+                            class="h-10 w-28 bg-gray-100 rounded-full animate-pulse"
+                        ></div>
+                        <div
+                            class="h-10 w-32 bg-gray-100 rounded-full animate-pulse"
+                        ></div>
+                        <div
+                            class="h-10 w-24 bg-gray-100 rounded-full animate-pulse"
+                        ></div>
                     </div>
                 </div>
                 <div class="mb-10">
-                    <div class="h-4 w-24 bg-gray-200 rounded-full animate-pulse mb-4"></div>
+                    <div
+                        class="h-4 w-24 bg-gray-200 rounded-full animate-pulse mb-4"
+                    ></div>
                     <div class="flex gap-2.5">
-                        <div class="h-9 w-20 bg-gray-100 rounded-full animate-pulse"></div>
-                        <div class="h-9 w-20 bg-gray-100 rounded-full animate-pulse"></div>
-                        <div class="h-9 w-20 bg-gray-100 rounded-full animate-pulse"></div>
+                        <div
+                            class="h-9 w-20 bg-gray-100 rounded-full animate-pulse"
+                        ></div>
+                        <div
+                            class="h-9 w-20 bg-gray-100 rounded-full animate-pulse"
+                        ></div>
+                        <div
+                            class="h-9 w-20 bg-gray-100 rounded-full animate-pulse"
+                        ></div>
                     </div>
                 </div>
-                
+
                 <!-- Ações -->
                 <div class="flex items-center gap-4 mb-8">
-                    <div class="h-14 w-32 bg-gray-100 rounded-full animate-pulse"></div>
-                    <div class="h-14 flex-1 bg-gray-200 rounded-full animate-pulse"></div>
+                    <div
+                        class="h-14 w-32 bg-gray-100 rounded-full animate-pulse"
+                    ></div>
+                    <div
+                        class="h-14 flex-1 bg-gray-200 rounded-full animate-pulse"
+                    ></div>
                 </div>
             </div>
         </div>
     </main>
-}  
-
-@else {
+} @else {
     @if (product(); as p) {
-        <main class="max-w-[1400px] mx-auto px-6 pt-24 pb-24 animate-fade-in font-sans">
-            
+        <main
+            class="max-w-[1400px] mx-auto px-6 pt-24 pb-24 animate-fade-in font-sans"
+        >
             <!-- Breadcrumbs -->
-            <nav class="flex text-[13px] text-gray-500 mb-8 overflow-x-auto whitespace-nowrap items-center font-medium">
-                <a routerLink="/produtos" class="hover:text-gray-900 transition-colors">Produtos</a>
+            <nav
+                class="flex text-[13px] text-gray-500 mb-8 overflow-x-auto whitespace-nowrap items-center font-medium"
+            >
+                <a
+                    routerLink="/produtos"
+                    class="hover:text-gray-900 transition-colors"
+                    >Produtos</a
+                >
                 <span class="mx-3 text-gray-300">/</span>
-                <a class="hover:text-gray-900 transition-colors cursor-pointer">
-                    {{ p.categoria?.nome || 'Geral' }}
+                <a
+                    class="hover:text-gray-900 transition-colors cursor-pointer"
+                    [routerLink]="['/produtos']"
+                    [queryParams]="{ categoria: p.categoria?.id }"
+                >
+                    {{ p.categoria?.nome || "Geral" }}
                 </a>
                 <span class="mx-3 text-gray-300">/</span>
-                <span class="text-gray-900 font-bold truncate">{{ p.titulo }}</span>
+                <span class="text-gray-900 font-bold truncate">{{
+                    p.titulo
+                }}</span>
             </nav>
-            
+
             <!-- SEÇÃO 1: HERO DO PRODUTO (Imagens e Compras) -->
             <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 mb-20">
-                
                 <!-- Coluna Esquerda: Imagens -->
                 <div class="w-full lg:w-1/2 flex flex-col gap-6">
-                    <div class="relative w-full aspect-square bg-[#F5F2EB] rounded-[40px] overflow-hidden group cursor-zoom-in flex items-center justify-center"
-                         (mousemove)="onMouseMove($event)"
-                         (mouseleave)="onMouseLeave()">
-                         
+                    <div
+                        class="relative w-full aspect-square bg-[#F5F2EB] rounded-[40px] overflow-hidden group cursor-zoom-in flex items-center justify-center"
+                        (mousemove)="onMouseMove($event)"
+                        (mouseleave)="onMouseLeave()"
+                    >
                         @if (p.precoPromocional) {
-                            <div class="absolute top-8 left-8 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm z-10 text-gray-900 font-black text-[13px] tracking-wide">
-                                SALE
+                            <div
+                                class="absolute top-8 left-8 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm z-10 text-gray-900 font-black text-[13px] tracking-wide"
+                            >
+                                PROMO
                             </div>
                         }
-
-                        <img [src]="currentImage()" 
-                             [alt]="p.titulo"
-                             class="w-full h-full object-contain p-12 transition-transform duration-200 ease-out mix-blend-multiply"
-                             [style.transform]="zoomTransform()"
-                             [style.transform-origin]="zoomOrigin()">
-                             
-                        <button class="absolute bottom-8 left-8 bg-white/90 backdrop-blur px-5 py-3 rounded-full shadow-sm font-bold text-sm text-gray-900 flex items-center gap-2 hover:bg-white hover:scale-105 transition-all z-10 pointer-events-auto cursor-pointer">
-                            <i class="ph-fill ph-play-circle text-xl"></i> watch video!
-                        </button>
+                        <img
+                            [src]="currentImage()"
+                            [alt]="p.titulo"
+                            class="w-full h-full object-contain p-12 transition-transform duration-200 ease-out mix-blend-multiply"
+                            [style.transform]="zoomTransform()"
+                            [style.transform-origin]="zoomOrigin()"
+                        />
                     </div>
-                    
+
                     <div class="grid grid-cols-4 gap-4">
                         @for (img of productImages(); track $index) {
-                            <div (click)="changeImage(img)"
-                                 class="aspect-square rounded-[24px] overflow-hidden cursor-pointer transition-all p-3"
-                                 [ngClass]="currentImage() === img ? 'bg-[#F5F2EB] shadow-sm' : 'bg-gray-50 hover:bg-gray-100'">
-                                <img [src]="img" class="w-full h-full object-contain mix-blend-multiply">
+                            <div
+                                (click)="changeImage(img)"
+                                class="aspect-square rounded-[24px] overflow-hidden cursor-pointer transition-all p-3"
+                                [ngClass]="
+                                    currentImage() === img
+                                        ? 'bg-[#F5F2EB] shadow-sm'
+                                        : 'bg-gray-50 hover:bg-gray-100'
+                                "
+                            >
+                                <img
+                                    [src]="img"
+                                    class="w-full h-full object-contain mix-blend-multiply"
+                                />
                             </div>
                         }
                     </div>
                 </div>
-                
-                <!-- Coluna Direita: Detalhes do Produto -->
+
+                <!-- Coluna Direita: Detalhes do Produto + Frete + Compra -->
                 <div class="w-full lg:w-1/2 flex flex-col justify-center">
-                    
-                    <span class="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
-                        {{ p.categoria?.nome || 'Categoria' }}
+                    <span
+                        class="text-xs font-black text-gray-400 uppercase tracking-widest mb-3"
+                    >
+                        {{ p.categoria?.nome || "Categoria" }}
                     </span>
-                    
+
                     <div class="flex justify-between items-start gap-4 mb-4">
-                        <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
+                        <h1
+                            class="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight tracking-tight"
+                        >
                             {{ p.titulo }}
                         </h1>
-                        <button (click)="toggleFavorite()" class="mt-2 w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-red-500 hover:border-red-200 transition-colors shrink-0 cursor-pointer">
-                            <i [class]="favoritoService.isFavorito(p.id) ? 'ph-fill ph-heart text-red-500 text-xl' : 'ph-bold ph-heart text-xl'"></i>
+                        <button
+                            (click)="toggleFavorite()"
+                            class="mt-2 w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-red-500 hover:border-red-200 transition-colors shrink-0 cursor-pointer"
+                        >
+                            <i
+                                [class]="
+                                    favoritoService.isFavorito(p.id)
+                                        ? 'ph-fill ph-heart text-red-500 text-xl'
+                                        : 'ph-bold ph-heart text-xl'
+                                "
+                            ></i>
                         </button>
                     </div>
-                    
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="flex text-amber-400 text-lg">
-                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star-half"></i>
+
+                    <!-- Preço e Frete integrados -->
+                    <div class="flex flex-col gap-4 mb-6">
+                        <div class="flex items-baseline gap-3">
+                            <span
+                                class="text-[40px] font-black text-gray-900 tracking-tighter"
+                            >
+                                R$ {{ finalPrice() | number: "1.2-2" }}
+                            </span>
+                            <span class="text-sm font-medium text-gray-500"
+                                >frete não incluso</span
+                            >
                         </div>
-                        <span class="font-bold text-gray-900 text-sm ml-1">{{ productExtras.rating }}</span>
-                        <span class="text-gray-500 text-sm">({{ productExtras.reviewsCount }} reviews)</span>
-                    </div>
-                    
-                    <div class="flex items-baseline gap-3 mb-6">
-                        <span class="text-[40px] font-black text-gray-900 tracking-tighter">
-                            ${{ finalPrice() | number:'1.2-2' }}
-                        </span>
-                        <span class="text-sm font-medium text-gray-500">shipping excl.</span>
-                    </div>
-                    
-                    <p class="text-gray-600 text-[15px] leading-relaxed mb-8">
-                        {{ p.descricao }}
-                    </p>
-                    
-                    <div class="mb-6">
-                        <h3 class="text-sm font-bold text-gray-900 mb-3">Choose your taste</h3>
-                        <div class="flex flex-wrap gap-2.5">
-                            @for (taste of tastes; track taste) {
-                                <button (click)="selectedTaste.set(taste)"
-                                        class="px-5 py-2.5 rounded-full text-sm font-bold border transition-all cursor-pointer"
-                                        [ngClass]="selectedTaste() === taste ? 'bg-[#FDF3DA] text-amber-900 border-[#F5E6C4]' : 'bg-gray-50 text-gray-500 border-transparent hover:bg-gray-100'">
-                                    {{ taste }}
-                                </button>
-                            }
+
+                        <!-- Calculadora de Frete -->
+                        <div class="mt-2">
+                            <app-shipping-calculator
+                                [initialZipCode]="zipCode()"
+                                (shippingSelected)="calculateShipping()"
+                            ></app-shipping-calculator>
                         </div>
                     </div>
 
-                    <div class="mb-10">
-                        <h3 class="text-sm font-bold text-gray-900 mb-3">Pouch size</h3>
-                        <div class="flex flex-wrap gap-2.5">
-                            @for (size of sizes; track size) {
-                                <button (click)="selectedSize.set(size)"
-                                        class="px-5 py-2 rounded-full text-sm font-bold border transition-all cursor-pointer"
-                                        [ngClass]="selectedSize() === size ? 'bg-[#FDF3DA] text-amber-900 border-[#F5E6C4]' : 'bg-gray-50 text-gray-500 border-transparent hover:bg-gray-100'">
-                                    {{ size }}
-                                </button>
-                            }
-                        </div>
-                    </div>
-                    
-                    <h3 class="text-sm font-bold text-gray-900 mb-3">Quantity</h3>
+                    <p class="text-gray-600 text-[15px] leading-relaxed mb-8">
+                        {{ p.descricao }}
+                    </p>
+
+                    <!-- Quantidade e Adicionar ao Carrinho -->
+                    <h3 class="text-sm font-bold text-gray-900 mb-3">
+                        Quantidade
+                    </h3>
                     <div class="flex items-center gap-4 mb-8">
-                        <div class="flex items-center bg-gray-50 rounded-full p-1 border border-gray-100">
-                            <button class="w-10 h-10 flex items-center justify-center rounded-full text-gray-600 hover:bg-white hover:shadow-sm transition-all cursor-pointer" 
-                                    (click)="updateQty(-1)" [disabled]="quantity() <= 1">
+                        <div
+                            class="flex items-center bg-gray-50 rounded-full p-1 border border-gray-100"
+                        >
+                            <button
+                                class="w-10 h-10 flex items-center justify-center rounded-full text-gray-600 hover:bg-white hover:shadow-sm transition-all cursor-pointer"
+                                (click)="updateQty(-1)"
+                                [disabled]="quantity() <= 1"
+                            >
                                 <i class="ph-bold ph-minus"></i>
                             </button>
-                            <input type="number" [value]="quantity()" readonly class="w-12 text-center font-bold text-gray-900 outline-none border-none bg-transparent p-0">
-                            <button class="w-10 h-10 flex items-center justify-center rounded-full text-amber-600 bg-[#FDF3DA] hover:brightness-95 transition-all cursor-pointer" 
-                                    (click)="updateQty(1)">
+                            <input
+                                type="number"
+                                [value]="quantity()"
+                                readonly
+                                class="w-12 text-center font-bold text-gray-900 outline-none border-none bg-transparent p-0"
+                            />
+                            <button
+                                class="w-10 h-10 flex items-center justify-center rounded-full text-amber-600 bg-[#FDF3DA] hover:brightness-95 transition-all cursor-pointer"
+                                (click)="updateQty(1)"
+                            >
                                 <i class="ph-bold ph-plus"></i>
                             </button>
                         </div>
 
-                        <button (click)="addToCart()" [disabled]="p.estoque <= 0"
-                                class="flex-1 bg-gray-900 hover:bg-black text-white font-bold h-14 rounded-full transition-transform transform active:scale-95 flex items-center justify-center text-base disabled:opacity-50 disabled:bg-gray-400 cursor-pointer">
-                            {{ p.estoque > 0 ? 'add to cart' : 'Sold out' }}
+                        <button
+                            (click)="addToCart()"
+                            [disabled]="p.estoque <= 0"
+                            class="flex-1 bg-gray-900 hover:bg-black text-white font-bold h-14 rounded-full transition-transform transform active:scale-95 flex items-center justify-center text-base disabled:opacity-50 disabled:bg-gray-400 cursor-pointer"
+                        >
+                            {{
+                                p.estoque > 0
+                                    ? "Adicionar ao carrinho"
+                                    : "Esgotado"
+                            }}
                         </button>
                     </div>
-                    
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="flex -space-x-3">
-                            <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://i.pravatar.cc/100?img=1">
-                            <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://i.pravatar.cc/100?img=5">
-                            <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://i.pravatar.cc/100?img=9">
-                            <div class="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-600">
-                                +10
-                            </div>
-                        </div>
-                        <p class="text-sm font-bold text-gray-700">13 other people purchased it today</p>
-                    </div>
-
-                    <div class="space-y-4 pt-6 border-t border-gray-100">
-                        <div class="flex items-center gap-3 text-sm font-medium text-gray-700">
-                            <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-lg">
-                                <i class="ph-duotone ph-smiley-wink"></i>
-                            </div>
-                            Insanely delicious
-                        </div>
-                        <div class="flex items-center gap-3 text-sm font-medium text-gray-700">
-                            <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center text-lg">
-                                <i class="ph-duotone ph-package"></i>
-                            </div>
-                            Shipped right to your door
-                        </div>
-                        <div class="flex items-center gap-3 text-sm font-medium text-gray-700">
-                            <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-lg">
-                                <i class="ph-duotone ph-leaf"></i>
-                            </div>
-                            100% organic, non-GMO
-                        </div>
-                    </div>
                 </div>
-            </div>
-            
-            <!-- Calculadora de Frete -->
-            <div class="mt-8 pb-16 border-b border-gray-100 max-w-2xl">
-                <h3 class="text-xl font-bold text-gray-900 mb-6 tracking-tight">Delivery options</h3>
-                <app-shipping-calculator [initialZipCode]="zipCode()" (shippingSelected)="calculateShipping()"></app-shipping-calculator>
             </div>
 
             <!-- SEÇÃO 2: CARACTERÍSTICAS (EXPANSÍVEL) -->
             <div class="mt-20 pt-8 border-b border-gray-100 pb-20">
-                <h2 class="text-[28px] font-bold text-gray-900 mb-10 tracking-tight">Características do produto</h2>
-                
+                <h2
+                    class="text-[28px] font-bold text-gray-900 mb-10 tracking-tight"
+                >
+                    Características do produto
+                </h2>
+
                 <div class="relative">
-                    <!-- Container das Grids (Altura controlada pelo estado showAllSpecs) -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 transition-all duration-700 ease-in-out overflow-hidden"
-                         [ngClass]="showAllSpecs() ? 'max-h-[3000px]' : 'max-h-[320px]'">
-                        
-                        <!-- Bloco: Características Principais -->
+                    <div
+                        class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 transition-all duration-700 ease-in-out overflow-hidden"
+                        [ngClass]="
+                            showAllSpecs() ? 'max-h-[3000px]' : 'max-h-[320px]'
+                        "
+                    >
+                        <!-- Bloco: Peso e dimensões -->
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-5">Características principais</h3>
-                            <div class="flex flex-col rounded-[16px] overflow-hidden">
-                                @for (spec of productExtras.mainSpecs; track spec.label; let odd = $odd) {
-                                    <div class="flex py-3.5 px-5 text-[14px]" [ngClass]="odd ? 'bg-[#f5f5f5]' : 'bg-[#ebebeb]'">
-                                        <span class="w-[45%] font-bold text-gray-800">{{ spec.label }}</span>
-                                        <span class="w-[55%] text-gray-700">{{ spec.value }}</span>
+                            <h3 class="text-lg font-bold text-gray-900 mb-5">
+                                Peso e dimensões
+                            </h3>
+                            <div
+                                class="flex flex-col rounded-[16px] overflow-hidden"
+                            >
+                                @if (p.pesoKg) {
+                                    <div
+                                        class="flex py-3.5 px-5 text-[14px] bg-[#f5f5f5]"
+                                    >
+                                        <span
+                                            class="w-[45%] font-bold text-gray-800"
+                                            >Peso</span
+                                        >
+                                        <span class="w-[55%] text-gray-700"
+                                            >{{ p.pesoKg }} kg</span
+                                        >
+                                    </div>
+                                }
+                                @if (p.dimensoes) {
+                                    <div
+                                        class="flex py-3.5 px-5 text-[14px] bg-[#ebebeb]"
+                                    >
+                                        <span
+                                            class="w-[45%] font-bold text-gray-800"
+                                            >Dimensões</span
+                                        >
+                                        <span class="w-[55%] text-gray-700">{{
+                                            p.dimensoes
+                                        }}</span>
                                     </div>
                                 }
                             </div>
                         </div>
-                        
-                        <!-- Bloco: Peso e Dimensões / Outros -->
-                        <div class="flex flex-col gap-10">
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-900 mb-5">Peso e dimensões</h3>
-                                <div class="flex flex-col rounded-[16px] overflow-hidden">
-                                    @for (spec of productExtras.dimensionSpecs; track spec.label; let odd = $odd) {
-                                        <div class="flex py-3.5 px-5 text-[14px]" [ngClass]="odd ? 'bg-[#f5f5f5]' : 'bg-[#ebebeb]'">
-                                            <span class="w-[45%] font-bold text-gray-800">{{ spec.label }}</span>
-                                            <span class="w-[55%] text-gray-700">{{ spec.value }}</span>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
 
-                            <div>
-                                <h3 class="text-lg font-bold text-gray-900 mb-5">Outros</h3>
-                                <div class="flex flex-col rounded-[16px] overflow-hidden">
-                                    @for (spec of productExtras.otherSpecs; track spec.label; let odd = $odd) {
-                                        <div class="flex py-3.5 px-5 text-[14px]" [ngClass]="odd ? 'bg-[#f5f5f5]' : 'bg-[#ebebeb]'">
-                                            <span class="w-[45%] font-bold text-gray-800">{{ spec.label }}</span>
-                                            <span class="w-[55%] text-gray-700">{{ spec.value }}</span>
-                                        </div>
-                                    }
+                        <!-- Bloco: Outros -->
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-5">
+                                Outros
+                            </h3>
+                            <div
+                                class="flex flex-col rounded-[16px] overflow-hidden"
+                            >
+                                <div
+                                    class="flex py-3.5 px-5 text-[14px] bg-[#f5f5f5]"
+                                >
+                                    <span
+                                        class="w-[45%] font-bold text-gray-800"
+                                        >Categoria</span
+                                    >
+                                    <span class="w-[55%] text-gray-700">{{
+                                        p.categoria?.nome || "Geral"
+                                    }}</span>
+                                </div>
+                                <div
+                                    class="flex py-3.5 px-5 text-[14px] bg-[#f5f5f5]"
+                                >
+                                    <span
+                                        class="w-[45%] font-bold text-gray-800"
+                                        >Código</span
+                                    >
+                                    <span class="w-[55%] text-gray-700">{{
+                                        p.codigoControle
+                                    }}</span>
+                                </div>
+                                @if (p.precoPromocional) {
+                                    <div
+                                        class="flex py-3.5 px-5 text-[14px] bg-[#ebebeb]"
+                                    >
+                                        <span
+                                            class="w-[45%] font-bold text-gray-800"
+                                            >Preço Promocional</span
+                                        >
+                                        <span class="w-[55%] text-gray-700"
+                                            >${{
+                                                p.precoPromocional
+                                                    | number: "1.2-2"
+                                            }}</span
+                                        >
+                                    </div>
+                                }
+                                <div
+                                    class="flex py-3.5 px-5 text-[14px] bg-[#f5f5f5]"
+                                >
+                                    <span
+                                        class="w-[45%] font-bold text-gray-800"
+                                        >Preço</span
+                                    >
+                                    <span class="w-[55%] text-gray-700"
+                                        >${{ p.preco | number: "1.2-2" }}</span
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -352,26 +503,38 @@
 
                     <!-- Efeito de Sombra (Gradient) para quando estiver recolhido -->
                     @if (!showAllSpecs()) {
-                        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+                        <div
+                            class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent pointer-events-none"
+                        ></div>
                     }
                 </div>
-                
-                <button (click)="showAllSpecs.set(!showAllSpecs())" 
-                        class="mt-8 text-[#5252FF] font-bold text-[15px] flex items-center gap-1.5 hover:underline cursor-pointer select-none">
-                    {{ showAllSpecs() ? 'Ocultar características' : 'Conferir todas as características' }}
-                    <i class="ph-bold text-sm" [ngClass]="showAllSpecs() ? 'ph-caret-up' : 'ph-caret-down'"></i>
+
+                <button
+                    (click)="showAllSpecs.set(!showAllSpecs())"
+                    class="mt-8 text-[#5252FF] font-bold text-[15px] flex items-center gap-1.5 hover:underline cursor-pointer select-none"
+                >
+                    {{
+                        showAllSpecs()
+                            ? "Ocultar características"
+                            : "Conferir todas as características"
+                    }}
+                    <i
+                        class="ph-bold text-sm"
+                        [ngClass]="
+                            showAllSpecs() ? 'ph-caret-up' : 'ph-caret-down'
+                        "
+                    ></i>
                 </button>
             </div>
 
             <!-- SEÇÃO 3: RATING E REVIEWS (COM PAGINAÇÃO) -->
-            <div class="mt-20">
+            <!-- <div class="mt-20">
                 <h2 class="text-4xl lg:text-[42px] font-bold text-gray-900 tracking-tight mb-12">
                     <span class="text-[#A78BFA]">Avaliações</span> & Reviews
                 </h2>
                 
                 <div class="flex flex-col-reverse lg:flex-row gap-16 lg:gap-24 items-start">
                     
-                    <!-- Lista de Comentários e Paginação (Esquerda) -->
                     <div class="flex-1 w-full flex flex-col">
                         <div class="space-y-10 min-h-[400px]">
                             @for (review of paginatedReviews(); track review.user) {
@@ -387,7 +550,6 @@
                             }
                         </div>
 
-                        <!-- Paginação dos Reviews -->
                         @if (totalReviewPages() > 1) {
                             <div class="flex items-center gap-2 mt-12 pt-8 border-t border-gray-100">
                                 <button (click)="changeReviewPage(-1)" 
@@ -417,7 +579,6 @@
                         }
                     </div>
                     
-                    <!-- Resumo do Rating (Direita Fixa) -->
                     <div class="w-full lg:w-80 shrink-0 sticky top-28">
                         <div class="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
                             <div class="text-[54px] font-bold text-gray-900 mb-3 leading-none">{{ productExtras.rating }}</div>
@@ -441,72 +602,146 @@
                     </div>
                     
                 </div>
-            </div>
-
+            </div> -->
         </main>
-    }
-    @else {
-        <div class="h-screen flex flex-col items-center justify-center bg-[#EAF4FE] px-4 py-8 text-center animate-fade-in relative overflow-hidden">
+    } @else {
+        <div
+            class="h-screen flex flex-col items-center justify-center bg-[#EAF4FE] px-4 py-8 text-center animate-fade-in relative overflow-hidden"
+        >
             <!-- Linhas decorativas de fundo inspiradas na imagem -->
-            <div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-40">
-                <svg class="absolute top-[-5%] left-[10%] w-[40%] max-w-[600px]" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="none" stroke="#FFFFFF" stroke-width="2" d="M0,100 C50,150 150,50 200,100" />
+            <div
+                class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-40"
+            >
+                <svg
+                    class="absolute top-[-5%] left-[10%] w-[40%] max-w-[600px]"
+                    viewBox="0 0 200 200"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        fill="none"
+                        stroke="#FFFFFF"
+                        stroke-width="2"
+                        d="M0,100 C50,150 150,50 200,100"
+                    />
                 </svg>
-                <svg class="absolute bottom-[5%] right-[-5%] w-[50%] max-w-[800px]" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="none" stroke="#FFFFFF" stroke-width="2" d="M0,100 C50,50 150,150 200,100" />
+                <svg
+                    class="absolute bottom-[5%] right-[-5%] w-[50%] max-w-[800px]"
+                    viewBox="0 0 200 200"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        fill="none"
+                        stroke="#FFFFFF"
+                        stroke-width="2"
+                        d="M0,100 C50,50 150,150 200,100"
+                    />
                 </svg>
             </div>
 
-            <div class="bg-white p-12 md:p-16 rounded-[40px] shadow-2xl shadow-blue-900/5 max-w-4xl w-full relative z-10 flex flex-col items-center">
-                
+            <div
+                class="bg-white p-12 md:p-16 rounded-[40px] shadow-2xl shadow-blue-900/5 max-w-4xl w-full relative z-10 flex flex-col items-center"
+            >
                 <!-- Logo minimalista no topo -->
-                <div class="absolute top-8 left-8 flex items-center gap-1.5 opacity-80">
-                    <div class="w-4 h-6 rounded-md bg-orange-500 transform -skew-y-12"></div>
-                    <div class="w-4 h-5 rounded-md bg-blue-900 transform -skew-y-12 -ml-2 mt-2"></div>
+                <div
+                    class="absolute top-8 left-8 flex items-center gap-1.5 opacity-80"
+                >
+                    <div
+                        class="w-4 h-6 rounded-md bg-orange-500 transform -skew-y-12"
+                    ></div>
+                    <div
+                        class="w-4 h-5 rounded-md bg-blue-900 transform -skew-y-12 -ml-2 mt-2"
+                    ></div>
                 </div>
 
                 <!-- Cenário Ilustrativo (404) feito com HTML/CSS -->
                 <div class="relative flex justify-center w-full mb-8">
-                    <div class="relative w-full max-w-[400px] h-64 flex flex-col items-center justify-center">
+                    <div
+                        class="relative w-full max-w-[400px] h-64 flex flex-col items-center justify-center"
+                    >
                         <!-- Texto de Fundo (404) -->
-                        <div class="absolute bottom-4 w-full flex justify-between px-12 z-0">
-                            <span class="text-[100px] font-black text-[#EAF4FE] tracking-tighter select-none">4</span>
-                            <span class="text-[100px] font-black text-[#EAF4FE] tracking-tighter select-none">4</span>
+                        <div
+                            class="absolute bottom-4 w-full flex justify-between px-12 z-0"
+                        >
+                            <span
+                                class="text-[100px] font-black text-[#EAF4FE] tracking-tighter select-none"
+                                >4</span
+                            >
+                            <span
+                                class="text-[100px] font-black text-[#EAF4FE] tracking-tighter select-none"
+                                >4</span
+                            >
                         </div>
-                        
+
                         <!-- Elementos da Paisagem (Árvores) -->
-                        <div class="absolute bottom-6 left-16 w-10 h-28 bg-[#EAF4FE] rounded-t-full z-0 opacity-80"></div>
-                        <div class="absolute bottom-6 left-28 w-8 h-20 bg-[#EAF4FE] rounded-t-full z-0 opacity-80"></div>
-                        <div class="absolute bottom-6 right-20 w-12 h-32 bg-[#EAF4FE] rounded-t-full z-0 opacity-80"></div>
-                        
+                        <div
+                            class="absolute bottom-6 left-16 w-10 h-28 bg-[#EAF4FE] rounded-t-full z-0 opacity-80"
+                        ></div>
+                        <div
+                            class="absolute bottom-6 left-28 w-8 h-20 bg-[#EAF4FE] rounded-t-full z-0 opacity-80"
+                        ></div>
+                        <div
+                            class="absolute bottom-6 right-20 w-12 h-32 bg-[#EAF4FE] rounded-t-full z-0 opacity-80"
+                        ></div>
+
                         <!-- Feixe de Luz do OVNI -->
-                        <div class="absolute top-16 bottom-6 w-28 bg-gradient-to-b from-blue-200/40 to-transparent z-10" style="clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);"></div>
-                        <div class="absolute bottom-4 w-36 h-6 bg-[#EAF4FE] rounded-[100%] border-2 border-blue-200/50 z-10"></div>
+                        <div
+                            class="absolute top-16 bottom-6 w-28 bg-gradient-to-b from-blue-200/40 to-transparent z-10"
+                            style="
+                                clip-path: polygon(
+                                    20% 0,
+                                    80% 0,
+                                    100% 100%,
+                                    0% 100%
+                                );
+                            "
+                        ></div>
+                        <div
+                            class="absolute bottom-4 w-36 h-6 bg-[#EAF4FE] rounded-[100%] border-2 border-blue-200/50 z-10"
+                        ></div>
 
                         <!-- OVNI Animado -->
-                        <div class="absolute top-4 z-20 text-[#2D3142] animate-bounce" style="animation-duration: 3s;">
+                        <div
+                            class="absolute top-4 z-20 text-[#2D3142] animate-bounce"
+                            style="animation-duration: 3s"
+                        >
                             <div class="relative">
-                                <i class="ph-duotone ph-flying-saucer text-[90px] drop-shadow-md text-blue-500"></i>
+                                <i
+                                    class="ph-duotone ph-flying-saucer text-[90px] drop-shadow-md text-blue-500"
+                                ></i>
                             </div>
                         </div>
-                        
+
                         <!-- Personagem sendo abduzido -->
                         <div class="absolute top-28 z-20 animate-pulse">
-                            <i class="ph-fill ph-user-circle text-[40px] text-orange-500 transform rotate-180 drop-shadow-sm"></i>
+                            <i
+                                class="ph-fill ph-user-circle text-[40px] text-orange-500 transform rotate-180 drop-shadow-sm"
+                            ></i>
                         </div>
                         <!-- Cãozinho -->
                         <div class="absolute top-40 right-32 z-20">
-                            <i class="ph-fill ph-dog text-[24px] text-yellow-500 transform -rotate-12 opacity-90 drop-shadow-sm"></i>
+                            <i
+                                class="ph-fill ph-dog text-[24px] text-yellow-500 transform -rotate-12 opacity-90 drop-shadow-sm"
+                            ></i>
                         </div>
                     </div>
                 </div>
 
-                <h2 class="text-3xl md:text-[32px] font-bold text-[#111827] mb-3 tracking-tight">Whoops! Perdido no espaço?</h2>
-                <p class="text-[15px] text-[#6B7280] mb-10 leading-relaxed font-medium max-w-sm mx-auto">
-                    A página que procura não foi encontrada :( <br> Sugerimos que volte para o início.
+                <h2
+                    class="text-3xl md:text-[32px] font-bold text-[#111827] mb-3 tracking-tight"
+                >
+                    Whoops! Perdido no espaço?
+                </h2>
+                <p
+                    class="text-[15px] text-[#6B7280] mb-10 leading-relaxed font-medium max-w-sm mx-auto"
+                >
+                    A página que procura não foi encontrada :( <br />
+                    Sugerimos que volte para o início.
                 </p>
 
-                <button routerLink="/" class="bg-[#1E293B] hover:bg-black text-white font-semibold py-3.5 px-10 rounded-full transition-transform active:scale-95 inline-flex items-center justify-center gap-2 shadow-lg shadow-slate-800/20 cursor-pointer">
+                <button
+                    routerLink="/"
+                    class="bg-[#1E293B] hover:bg-black text-white font-semibold py-3.5 px-10 rounded-full transition-transform active:scale-95 inline-flex items-center justify-center gap-2 shadow-lg shadow-slate-800/20 cursor-pointer"
+                >
                     Voltar para o Início
                 </button>
             </div>
