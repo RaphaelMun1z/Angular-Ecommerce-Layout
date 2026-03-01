@@ -9,41 +9,29 @@ import { AuthService } from '../../../core/auth/auth.service';
     imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet],
     providers: [provideNgxMask()],
     templateUrl: './profile-page.component.html',
-    styleUrl: './profile-page.component.css'
+    styleUrl: './profile-page.component.css',
 })
 export class ProfilePageComponent {
     private authService = inject(AuthService);
-    
+
     user = signal({
         name: 'Utilizador',
         email: '',
-        avatar: ''
     });
-    
+
     constructor() {
         effect(() => {
             const currentUser = this.authService.currentUser();
-            
+
             if (currentUser) {
-                const avatarUrl = currentUser.avatar 
-                    ? currentUser.avatar 
-                    : `https://ui-avatars.com/api/?name=${currentUser.email}&background=0f172a&color=fff&size=128`;
-                
-                this.user.update(u => ({
-                    ...u,
-                    email: currentUser.email,
+                this.user.set({
                     name: currentUser.name || currentUser.email.split('@')[0],
-                    avatar: avatarUrl
-                }));
+                    email: currentUser.email,
+                });
             }
         });
     }
-    
-    handleImageError(event: any) {
-        const email = this.user().email || 'User';
-        event.target.src = `https://ui-avatars.com/api/?name=${email}&background=0f172a&color=fff&size=128`;
-    }
-    
+
     logout() {
         this.authService.logout();
     }
