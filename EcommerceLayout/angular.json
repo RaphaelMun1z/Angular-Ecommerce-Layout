@@ -16,8 +16,8 @@
                         "outputPath": "dist",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
-                        "baseHref": "/Angular-Ecommerce-EShop/",
-                        "deployUrl": "/Angular-Ecommerce-EShop/",
+                        "baseHref": "/Angular-Ecommerce-Layout/",
+                        "deployUrl": "/Angular-Ecommerce-Layout/",
                         "polyfills": ["zone.js"],
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
